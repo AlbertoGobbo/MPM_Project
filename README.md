@@ -7,6 +7,7 @@ Framework: Flutter
 
 TODO:
 - insert a checkbox for every voice list
+- insert the bottom(or top) tab to pass from one page to another
 - try to insert Firebase to log in the application
 - try to display some ingredients from the Open Food Facts API
 - try to save data locally with a light database (and eventually to Firebase too)
