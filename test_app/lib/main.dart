@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:english_words/english_words.dart';
+import './screen1.dart';
+import './screen2.dart';
+import './screen3.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,86 +14,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'HealthyFood',
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       )),
-      home: const IngrediantsList(),
+      home: const HomePage(),
     );
   }
 }
 
-class IngrediantsList extends StatefulWidget {
-  const IngrediantsList({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<IngrediantsList> createState() => _IngrediantsListState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-// The state of IngrediantsList, which can be changed inside the immutable IngrediantsList widget
-class _IngrediantsListState extends State<IngrediantsList> {
-  late List<bool> _isChecked;
-  // This list will contain all the ingredients and the information about nutritional values from the dataset
-  // _ingrediants = <String>[];
-  final List<String> _ingrediants = [
-    "Pasta",
-    "Rice",
-    "Pizza",
-    "Ham",
-    "Potato",
-    "Pomato",
-    "Cucumber",
-    "Jam",
-    "Orange",
-    "Apple",
-    "Sugar",
-    "Salt",
-    "Lemon"
+// The state of HomePage, which can be changed inside the immutable HomePage widget
+class _HomePageState extends State<HomePage> {
+  int _selectedScreenIndex = 0;
+  final List _screens = [
+    {"screen": const Screen1(), "title": "Ingrediants List"},
+    {"screen": const Screen2(), "title": "Screen 2 Title"},
+    {"screen": const Screen3(), "title": "Screen 3 Title"},
   ];
 
-  final List<String> _selectedIngrediants = [];
-
-  void _pushCreateRecipe() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) {
-          final tiles = _selectedIngrediants.map(
-            (ingredient) {
-              return ListTile(
-                title: Text(
-                  ingredient,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              );
-            },
-          );
-
-          final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-              : <Widget>[];
-
-          return Scaffold(
-            appBar: AppBar(title: const Text('Create your recipe')),
-            body: ListView(children: divided),
-          );
-        },
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _isChecked = List<bool>.filled(_ingrediants.length, false);
+  void _selectScreen(int index) {
+    setState(() {
+      _selectedScreenIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HealthyFood'),
+        title: Text(_screens[_selectedScreenIndex]["title"]),
         /*actions: [
           IconButton(
             icon: const Icon(Icons.list),
@@ -99,46 +60,18 @@ class _IngrediantsListState extends State<IngrediantsList> {
             tooltip: 'Saved Suggestions')
         ]*/
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: _ingrediants.length,
-        itemBuilder: (context, index) {
-          return CheckboxListTile(
-            title: Text(
-              _ingrediants[index],
-              style: const TextStyle(fontSize: 20),
-            ),
-            subtitle: const Text("Subtitle"),
-            secondary: const Icon(Icons.android_sharp),
-            controlAffinity: ListTileControlAffinity.platform,
-            value: _isChecked[index],
-            onChanged: (bool? value) {
-              setState(
-                () {
-                  _isChecked[index] = value!;
-                  if (_isChecked[index] == true) {
-                    _selectedIngrediants.add(_ingrediants[index]);
-                  } else {
-                    _selectedIngrediants.remove(_ingrediants[index]);
-                  }
-                },
-              );
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
+      body: _screens[_selectedScreenIndex]["screen"],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedScreenIndex,
+        onTap: _selectScreen,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: "Screen 2"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.music_note), label: 'Screen 3'),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Create a toast message if there are no selected ingredients
-            _pushCreateRecipe();
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.add)),
-      // bottomNavigationBar: TODO
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
