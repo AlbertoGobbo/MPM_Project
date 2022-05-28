@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './screen1.dart';
 import './screen2.dart';
 import './screen3.dart';
+import './help_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,12 +51,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_screens[_currentScreenIndex]["title"]),
-        /*actions: [
+        actions: [
           IconButton(
-            icon: const Icon(Icons.list),
-            onPressed: _pushSaved,
-            tooltip: 'Saved Suggestions')
-        ]*/
+              icon: const Icon(Icons.help),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HelpPage()),
+                );
+              },
+              tooltip: 'Help page')
+        ],
       ),
       body: PageView(
         scrollDirection: Axis.horizontal,

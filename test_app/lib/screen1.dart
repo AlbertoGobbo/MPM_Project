@@ -50,6 +50,7 @@ class _IngrediantsListState extends State<IngrediantsList> {
   }
 
   void _pushCreateRecipe() {
+    // Add the back button in the top bar
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) {
@@ -69,7 +70,7 @@ class _IngrediantsListState extends State<IngrediantsList> {
               : <Widget>[];
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Create your recipe')),
+            //appBar: AppBar(title: const Text('Create your recipe')),
             body: ListView(children: divided),
           );
         },
