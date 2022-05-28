@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/create_recipe.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Screen1 extends StatelessWidget {
   const Screen1({Key? key}) : super(key: key);
@@ -49,35 +51,6 @@ class _IngrediantsListState extends State<IngrediantsList> {
     _isChecked = List<bool>.filled(_ingrediants.length, false);
   }
 
-  void _pushCreateRecipe() {
-    // Add the back button in the top bar
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) {
-          final tiles = _selectedIngrediants.map(
-            (ingredient) {
-              return ListTile(
-                title: Text(
-                  ingredient,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              );
-            },
-          );
-
-          final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-              : <Widget>[];
-
-          return Scaffold(
-            //appBar: AppBar(title: const Text('Create your recipe')),
-            body: ListView(children: divided),
-          );
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +65,8 @@ class _IngrediantsListState extends State<IngrediantsList> {
             ),
             subtitle: const Text("Subtitle"),
             secondary: const Icon(Icons.android_sharp),
-            controlAffinity: ListTileControlAffinity.platform,
+            activeColor: const Color.fromARGB(255, 26, 117, 71),
+            controlAffinity: ListTileControlAffinity.leading,
             value: _isChecked[index],
             onChanged: (bool? value) {
               setState(
@@ -112,15 +86,29 @@ class _IngrediantsListState extends State<IngrediantsList> {
           return const Divider();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Create a toast message if there are no selected ingredients
-            _pushCreateRecipe();
-          },
-          backgroundColor: const Color.fromARGB(255, 26, 117, 71),
-          child: const Icon(Icons.add)),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("New recipe"),
+        onPressed: () {
+          if (_selectedIngrediants.isEmpty) {
+            Fluttertoast.showToast(
+                msg: "Please, select at least one ingredient",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 2,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateRecipe(_selectedIngrediants)),
+            );
+          }
+        },
+        backgroundColor: const Color.fromARGB(255, 26, 117, 71),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

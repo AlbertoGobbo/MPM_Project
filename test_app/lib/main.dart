@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
 
   final List _screens = [
-    {"screen": const Screen1(), "title": "Ingrediants List"},
+    {"screen": const Screen1(), "title": "Ingrediants list"},
     {"screen": const Screen2(), "title": "Favourites recipes"},
     {"screen": const Screen3(), "title": "Your weekly alimentar plan"},
   ];
@@ -53,14 +53,15 @@ class _HomePageState extends State<HomePage> {
         title: Text(_screens[_currentScreenIndex]["title"]),
         actions: [
           IconButton(
-              icon: const Icon(Icons.help),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HelpPage()),
-                );
-              },
-              tooltip: 'Help page')
+            icon: const Icon(Icons.help),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HelpPage()),
+              );
+            },
+            tooltip: 'Help page',
+          ),
         ],
       ),
       body: PageView(
@@ -86,11 +87,17 @@ class _HomePageState extends State<HomePage> {
           },
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: 'Ingrediants'),
+                icon: Icon(Icons.home),
+                label: 'Ingrediants',
+                tooltip: 'The page with the list of all the ingrediants'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: "Your favourites"),
+                icon: Icon(Icons.favorite),
+                label: "Your recipes",
+                tooltip: 'The page with all the recipes you have created'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt), label: 'Alimentar plan'),
+                icon: Icon(Icons.list_alt),
+                label: 'Alimentar plan',
+                tooltip: 'The page with your alimentar plan'),
           ],
           type: BottomNavigationBarType.fixed),
     );
