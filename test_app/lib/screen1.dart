@@ -116,7 +116,7 @@ class _IngrediantsListState extends State<IngrediantsList> {
             // Create a toast message if there are no selected ingredients
             _pushCreateRecipe();
           },
-          backgroundColor: Colors.green,
+          backgroundColor: const Color.fromARGB(255, 26, 117, 71),
           child: const Icon(Icons.add)),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'HealthyFood',
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromARGB(255, 26, 117, 71),
         foregroundColor: Colors.white,
       )),
       home: const HomePage(),
@@ -35,24 +35,21 @@ class HomePage extends StatefulWidget {
 
 // The state of HomePage, which can be changed inside the immutable HomePage widget
 class _HomePageState extends State<HomePage> {
-  int _selectedScreenIndex = 0;
+  int _currentScreenIndex = 0;
+
+  final PageController _pageController = PageController(initialPage: 0);
+
   final List _screens = [
     {"screen": const Screen1(), "title": "Ingrediants List"},
-    {"screen": const Screen2(), "title": "Screen 2 Title"},
-    {"screen": const Screen3(), "title": "Screen 3 Title"},
+    {"screen": const Screen2(), "title": "Favourites recipes"},
+    {"screen": const Screen3(), "title": "Your weekly alimentar plan"},
   ];
-
-  void _selectScreen(int index) {
-    setState(() {
-      _selectedScreenIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_screens[_selectedScreenIndex]["title"]),
+        title: Text(_screens[_currentScreenIndex]["title"]),
         /*actions: [
           IconButton(
             icon: const Icon(Icons.list),
@@ -60,18 +57,36 @@ class _HomePageState extends State<HomePage> {
             tooltip: 'Saved Suggestions')
         ]*/
       ),
-      body: _screens[_selectedScreenIndex]["screen"],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedScreenIndex,
-        onTap: _selectScreen,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: "Screen 2"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.music_note), label: 'Screen 3'),
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+        controller: _pageController,
+        onPageChanged: (newIndex) {
+          setState(() {
+            _currentScreenIndex = newIndex;
+          });
+        },
+        children: [
+          _screens[0]["screen"],
+          _screens[1]["screen"],
+          _screens[2]["screen"],
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentScreenIndex,
+          onTap: (index) {
+            _pageController.animateToPage(index,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease);
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), label: 'Ingrediants'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: "Your favourites"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt), label: 'Alimentar plan'),
+          ],
+          type: BottomNavigationBarType.fixed),
     );
   }
 }
