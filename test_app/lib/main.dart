@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import './screen1.dart';
-import './screen2.dart';
+import 'screen2.dart';
+import 'screen1.dart';
 import './screen3.dart';
 import './help_page.dart';
+import './saved_recipes.dart';
+import 'popup_menu_choices.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,8 +45,8 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
 
   final List _screens = [
-    {"screen": const Screen1(), "title": "Ingrediants list"},
-    {"screen": const Screen2(), "title": "Favourites recipes"},
+    {"screen": const Screen1(), "title": "Home"},
+    {"screen": const Screen2(), "title": "Ingrediants list"},
     {"screen": const Screen3(), "title": "Your weekly alimentar plan"},
   ];
 
@@ -53,14 +57,39 @@ class _HomePageState extends State<HomePage> {
         title: Text(_screens[_currentScreenIndex]["title"]),
         actions: [
           IconButton(
-            icon: const Icon(Icons.help),
+            icon: const Icon(Icons.favorite_outline),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HelpPage()),
+                MaterialPageRoute(builder: (context) => const SavedRecipes()),
               );
             },
-            tooltip: 'Help page',
+            tooltip: 'Created recipes',
+          ),
+          PopupMenuButton<PopupMenuChoices>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (result) {
+              if (result.title == 'Help') {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HelpPage()));
+              }
+              if (result.title == 'Logout') {
+                exit(0);
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return choices.map((PopupMenuChoices choice) {
+                return PopupMenuItem<PopupMenuChoices>(
+                  value: choice,
+                  child: ListTile(
+                    minLeadingWidth: 1,
+                    minVerticalPadding: 1,
+                    leading: Icon(choice.icon),
+                    title: Text(choice.title),
+                  ),
+                );
+              }).toList();
+            },
           ),
         ],
       ),
@@ -88,12 +117,12 @@ class _HomePageState extends State<HomePage> {
           items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Ingrediants',
-                tooltip: 'The page with the list of all the ingrediants'),
+                label: 'Homepage',
+                tooltip: 'The homepage'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: "Your recipes",
-                tooltip: 'The page with all the recipes you have created'),
+                icon: Icon(Icons.restaurant),
+                label: "Ingrediants",
+                tooltip: 'The page with the list of all the ingrediants'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
                 label: 'Alimentar plan',
