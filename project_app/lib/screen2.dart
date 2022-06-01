@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_app/create_recipe.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import './create_recipe.dart';
 
 class Screen2 extends StatelessWidget {
   const Screen2({Key? key}) : super(key: key);
