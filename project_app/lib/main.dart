@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screen2.dart';
 import 'screen1.dart';
@@ -8,7 +9,9 @@ import './help_page.dart';
 import './saved_recipes.dart';
 import 'popup_menu_choices.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -41,12 +44,10 @@ class HomePage extends StatefulWidget {
 // The state of HomePage, which can be changed inside the immutable HomePage widget
 class _HomePageState extends State<HomePage> {
   int _currentScreenIndex = 0;
-
   final PageController _pageController = PageController(initialPage: 0);
-
   final List _screens = [
     {"screen": const Screen1(), "title": "Home"},
-    {"screen": const Screen2(), "title": "Ingrediants list"},
+    {"screen": const Screen2(), "title": "Ingredients list"},
     {"screen": const Screen3(), "title": "Your weekly alimentar plan"},
   ];
 
@@ -121,8 +122,8 @@ class _HomePageState extends State<HomePage> {
                 tooltip: 'The homepage'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant),
-                label: "Ingrediants",
-                tooltip: 'The page with the list of all the ingrediants'),
+                label: "ingredients",
+                tooltip: 'The page with the list of all the ingredients'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
                 label: 'Alimentar plan',

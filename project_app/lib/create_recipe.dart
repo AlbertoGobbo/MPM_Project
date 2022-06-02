@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CreateRecipe extends StatelessWidget {
-  final List<String> _selectedIngrediants;
+  final List<String> _selectedIngredients;
 
-  const CreateRecipe(this._selectedIngrediants, {Key? key}) : super(key: key);
+  const CreateRecipe(this._selectedIngredients, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class CreateRecipe extends StatelessWidget {
       ),*/
       body: ListView.separated(
         padding: const EdgeInsets.all(10.0),
-        itemCount: _selectedIngrediants.length,
+        itemCount: _selectedIngredients.length,
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-              _selectedIngrediants[index],
+              _selectedIngredients[index],
               style: const TextStyle(fontSize: 20),
             ),
             subtitle: const Text("Subtitle"),

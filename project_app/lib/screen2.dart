@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_app/models/ingredients.dart';
 import './create_recipe.dart';
+import 'package:project_app/variables/global_variables.dart' as globals;
 
 class Screen2 extends StatelessWidget {
   const Screen2({Key? key}) : super(key: key);
@@ -10,45 +13,44 @@ class Screen2 extends StatelessWidget {
     // ignore: prefer_const_constructors
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const IngrediantsList(),
+      home: const IngredientsList(),
     );
   }
 }
 
-class IngrediantsList extends StatefulWidget {
-  const IngrediantsList({Key? key}) : super(key: key);
+class IngredientsList extends StatefulWidget {
+  const IngredientsList({Key? key}) : super(key: key);
 
   @override
-  State<IngrediantsList> createState() => _IngrediantsListState();
+  State<IngredientsList> createState() => _IngredientsListState();
 }
 
-// The state of IngrediantsList, which can be changed inside the immutable IngrediantsList widget
-class _IngrediantsListState extends State<IngrediantsList> {
-  late List<bool> _isChecked;
-  // This list will contain all the ingredients and the information about nutritional values from the dataset
-  // _ingrediants = <String>[];
-  final List<String> _ingrediants = [
-    "Pasta",
-    "Rice",
-    "Pizza",
-    "Ham",
-    "Potato",
-    "Pomato",
-    "Cucumber",
-    "Jam",
-    "Orange",
-    "Apple",
-    "Sugar",
-    "Salt",
-    "Lemon"
-  ];
-
-  final List<String> _selectedIngrediants = [];
+class _IngredientsListState extends State<IngredientsList> {
+  /* NOW THE VARIABLES ARE GLOBAL...ANYWAY; TAKE A LOOK AGAIN TO THEM
+  late List<bool> _isCheckboxChecked;
+  final List<Ingredients> _listIngredients = [];
+  final List<String> _selectedIngredients = []; */
+  final firestoreInstance = FirebaseFirestore.instance;
 
   @override
   void initState() {
+    createListIngredients();
+    globals.isCheckboxChecked =
+        List<bool>.filled(globals.listIngredients.length, false);
     super.initState();
-    _isChecked = List<bool>.filled(_ingrediants.length, false);
+  }
+
+  void createListIngredients() async {
+    if (globals.listIngredients.isEmpty) {
+      firestoreInstance.collection('ingredients').get().then((querySnapshot) {
+        for (var result in querySnapshot.docs) {
+          Map<String, dynamic> data = result.data();
+          Ingredients ingredients = Ingredients.fromMap(data);
+          // Save also the list locally
+          globals.listIngredients.add(ingredients);
+        }
+      });
+    }
   }
 
   @override
@@ -56,26 +58,49 @@ class _IngrediantsListState extends State<IngrediantsList> {
     return Scaffold(
       body: ListView.separated(
         padding: const EdgeInsets.all(10.0),
-        itemCount: _ingrediants.length,
+        itemCount: globals.listIngredients.length,
         itemBuilder: (context, index) {
           return CheckboxListTile(
             title: Text(
-              _ingrediants[index],
-              style: const TextStyle(fontSize: 20),
+              globals.listIngredients[index].name.toUpperCase(),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            subtitle: const Text("Subtitle"),
-            secondary: const Icon(Icons.android_sharp),
+            subtitle: globals.isCheckboxChecked[index] == false
+                ? const Visibility(
+                    child: Text("Show nutritional values ->"),
+                    visible: true,
+                  )
+                : Visibility(
+                    child: Text(
+                        "Calories: ${globals.listIngredients[index].caloriesKcal} Kcal"
+                        "\n"
+                        "Carbohydrates: ${globals.listIngredients[index].carbohydratesG} g"
+                        "\n"
+                        "Proteins: ${globals.listIngredients[index].proteinG} g"
+                        "\n"
+                        "Total Fats: ${globals.listIngredients[index].totalFatG} g"
+                        "\n"
+                        "Total Fibers: ${globals.listIngredients[index].totalFiberG} g"
+                        "\n"
+                        "Total Sugars: ${globals.listIngredients[index].totalSugarG} g"
+                        "\n"),
+                    visible: true,
+                  ),
+            secondary: Text(globals.listIngredients[index].emoji,
+                style: const TextStyle(fontSize: 40)), // Change icon
             activeColor: const Color.fromARGB(255, 26, 117, 71),
             controlAffinity: ListTileControlAffinity.leading,
-            value: _isChecked[index],
+            value: globals.isCheckboxChecked[index],
             onChanged: (bool? value) {
               setState(
                 () {
-                  _isChecked[index] = value!;
-                  if (_isChecked[index] == true) {
-                    _selectedIngrediants.add(_ingrediants[index]);
+                  globals.isCheckboxChecked[index] = value!;
+                  if (globals.isCheckboxChecked[index] == true) {
+                    globals.selectedIngredients
+                        .add(globals.listIngredients[index].name);
                   } else {
-                    _selectedIngrediants.remove(_ingrediants[index]);
+                    globals.selectedIngredients
+                        .remove(globals.listIngredients[index].name);
                   }
                 },
               );
@@ -89,7 +114,7 @@ class _IngrediantsListState extends State<IngrediantsList> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("New recipe"),
         onPressed: () {
-          if (_selectedIngrediants.isEmpty) {
+          if (globals.selectedIngredients.isEmpty) {
             Fluttertoast.showToast(
                 msg: "Please, select at least one ingredient",
                 toastLength: Toast.LENGTH_LONG,
@@ -102,7 +127,8 @@ class _IngrediantsListState extends State<IngrediantsList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CreateRecipe(_selectedIngrediants)),
+                  builder: (context) =>
+                      CreateRecipe(globals.selectedIngredients)),
             );
           }
         },
