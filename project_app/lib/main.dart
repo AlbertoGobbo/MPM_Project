@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:project_app/authentication_service.dart';
-import 'package:project_app/homepage.dart';
-import 'package:project_app/login.dart';
+import 'package:flutter/services.dart';
+import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/screens/homepage.dart';
+import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project_app/authentication_service.dart';
-import 'package:project_app/login_painter.dart';
-import 'package:project_app/signin.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/helpers/validator.dart';
+import 'package:project_app/painters/login_painter.dart';
+import 'package:project_app/screens/signin.dart';
 import 'package:provider/provider.dart';
+
+import '../helpers/reusable_widgets.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
@@ -15,44 +20,46 @@ class MyLoginPage extends StatefulWidget {
 class _MyLoginPageState extends State<MyLoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: null,
-      body: Center(
-        child: CustomPaint(
-          painter: MyShapePainter(),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: ClipRect(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                        width: 200,
-                        height: 150,
-                        child: Image.asset('assets/icon_app.png')),
-                    const MyLoginForm(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text('Does not have account?'),
-                        TextButton(
-                          child: const Text(
-                            'Sign in',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MySigninPage()),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ]),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: null,
+        body: Center(
+          child: CustomPaint(
+            painter: MyShapePainter(),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ClipRect(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                          width: 200,
+                          height: 150,
+                          child: Image.asset('assets/icon_app.png')),
+                      const MyLoginForm(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text('Does not have account?'),
+                          TextButton(
+                            child: const Text(
+                              'Sign in',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MySigninPage()),
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ]),
+              ),
             ),
           ),
         ),
@@ -121,34 +128,21 @@ class _MyLoginFormState extends State<MyLoginForm> {
             onPressed: () async {
               await tryLogin(context);
             },
+          ),
+          //See if need to remove this
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: SignInButton(
+              Buttons.Google,
+              text: "Log in with Google",
+              onPressed: () {
+                GoogleSignIn().signIn();
+              },
+            ),
           )
         ],
       ),
     );
-  }
-
-  String? passwordValidator(String? value) {
-    //<-- add String? as a return type
-    if (value == null || value.trim().isEmpty) {
-      return 'This field is required';
-    }
-    if (value.trim().length < 8) {
-      return 'Password must be at least 8 characters in length';
-    }
-    // Return null if the entered password is valid
-    return null;
-  }
-
-  String? emailValidator(String? value) {
-    //<-- add String? as a return type
-    if (value == null || value.trim().isEmpty) {
-      return 'Please enter your email address';
-    }
-    // Check if the entered email has the right format
-    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return 'Please enter a valid email address';
-    }
-    return null;
   }
 
   Future<void> tryLogin(BuildContext context) async {
