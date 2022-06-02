@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_app/authentication_service.dart';
 import 'package:project_app/login_painter.dart';
 import 'package:project_app/signin.dart';
+import 'package:provider/provider.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
@@ -67,7 +69,7 @@ class MyLoginForm extends StatefulWidget {
 }
 
 class _MyLoginFormState extends State<MyLoginForm> {
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -75,7 +77,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -86,17 +88,17 @@ class _MyLoginFormState extends State<MyLoginForm> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: TextField(
-            controller: usernameController,
+          child: TextFormField(
+            controller: emailController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Username',
+              labelText: 'Email',
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          child: TextField(
+          child: TextFormField(
             obscureText: true,
             controller: passwordController,
             decoration: const InputDecoration(
@@ -122,23 +124,11 @@ class _MyLoginFormState extends State<MyLoginForm> {
             'Login',
             style: TextStyle(fontSize: 24),
           ),
-          onPressed: () async {
-            var user = usernameController.text;
+          onPressed: () {
+            var email = emailController.text;
             var psw = passwordController.text;
 
-            var usersExist = await checkIfUserExists(user, psw);
-            if (usersExist) {
-              var snackBar = SnackBar(
-                content: Text("Username: $user and Password: $psw exists"),
-              );
-
-              // Find the ScaffoldMessenger in the widget tree
-              // and use it to show a SnackBar.
-              // ignore: use_build_context_synchronously
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-              //navigate to the main page
-            }
+            context.read<AuthenticationService>().signIn(email, psw);
           },
         )
       ],

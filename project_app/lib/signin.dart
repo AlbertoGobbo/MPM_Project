@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/login_painter.dart';
+import 'package:provider/provider.dart';
+
+import 'authentication_service.dart';
 
 class MySigninPage extends StatefulWidget {
   const MySigninPage({Key? key}) : super(key: key);
@@ -11,9 +14,9 @@ class MySigninPage extends StatefulWidget {
 
 class _MySigninPageState extends State<MySigninPage> {
   TextEditingController userController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController pswController = TextEditingController();
   TextEditingController pswConfController = TextEditingController();
-  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +52,23 @@ class _MySigninPageState extends State<MySigninPage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 8),
-                        child: reusableTextField(
-                            "Email", Icons.email, false, userController)),
+                        child: reusableTextFieldForm(
+                            "Email", Icons.email, false, emailController)),
                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 8),
-                        child: reusableTextField(
+                        child: reusableTextFieldForm(
                             "Username", Icons.person, false, userController)),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 8),
-                      child: reusableTextField(
+                      child: reusableTextFieldForm(
                           "Password", Icons.lock, true, pswController),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 8),
-                      child: reusableTextField("Password Confermation",
+                      child: reusableTextFieldForm("Password Confermation",
                           Icons.lock_outline, true, pswConfController),
                     ),
                     ElevatedButton(
@@ -78,18 +81,16 @@ class _MySigninPageState extends State<MySigninPage> {
                         'Sign In',
                         style: TextStyle(fontSize: 24),
                       ),
-                      onPressed: () {
-                        // Create a new user with a first and last name
-                        final user = <String, dynamic>{
-                          "username": "InsertTest",
-                          "password": "insertTest",
-                          "email": "insertTest"
-                        };
-
-                        // Add a new document with a generated ID
-                        db.collection("users").add(user).then((DocumentReference
-                                doc) =>
-                            print('DocumentSnapshot added with ID: ${doc.id}'));
+                      onPressed: () async {
+                        var res =
+                            await context.read<AuthenticationService>().signUp(
+                                  emailController.text.trim(),
+                                  pswController.text.trim(),
+                                  userController.text.trim(),
+                                );
+                        if (res == "Sign Up") {
+                          Navigator.pop(context);
+                        }
                       },
                     )
                   ],
@@ -104,9 +105,9 @@ class _MySigninPageState extends State<MySigninPage> {
 }
 
 //Can be usefull
-TextField reusableTextField(String text, IconData icon, bool isPasswordType,
-    TextEditingController controller) {
-  return TextField(
+TextFormField reusableTextFieldForm(String text, IconData icon,
+    bool isPasswordType, TextEditingController controller) {
+  return TextFormField(
     controller: controller,
     obscureText: isPasswordType,
     enableSuggestions: !isPasswordType,
