@@ -71,8 +71,11 @@ class MyLoginForm extends StatefulWidget {
 class _MyLoginFormState extends State<MyLoginForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String? errorEmailMsg;
+  String? errorPswMsg;
 
   FirebaseFirestore db = FirebaseFirestore.instance;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -84,69 +87,91 @@ class _MyLoginFormState extends State<MyLoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: TextFormField(
-            controller: emailController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Email',
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: reusableTextFieldForm("Email", Icons.email, false,
+                emailController, emailValidator, errorEmailMsg),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: reusableTextFieldForm("Password", Icons.lock, true,
+                passwordController, passwordValidator, errorPswMsg),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              'Forgot Password',
+              style: TextStyle(color: Colors.blue, fontSize: 15),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          child: TextFormField(
-            obscureText: true,
-            controller: passwordController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Password',
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(),
+              minimumSize: const Size(200, 50),
+              maximumSize: const Size(200, 50),
             ),
-          ),
-        ),
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            'Forgot Password',
-            style: TextStyle(color: Colors.blue, fontSize: 15),
-          ),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            minimumSize: const Size(200, 50),
-            maximumSize: const Size(200, 50),
-          ),
-          child: const Text(
-            'Login',
-            style: TextStyle(fontSize: 24),
-          ),
-          onPressed: () {
-            var email = emailController.text;
-            var psw = passwordController.text;
-
-            context.read<AuthenticationService>().signIn(email, psw);
-          },
-        )
-      ],
+            child: const Text(
+              'Login',
+              style: TextStyle(fontSize: 24),
+            ),
+            onPressed: () async {
+              await tryLogin(context);
+            },
+          )
+        ],
+      ),
     );
   }
 
-  checkIfUserExists(String user, String psw) async {
-    try {
-      bool result = await db
-          .collection("users")
-          .where('username', isEqualTo: user)
-          .where('password', isEqualTo: psw)
-          .get()
-          .then((value) => value.size > 0 ? true : false);
+  String? passwordValidator(String? value) {
+    //<-- add String? as a return type
+    if (value == null || value.trim().isEmpty) {
+      return 'This field is required';
+    }
+    if (value.trim().length < 8) {
+      return 'Password must be at least 8 characters in length';
+    }
+    // Return null if the entered password is valid
+    return null;
+  }
 
-      return result;
-    } catch (e) {
-      rethrow;
+  String? emailValidator(String? value) {
+    //<-- add String? as a return type
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter your email address';
+    }
+    // Check if the entered email has the right format
+    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  Future<void> tryLogin(BuildContext context) async {
+    errorEmailMsg = null;
+    errorPswMsg = null;
+
+    final bool? isValid = _formKey.currentState?.validate();
+
+    var email = emailController.text;
+    var psw = passwordController.text;
+    if (isValid == true) {
+      String? error =
+          await context.read<AuthenticationService>().signIn(email, psw);
+      if (error != null) {
+        if (error == 'invalid-email') {
+          errorEmailMsg = 'The email provided is not valid';
+        } else if (error == 'user-not-found') {
+          errorEmailMsg = 'No user found for this email.';
+        } else if (error == 'wrong-password') {
+          errorPswMsg = 'Wrong password provided';
+        }
+        setState(() {});
+      }
     }
   }
 }

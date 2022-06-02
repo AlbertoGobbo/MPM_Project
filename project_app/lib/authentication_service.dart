@@ -13,18 +13,7 @@ class AuthenticationService {
           email: email, password: password);
       return "Sign In";
     } on FirebaseAuthException catch (e) {
-      String message = e.code;
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'The account already exists for that email.';
-      } else if (e.code == 'user-not-found') {
-        message = 'No user found for this email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong user privded for that user';
-      }
-      print(message);
-      return message;
+      return e.code;
     }
   }
 
@@ -33,27 +22,19 @@ class AuthenticationService {
       UserCredential cred = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      String? idUser = cred.user?.tenantId;
+      String? idUser = cred.user?.uid;
+
+      Map<String, dynamic> user = {
+        "email": email,
+        "password": password,
+        "username": username,
+      };
 
       // Add a new document with a generated ID
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(idUser)
-          .set({email: email, password: password, username: username});
+      FirebaseFirestore.instance.collection("users").doc(idUser).set(user);
       return "Sign Up";
     } on FirebaseAuthException catch (e) {
-      String message = e.code;
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'The account already exists for that email.';
-      } else if (e.code == 'user-not-found') {
-        message = 'No user found for this email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong user privded for that user';
-      }
-      print(message);
-      return message;
+      return e.code;
     }
   }
 
