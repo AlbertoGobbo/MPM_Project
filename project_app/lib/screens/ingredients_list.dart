@@ -2,34 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_app/models/ingredients.dart';
-import './create_recipe.dart';
+import 'second_screens/create_recipe.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
-class Screen2 extends StatelessWidget {
-  const Screen2({Key? key}) : super(key: key);
+class IngredientsList extends StatelessWidget {
+  const IngredientsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const IngredientsList(),
+      home: const StatefulIngredientsList(),
     );
   }
 }
 
-class IngredientsList extends StatefulWidget {
-  const IngredientsList({Key? key}) : super(key: key);
+class StatefulIngredientsList extends StatefulWidget {
+  const StatefulIngredientsList({Key? key}) : super(key: key);
 
   @override
-  State<IngredientsList> createState() => _IngredientsListState();
+  State<StatefulIngredientsList> createState() => _IngredientsListState();
 }
 
-class _IngredientsListState extends State<IngredientsList> {
-  /* NOW THE VARIABLES ARE GLOBAL...ANYWAY; TAKE A LOOK AGAIN TO THEM
-  late List<bool> _isCheckboxChecked;
-  final List<Ingredients> _listIngredients = [];
-  final List<String> _selectedIngredients = []; */
+class _IngredientsListState extends State<StatefulIngredientsList> {
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
@@ -40,13 +36,12 @@ class _IngredientsListState extends State<IngredientsList> {
     super.initState();
   }
 
-  void createListIngredients() async {
+  void createListIngredients() {
     if (globals.listIngredients.isEmpty) {
       firestoreInstance.collection('ingredients').get().then((querySnapshot) {
         for (var result in querySnapshot.docs) {
           Map<String, dynamic> data = result.data();
           Ingredients ingredients = Ingredients.fromMap(data);
-          // Save also the list locally
           globals.listIngredients.add(ingredients);
         }
       });
@@ -87,7 +82,7 @@ class _IngredientsListState extends State<IngredientsList> {
                     visible: true,
                   ),
             secondary: Text(globals.listIngredients[index].emoji,
-                style: const TextStyle(fontSize: 40)), // Change icon
+                style: const TextStyle(fontSize: 40)),
             activeColor: const Color.fromARGB(255, 26, 117, 71),
             controlAffinity: ListTileControlAffinity.leading,
             value: globals.isCheckboxChecked[index],

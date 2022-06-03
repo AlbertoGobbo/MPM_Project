@@ -1,48 +1,28 @@
+// This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'firebase/authentication_service.dart';
-import 'screen2.dart';
-import 'screen1.dart';
-import './screen3.dart';
-import './help_page.dart';
-import './saved_recipes.dart';
-import 'popup_menu_choices.dart';
+import '../firebase/authentication_service.dart';
+import 'ingredients_list.dart';
+import 'homepage.dart';
+import 'alimentar_plan.dart';
+import 'second_screens/help_page.dart';
+import 'second_screens/saved_recipes.dart';
+import '../models/popup_menu_choices.dart';
 
-/*
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'HealthyFood',
-      theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-        backgroundColor: Color.fromARGB(255, 26, 117, 71),
-        foregroundColor: Colors.white,
-      )),
-      home: const HomePage(),
-    );
-  }
-}*/
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ManagementMainScreens extends StatefulWidget {
+  const ManagementMainScreens({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ManagementMainScreens> createState() => _ManagementMainScreensState();
 }
 
-// The state of HomePage, which can be changed inside the immutable HomePage widget
-class _HomePageState extends State<HomePage> {
+class _ManagementMainScreensState extends State<ManagementMainScreens> {
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
   final List _screens = [
-    {"screen": const Screen1(), "title": "Home"},
-    {"screen": const Screen2(), "title": "Ingredients list"},
-    {"screen": const Screen3(), "title": "Your weekly alimentar plan"},
+    {"screen": const HomePage(), "title": "Home"},
+    {"screen": const IngredientsList(), "title": "Ingredients list"},
+    {"screen": const AlimentarPlan(), "title": "Your alimentar plan"},
   ];
 
   @override
