@@ -1,5 +1,7 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_app/screens/second_screens/create_recipe.dart';
 import 'package:provider/provider.dart';
 import '../firebase/authentication_service.dart';
 import 'ingredients_list.dart';
@@ -8,6 +10,7 @@ import 'alimentar_plan.dart';
 import 'second_screens/help_page.dart';
 import 'second_screens/saved_recipes.dart';
 import '../models/popup_menu_choices.dart';
+import 'package:project_app/variables/global_variables.dart' as globals;
 
 class ManagementMainScreens extends StatefulWidget {
   const ManagementMainScreens({Key? key}) : super(key: key);
@@ -32,17 +35,44 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
         title: Text(_screens[_currentScreenIndex]["title"]),
         actions: [
           IconButton(
+            icon: const Icon(Icons.post_add_rounded),
+            iconSize: 30.0,
+            padding: const EdgeInsets.all(13.5),
+            onPressed: () {
+              if (globals.selectedIngredients.isEmpty) {
+                Fluttertoast.showToast(
+                    msg: "Please, select at least one ingredient",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CreateRecipe()),
+                );
+              }
+            },
+            tooltip: 'Create a new recipe',
+          ),
+          IconButton(
             icon: const Icon(Icons.favorite_outline),
+            iconSize: 30.0,
+            padding: const EdgeInsets.all(13.5),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SavedRecipes()),
               );
             },
-            tooltip: 'Created recipes',
+            tooltip: 'Your recipes',
           ),
           PopupMenuButton<PopupMenuChoices>(
             icon: const Icon(Icons.more_vert),
+            iconSize: 30.0,
+            padding: const EdgeInsets.all(13.5),
             onSelected: (result) {
               if (result.title == 'Help') {
                 Navigator.of(context).push(
@@ -65,6 +95,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                 );
               }).toList();
             },
+            tooltip: 'Other options',
           ),
         ],
       ),
