@@ -1,13 +1,20 @@
-import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/screens/homepage.dart';
+import 'package:project_app/screens/login.dart';
+import 'package:provider/provider.dart';
+
+import 'dart:io';
 import 'screen2.dart';
 import 'screen1.dart';
 import './screen3.dart';
 import './help_page.dart';
 import './saved_recipes.dart';
 import 'popup_menu_choices.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,19 +28,49 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'HealthyFood',
-      theme: ThemeData(
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+          initialData: null,
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'HealthyFood',
+        theme: ThemeData(
           appBarTheme: const AppBarTheme(
         backgroundColor: Color.fromARGB(255, 26, 117, 71),
         foregroundColor: Colors.white,
-      )),
-      home: const HomePage(),
+        )),
+        home: //const MyLoginPage(),
+            const AutenticationWrapper(),
+      ),
     );
   }
 }
 
+//Use for understand if the user is logged into the application
+class AutenticationWrapper extends StatelessWidget {
+  const AutenticationWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      return const HomePage();
+    }
+
+    return const MyLoginPage();
+  }
+}
+
+/* MOVE IN ANOTHER CLASS HOMEPAGE
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -131,5 +168,4 @@ class _HomePageState extends State<HomePage> {
           ],
           type: BottomNavigationBarType.fixed),
     );
-  }
-}
+*/
