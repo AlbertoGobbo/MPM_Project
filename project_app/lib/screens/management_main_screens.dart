@@ -96,7 +96,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                 tooltip: 'The homepage'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant),
-                label: "ingredients",
+                label: "Ingredients",
                 tooltip: 'The page with the list of all the ingredients'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
