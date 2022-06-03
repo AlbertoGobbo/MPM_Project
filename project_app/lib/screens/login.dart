@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_app/firebase/authentication_service.dart';
 import 'package:project_app/helpers/validator.dart';
 import 'package:project_app/painters/login_painter.dart';
+import 'package:project_app/screens/forgot_password.dart';
 import 'package:project_app/screens/signin.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,8 @@ class _MyLoginFormState extends State<MyLoginForm> {
   String? errorEmailMsg;
   String? errorPswMsg;
 
+  bool _isHidden = true;
+
   FirebaseFirestore db = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
 
@@ -100,16 +103,52 @@ class _MyLoginFormState extends State<MyLoginForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            child: reusableTextFieldForm("Email", Icons.email, false,
-                emailController, emailValidator, errorEmailMsg),
+            child: reusableTextFieldForm(
+                "Email",
+                Icons.email,
+                false,
+                emailController,
+                emailValidator,
+                errorEmailMsg,
+                TextInputType.emailAddress),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: reusableTextFieldForm("Password", Icons.lock, true,
-                passwordController, passwordValidator, errorPswMsg),
+            child: TextFormField(
+              controller: passwordController,
+              obscureText: _isHidden,
+              enableSuggestions: false,
+              autocorrect: false,
+              validator: passwordValidator,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.blue,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isHidden = !_isHidden;
+                    });
+                  },
+                  icon:
+                      Icon(_isHidden ? Icons.visibility : Icons.visibility_off),
+                ),
+                labelText: "Password",
+                errorText: errorPswMsg,
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.visiblePassword,
+            ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage()),
+              );
+            },
             child: const Text(
               'Forgot Password',
               style: TextStyle(color: Colors.blue, fontSize: 15),

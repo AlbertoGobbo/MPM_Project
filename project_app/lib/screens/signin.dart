@@ -64,6 +64,8 @@ class _MySignInFormState extends State<MySignInForm> {
   String? errorPswMsg;
   String? errorUsernameMsg;
   String? errorPswConfMsg;
+  bool _isPswHidden = true;
+  bool _isPswConfHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -87,39 +89,77 @@ class _MySignInFormState extends State<MySignInForm> {
               emailController,
               emailValidator,
               errorEmailMsg,
+              TextInputType.emailAddress,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: reusableTextFieldForm(
-              "Username",
-              Icons.person,
-              false,
-              userController,
-              usernameValidator,
-              errorUsernameMsg,
+                "Username",
+                Icons.person,
+                false,
+                userController,
+                usernameValidator,
+                errorUsernameMsg,
+                TextInputType.text),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: TextFormField(
+              controller: pswController,
+              obscureText: _isPswHidden,
+              enableSuggestions: false,
+              autocorrect: false,
+              validator: passwordValidator,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.blue,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isPswHidden = !_isPswHidden;
+                    });
+                  },
+                  icon: Icon(
+                      _isPswHidden ? Icons.visibility : Icons.visibility_off),
+                ),
+                labelText: "Password",
+                errorText: errorPswMsg,
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.visiblePassword,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: reusableTextFieldForm(
-              "Password",
-              Icons.lock,
-              true,
-              pswController,
-              passwordValidator,
-              errorPswMsg,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: reusableTextFieldForm(
-              "Password Confermation",
-              Icons.lock_outline,
-              true,
-              pswConfController,
-              passwordValidator,
-              errorPswConfMsg,
+            child: TextFormField(
+              controller: pswConfController,
+              obscureText: _isPswConfHidden,
+              enableSuggestions: false,
+              autocorrect: false,
+              validator: passwordValidator,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.lock_outline,
+                  color: Colors.blue,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isPswConfHidden = !_isPswConfHidden;
+                    });
+                  },
+                  icon: Icon(_isPswConfHidden
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                ),
+                labelText: "Password Confermation",
+                errorText: errorPswConfMsg,
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.visiblePassword,
             ),
           ),
           ElevatedButton(

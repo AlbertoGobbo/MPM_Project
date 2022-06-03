@@ -7,7 +7,8 @@ TextFormField reusableTextFieldForm(
     bool isPasswordType,
     TextEditingController controller,
     String? Function(String?)? validatorFunction,
-    String? errorMessage) {
+    String? errorMessage,
+    TextInputType? inputType) {
   return TextFormField(
     controller: controller,
     obscureText: isPasswordType,
@@ -23,8 +24,16 @@ TextFormField reusableTextFieldForm(
       errorText: errorMessage,
       border: const OutlineInputBorder(),
     ),
-    keyboardType: isPasswordType
-        ? TextInputType.visiblePassword
-        : TextInputType.emailAddress,
+    keyboardType: inputType,
   );
+}
+
+showSnackbar(String text, BuildContext context) {
+  var snackBar = SnackBar(
+    content: Text(text),
+  );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
