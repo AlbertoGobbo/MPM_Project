@@ -59,13 +59,28 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Text(
-            "FORGOT PASSWORD",
-            style: TextStyle(
-                color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              "FORGOT PASSWORD",
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              "Please enter your email in the box",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: reusableTextFieldForm(
               "Email",
               Icons.email,
@@ -76,19 +91,34 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               TextInputType.emailAddress,
             ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
-              minimumSize: const Size(200, 50),
-              maximumSize: const Size(200, 50),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              "After sending the request you will be sent an email to change your password",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
+              textAlign: TextAlign.center,
             ),
-            child: const Text(
-              'Reset Password',
-              style: TextStyle(fontSize: 22),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder(),
+                minimumSize: const Size(200, 50),
+                maximumSize: const Size(200, 50),
+              ),
+              child: const Text(
+                'Reset Password',
+                style: TextStyle(fontSize: 22),
+              ),
+              onPressed: () {
+                tryReset();
+              },
             ),
-            onPressed: () {
-              tryReset();
-            },
           )
         ],
       ),
