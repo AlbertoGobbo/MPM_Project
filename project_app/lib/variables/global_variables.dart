@@ -7,4 +7,4 @@ List<bool> isCheckboxChecked = [];
 // ignore: unused_element
 List<Ingredients> listIngredients = [];
 // ignore: unused_element
-List<String> selectedIngredients = [];
+List<Ingredients> selectedIngredients = [];

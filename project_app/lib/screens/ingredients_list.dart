@@ -90,10 +90,10 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
                   globals.isCheckboxChecked[index] = value!;
                   if (globals.isCheckboxChecked[index] == true) {
                     globals.selectedIngredients
-                        .add(globals.listIngredients[index].name);
+                        .add(globals.listIngredients[index]);
                   } else {
                     globals.selectedIngredients
-                        .remove(globals.listIngredients[index].name);
+                        .remove(globals.listIngredients[index]);
                   }
                 },
               );
