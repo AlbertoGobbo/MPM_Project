@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_app/models/ingredients.dart';
+import 'package:project_app/models/recipe.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
+import 'dart:developer';
 
 class CreateRecipe extends StatefulWidget {
   const CreateRecipe({Key? key}) : super(key: key);
@@ -12,6 +15,23 @@ class CreateRecipe extends StatefulWidget {
 
 class _CreateRecipeState extends State<CreateRecipe> {
   final firestoreInstance = FirebaseFirestore.instance;
+
+  List<Ingredients> preprocessRecipeDataForFirestore() {
+    List<Ingredients> ingredients = [];
+    for (int i = 0; i < globals.selectedIngredients.length; i = i + 1) {
+      ingredients.add(Ingredients(
+          emoji: globals.selectedIngredients[i].emoji,
+          caloriesKcal: globals.selectedIngredients[i].caloriesKcal,
+          name: globals.selectedIngredients[i].name,
+          totalSugarG: globals.selectedIngredients[i].totalSugarG,
+          proteinG: globals.selectedIngredients[i].proteinG,
+          totalFatG: globals.selectedIngredients[i].totalFatG,
+          carbohydratesG: globals.selectedIngredients[i].carbohydratesG,
+          totalFiberG: globals.selectedIngredients[i].totalFiberG));
+    }
+
+    return ingredients;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,31 +124,32 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           borderRadius: BorderRadius.circular(20)),
                     ),
                     child: const Text('Create recipe'),
-                    onPressed: () {
-                      /*
-                      Firebase operation
-                      if (loading operation == ok){
-                        Add the recipes also in savedRecipes[] (create it)
-                        Navigator.pop(context);
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: "Something is not working. Please, retry again",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                      }
-                      */
-                      Fluttertoast.showToast(
-                          msg: "Let's insert the recipe!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                    onPressed: () async {
+                      await firestoreInstance
+                          .collection("recipes")
+                          .add(Recipe(
+                            userId:
+                                "1", // TODO: UID given after the user authentication
+                            recipeName:
+                                "recipeName", // TODO: insert a textbox in which the user can type a name for its recipe
+                            ingredients: preprocessRecipeDataForFirestore(),
+                          ).toMap())
+                          // ignore: invalid_return_type_for_catch_error
+                          .catchError((err) => {
+                                log(err.message.toString()),
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "Something is not working. Please, try again",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 2,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0),
+                              });
+                      // savedRecipes = []; --> is it necessary??
+                      // TODO: before changing the context, disable all the checkboxs
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -143,3 +164,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
     );
   }
 }
+
+/* TODO: HOW TO CAPTURE THE USER ID (FOR LOGIN!!!)
+                        void addUser(User user) async {   
+                        Map<String, dynamic> userData = user.ToMap();
+                        await Firestore.instance.collection('user').add(userData).then(
+                          (document) {
+                            userId = document.documentID;
+                            for (var i = 0; i < user.address.length; i++) {
+                              Firestore.instance
+                                  .collection('user')
+                                  .document('$userId')
+                                  .collection('address')
+                                  .add(user.address.get(i));
+                                }
+                              },
+                            );
+                        }*/

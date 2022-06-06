@@ -34,9 +34,13 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
     super.initState();
   }
 
-  void createListIngredients() {
+  //TODO: manage network errors
+  Future<void> createListIngredients() async {
     if (globals.listIngredients.isEmpty) {
-      firestoreInstance.collection('ingredients').get().then((querySnapshot) {
+      await firestoreInstance
+          .collection('ingredients')
+          .get()
+          .then((querySnapshot) {
         for (var result in querySnapshot.docs) {
           Map<String, dynamic> data = result.data();
           Ingredients ingredients = Ingredients.fromMap(data);
