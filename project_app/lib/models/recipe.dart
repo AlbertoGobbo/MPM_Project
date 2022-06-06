@@ -31,9 +31,6 @@ class Recipe {
   factory Recipe.fromMap(Map<String, dynamic> json) => Recipe(
         userId: json["userId"],
         recipeName: json["recipeName"],
-        /*ingredients: (json["ingredients"] as List)
-            .map((i) => Ingredients.fromMap(i))
-            .toList(),*/
         ingredients: List<Ingredients>.from(
             json["ingredients"].map((x) => Ingredients.fromMap(x))),
       );
