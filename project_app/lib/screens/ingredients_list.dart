@@ -34,7 +34,7 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
     super.initState();
   }
 
-  //TODO: manage network errors
+  // TODO: manage network errors
   Future<void> createListIngredients() async {
     if (globals.listIngredients.isEmpty) {
       await firestoreInstance
@@ -65,7 +65,7 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
             subtitle:
                 globals.isCheckboxChecked[index] == false // See toogle button
                     ? const Visibility(
-                        child: Text("Show nutritional values ->"),
+                        child: Text("Tap to see nutritional values"),
                         visible: true,
                       )
                     : Visibility(

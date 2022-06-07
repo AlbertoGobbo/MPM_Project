@@ -165,8 +165,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         await firestoreInstance
                             .collection("recipes")
                             .add(Recipe(
-                              userId:
-                                  "1", // TODO: UID given after the user authentication
+                              userId: globals.uidUser,
                               recipeName: titleRecipe,
                               ingredients: preprocessRecipeDataForFirestore(),
                             ).toMap())
@@ -205,23 +204,3 @@ class _CreateRecipeState extends State<CreateRecipe> {
     );
   }
 }
-
-/* TODO: HOW TO CAPTURE THE USER ID (FOR LOGIN!!!)
-
-void addUser(User user) async {   
-  Map<String, dynamic> userData = user.ToMap();
-  await Firestore.instance.collection('user').add(userData).then(
-    (document) {
-      userId = document.documentID;
-      for (var i = 0; i < user.address.length; i++) {
-        Firestore.instance
-          .collection('user')
-          .document('$userId')
-          .collection('address')
-          .add(user.address.get(i));
-      }
-    },
-  );
-}
-
-*/

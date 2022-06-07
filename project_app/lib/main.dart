@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:project_app/firebase/authentication_service.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 import 'screens/management_main_screens.dart';
+import 'package:project_app/variables/global_variables.dart' as globals;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +55,16 @@ class AutenticationWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
+      globals.uidUser = firebaseUser.uid;
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(globals.uidUser)
+          .get()
+          .then((querySnapshot) {
+        Map<String, dynamic>? data = querySnapshot.data();
+        globals.username = data!["username"];
+      });
+
       return const ManagementMainScreens();
     }
 
