@@ -47,6 +47,10 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
           globals.listIngredients.add(ingredients);
         }
       });
+      //sorting in ascending order
+      globals.listIngredients.sort((a, b) {
+        return a.name.compareTo(b.name);
+      });
     }
   }
 
