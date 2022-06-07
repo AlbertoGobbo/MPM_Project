@@ -129,7 +129,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       "Total calories:",
                     ),
                     Text(
-                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + double.parse(element.caloriesKcal)).toStringAsFixed(3)} Kcal",
+                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + double.parse(element.caloriesKcal)).toStringAsFixed(3).replaceAll(".", ",")} Kcal",
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
