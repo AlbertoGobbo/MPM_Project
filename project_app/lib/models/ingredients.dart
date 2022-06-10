@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:project_app/models/food.dart';
+
 List<Ingredients> ingredientsFromMap(String str) =>
     List<Ingredients>.from(json.decode(str).map((x) => Ingredients.fromMap(x)));
 
 String ingredientsToMap(List<Ingredients> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
-class Ingredients {
+class Ingredients extends Food {
   Ingredients({
     required this.emoji,
     required this.caloriesKcal,
@@ -69,4 +71,14 @@ class Ingredients {
         "Carbohydrates (g)": carbohydratesG,
         "Total Fiber (g)": totalFiberG,
       };
+
+  @override
+  String getAdditionalDetail() {
+    return emoji;
+  }
+
+  @override
+  String getName() {
+    return name;
+  }
 }
