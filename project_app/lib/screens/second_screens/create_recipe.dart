@@ -162,13 +162,15 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             textColor: Colors.white,
                             fontSize: 16.0);
                       } else {
+                        Recipe newRecipe = Recipe(
+                          userId: globals.uidUser,
+                          recipeName: titleRecipe,
+                          ingredients: preprocessRecipeDataForFirestore(),
+                        );
+
                         await firestoreInstance
                             .collection("recipes")
-                            .add(Recipe(
-                              userId: globals.uidUser,
-                              recipeName: titleRecipe,
-                              ingredients: preprocessRecipeDataForFirestore(),
-                            ).toMap())
+                            .add(newRecipe.toMap())
                             // ignore: invalid_return_type_for_catch_error
                             .catchError((err) => {
                                   log(err.message.toString()),
@@ -177,16 +179,17 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                           "Something is not working. Please, try again",
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 2,
+                                      timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.red,
                                       textColor: Colors.white,
                                       fontSize: 16.0),
                                 });
-                        // savedRecipes = []; --> is it necessary??
-                        // TODO: before changing the context, disable all the checkboxs
+
+                        globals.savedRecipes.add(newRecipe);
                         globals.isCheckboxChecked.fillRange(
                             0, globals.isCheckboxChecked.length, false);
                         globals.selectedIngredients.clear();
+                        // TODO: before changing the context, disable all the checkboxs
 
                         Navigator.pop(context);
                       }

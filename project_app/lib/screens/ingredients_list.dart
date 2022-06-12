@@ -54,6 +54,7 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
     }
   }
 
+  // TODO: add search widget in the app bar
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,27 +67,26 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
               globals.listIngredients[index].name.toUpperCase(),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            subtitle:
-                globals.isCheckboxChecked[index] == false // See toogle button
-                    ? const Visibility(
-                        child: Text("Tap to see nutritional values"),
-                        visible: true,
-                      )
-                    : Visibility(
-                        child: Text(
-                            "Calories: ${globals.listIngredients[index].caloriesKcal} Kcal"
-                            "\n"
-                            "Carbohydrates: ${globals.listIngredients[index].carbohydratesG} g"
-                            "\n"
-                            "Proteins: ${globals.listIngredients[index].proteinG} g"
-                            "\n"
-                            "Total Fats: ${globals.listIngredients[index].totalFatG} g"
-                            "\n"
-                            "Total Fibers: ${globals.listIngredients[index].totalFiberG} g"
-                            "\n"
-                            "Total Sugars: ${globals.listIngredients[index].totalSugarG} g"),
-                        visible: true,
-                      ),
+            subtitle: globals.isCheckboxChecked[index] == false
+                ? const Visibility(
+                    child: Text("Tap to see nutritional values"),
+                    visible: true,
+                  )
+                : Visibility(
+                    child: Text(
+                        "Calories: ${globals.listIngredients[index].caloriesKcal} Kcal"
+                        "\n"
+                        "Carbohydrates: ${globals.listIngredients[index].carbohydratesG} g"
+                        "\n"
+                        "Proteins: ${globals.listIngredients[index].proteinG} g"
+                        "\n"
+                        "Total Fats: ${globals.listIngredients[index].totalFatG} g"
+                        "\n"
+                        "Total Fibers: ${globals.listIngredients[index].totalFiberG} g"
+                        "\n"
+                        "Total Sugars: ${globals.listIngredients[index].totalSugarG} g"),
+                    visible: true,
+                  ),
             secondary: Text(globals.listIngredients[index].emoji,
                 style: const TextStyle(fontSize: 40)),
             activeColor: const Color.fromARGB(255, 26, 117, 71),

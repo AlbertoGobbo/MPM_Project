@@ -79,6 +79,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                     MaterialPageRoute(builder: (context) => const HelpPage()));
               }
               if (result.title == 'Logout') {
+                // TODO: to empty all the global variables
                 context.read<AuthenticationService>().signOut();
               }
             },
