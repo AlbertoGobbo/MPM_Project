@@ -9,3 +9,12 @@ List<bool> isCheckboxChecked = [];
 List<Ingredients> listIngredients = [];
 List<Ingredients> selectedIngredients = [];
 List<Recipe> savedRecipes = [];
+
+void clearGlobalVariables() {
+  username = "";
+  uidUser = "";
+  listIngredients.clear();
+  isCheckboxChecked.clear();
+  selectedIngredients.clear();
+  savedRecipes.clear();
+}

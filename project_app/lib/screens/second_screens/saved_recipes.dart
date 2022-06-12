@@ -58,8 +58,9 @@ class _SavedRecipesState extends State<SavedRecipes> {
                 }
 
                 selectedRecipes.clear();
-                selectingStateRecipes =
-                    List<bool>.filled(globals.savedRecipes.length, false);
+                selectingStateRecipes = List<bool>.filled(
+                    globals.savedRecipes.length, false,
+                    growable: true);
                 selectingMode = false;
 
                 Navigator.of(context).pop();
@@ -74,7 +75,7 @@ class _SavedRecipesState extends State<SavedRecipes> {
   @override
   void initState() {
     selectingStateRecipes =
-        List<bool>.filled(globals.savedRecipes.length, false);
+        List<bool>.filled(globals.savedRecipes.length, false, growable: true);
     super.initState();
   }
 
@@ -98,7 +99,6 @@ class _SavedRecipesState extends State<SavedRecipes> {
         title: selectingMode
             ? Text("${selectedRecipes.length} recipes selected")
             : const Text("Your recipes"),
-        // Add the trash button if !selectedRecipes.isEmpty
         actions: selectingMode && selectedRecipes.isNotEmpty
             ? [
                 IconButton(

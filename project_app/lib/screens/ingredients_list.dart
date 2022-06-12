@@ -28,33 +28,12 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
 
   @override
   void initState() {
-    createListIngredients();
-    globals.isCheckboxChecked =
-        List<bool>.filled(globals.listIngredients.length, false);
+    globals.isCheckboxChecked = List<bool>.filled(
+        globals.listIngredients.length, false,
+        growable: true);
     super.initState();
   }
 
-  // TODO: manage network errors
-  Future<void> createListIngredients() async {
-    if (globals.listIngredients.isEmpty) {
-      await firestoreInstance
-          .collection('ingredients')
-          .get()
-          .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          Map<String, dynamic> data = result.data();
-          Ingredients ingredients = Ingredients.fromMap(data);
-          globals.listIngredients.add(ingredients);
-        }
-      });
-      //sorting in ascending order
-      globals.listIngredients.sort((a, b) {
-        return a.name.compareTo(b.name);
-      });
-    }
-  }
-
-  // TODO: add search widget in the app bar
   @override
   Widget build(BuildContext context) {
     return Scaffold(
