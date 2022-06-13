@@ -1,7 +1,7 @@
 library globals;
 
 import 'package:project_app/models/ingredients.dart';
-import 'package:project_app/models/personal_alimetar_plan.dart';
+import 'package:project_app/models/personal_alimentar_plan.dart';
 import 'package:project_app/models/recipe.dart';
 
 String uidUser = "";

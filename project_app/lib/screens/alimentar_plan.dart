@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/models/food.dart';
 import 'package:project_app/models/ingredients.dart';
-import 'package:project_app/models/personal_alimetar_plan.dart';
+import 'package:project_app/models/personal_alimentar_plan.dart';
 import 'package:project_app/models/recipe.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
