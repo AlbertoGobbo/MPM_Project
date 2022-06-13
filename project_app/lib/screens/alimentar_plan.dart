@@ -310,41 +310,73 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
 
   callbackRemove(partOfTheDay, indexOfFoodToRemove) {
     setState(() {
-      var dailyPlan = plans.where((element) => element == item).first;
-      switch (partOfTheDay) {
-        case "Breakfast":
-          dailyPlan.breakfast.removeAt(indexOfFoodToRemove);
-          break;
-        case "Lunch":
-          dailyPlan.lunch.removeAt(indexOfFoodToRemove);
-          break;
-        case "Snack":
-          dailyPlan.snack.removeAt(indexOfFoodToRemove);
-          break;
-        case "Dinner":
-          dailyPlan.dinner.removeAt(indexOfFoodToRemove);
-          break;
-      }
+      removeFood(partOfTheDay, indexOfFoodToRemove);
     });
+  }
+
+  void removeFood(partOfTheDay, indexOfFoodToRemove) {
+    var dailyPlan = plans.where((element) => element == item).first;
+    switch (partOfTheDay) {
+      case "Breakfast":
+        dailyPlan.breakfast.removeAt(indexOfFoodToRemove);
+        break;
+      case "Lunch":
+        dailyPlan.lunch.removeAt(indexOfFoodToRemove);
+        break;
+      case "Snack":
+        dailyPlan.snack.removeAt(indexOfFoodToRemove);
+        break;
+      case "Dinner":
+        dailyPlan.dinner.removeAt(indexOfFoodToRemove);
+        break;
+    }
   }
 
   callbackAdd(partOfTheDay, foodToAdd) {
     setState(() {
+      addFood(partOfTheDay, foodToAdd);
+    });
+  }
+
+  void addFood(partOfTheDay, foodToAdd) {
+    var dailyPlan = plans.where((element) => element == item).first;
+    switch (partOfTheDay) {
+      case "Breakfast":
+        dailyPlan.breakfast.add(foodToAdd);
+        break;
+      case "Lunch":
+        dailyPlan.lunch.add(foodToAdd);
+        break;
+      case "Snack":
+        dailyPlan.snack.add(foodToAdd);
+        break;
+      case "Dinner":
+        dailyPlan.dinner.add(foodToAdd);
+        break;
+    }
+  }
+
+  callbackMove(partOfTheDayOld, partOfTheDayNew, index) {
+    setState(() {
       var dailyPlan = plans.where((element) => element == item).first;
-      switch (partOfTheDay) {
+      late Pair food;
+      switch (partOfTheDayOld) {
         case "Breakfast":
-          dailyPlan.breakfast.add(foodToAdd);
+          food = dailyPlan.breakfast.elementAt(index);
           break;
         case "Lunch":
-          dailyPlan.lunch.add(foodToAdd);
+          food = dailyPlan.lunch.elementAt(index);
           break;
         case "Snack":
-          dailyPlan.snack.add(foodToAdd);
+          food = dailyPlan.snack.elementAt(index);
           break;
         case "Dinner":
-          dailyPlan.dinner.add(foodToAdd);
+          food = dailyPlan.dinner.elementAt(index);
           break;
       }
+
+      removeFood(partOfTheDayOld, index);
+      addFood(partOfTheDayNew, food);
     });
   }
 
@@ -354,30 +386,55 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          DropdownButton(
-            // Initial Value
-            value: dropdownvalue,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                  color:
+                      Colors.greenAccent, //background color of dropdown button
+                  border: Border.all(
+                      color: Colors.black38,
+                      width: 3), //border of dropdown button
+                  borderRadius: BorderRadius.circular(
+                      50), //border raiuds of dropdown button
+                  boxShadow: const <BoxShadow>[
+                    //apply shadow on Dropdown button
+                    BoxShadow(
+                        color:
+                            Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                        blurRadius: 5) //blur radius of shadow
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: DropdownButton(
+                  // Initial Value
+                  value: dropdownvalue,
 
-            // Down Arrow Icon
-            icon: const Icon(Icons.keyboard_arrow_down),
+                  // Down Arrow Icon
+                  icon: const Icon(Icons.keyboard_arrow_down),
 
-            // Array list of items
-            items: days.map((String items) {
-              return DropdownMenuItem(
-                value: items,
-                child: Text(items),
-              );
-            }).toList(),
-            // After selecting the desired option,it will
-            // change button value to selected value
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownvalue = newValue!;
-                item = plans
-                    .where((element) => element.day == dropdownvalue)
-                    .first;
-              });
-            },
+                  // Array list of items
+                  items: days.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  // After selecting the desired option,it will
+                  // change button value to selected value
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownvalue = newValue!;
+                      item = plans
+                          .where((element) => element.day == dropdownvalue)
+                          .first;
+                    });
+                  },
+                  style: const TextStyle(color: Colors.black87, fontSize: 22),
+                  underline: Container(),
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -533,6 +590,7 @@ class _MealExpanderState extends State<MealExpander> {
         ),
         IconButton(
             onPressed: () {
+              //TODO: make the real functionality
               widget.callbackAdd(
                   titleName,
                   Pair(
