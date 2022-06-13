@@ -2,12 +2,22 @@ library globals;
 
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/personal_alimetar_plan.dart';
+import 'package:project_app/models/recipe.dart';
 
-// ignore: unused_element
+String uidUser = "";
+String username = "";
 List<bool> isCheckboxChecked = [];
-// ignore: unused_element
 List<Ingredients> listIngredients = [];
-// ignore: unused_element
-List<String> selectedIngredients = [];
-// ignore: unused_element
+List<Ingredients> selectedIngredients = [];
+List<Recipe> savedRecipes = [];
 List<AlimentarPlanDiary> listPlans = [];
+
+void clearGlobalVariables() {
+  username = "";
+  uidUser = "";
+  listIngredients.clear();
+  isCheckboxChecked.clear();
+  selectedIngredients.clear();
+  savedRecipes.clear();
+  listPlans.clear();
+}
