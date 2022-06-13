@@ -1,3 +1,4 @@
+import 'package:project_app/models/food.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'dart:convert';
 
@@ -7,7 +8,8 @@ List<Recipe> ingredientsFromMap(String str) =>
 String ingredientsToMap(List<Recipe> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
-class Recipe {
+
+class Recipe extends Food {
   Recipe(
       {required this.userId,
       required this.recipeName,
@@ -40,4 +42,14 @@ class Recipe {
         "recipeName": recipeName,
         "ingredients": List<dynamic>.from(ingredients.map((x) => x.toMap())),
       };
+
+  @override
+  String getAdditionalDetail() {
+    return ingredients.length.toString();
+  }
+
+  @override
+  String getName() {
+    return recipeName;
+  }
 }
