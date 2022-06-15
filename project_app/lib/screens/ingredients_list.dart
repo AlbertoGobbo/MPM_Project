@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_app/models/ingredients.dart';
+import 'package:project_app/widget/search_widget.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class IngredientsList extends StatelessWidget {
@@ -8,10 +9,9 @@ class IngredientsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const StatefulIngredientsList(),
+      home: StatefulIngredientsList(),
     );
   }
 }
@@ -25,72 +25,121 @@ class StatefulIngredientsList extends StatefulWidget {
 
 class _IngredientsListState extends State<StatefulIngredientsList> {
   final firestoreInstance = FirebaseFirestore.instance;
+  String searchText = '';
+  var mapIngredientToCheckboxIndex = {};
+
+  bool containsSearchText(Ingredients ingredients) {
+    return ingredients.name.toLowerCase().contains(searchText.toLowerCase());
+  }
 
   @override
   void initState() {
     globals.isCheckboxChecked = List<bool>.filled(
         globals.listIngredients.length, false,
         growable: true);
+    for (int i = 0; i < globals.listIngredients.length; i = i + 1) {
+      mapIngredientToCheckboxIndex[globals.listIngredients[i].name] = i;
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final ingredientsFromSearch =
+        globals.listIngredients.where(containsSearchText).toList();
+
     return Scaffold(
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: globals.listIngredients.length,
-        itemBuilder: (context, index) {
-          return CheckboxListTile(
-            title: Text(
-              globals.listIngredients[index].name.toUpperCase(),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: const Color.fromARGB(0, 255, 255, 255),
+            padding: const EdgeInsets.only(top: 17.0),
+            child: SearchWidget(
+              text: searchText,
+              hintText: "Search ingredients",
+              onChanged: (text) => setState(() {
+                searchText = text;
+              }),
             ),
-            subtitle: globals.isCheckboxChecked[index] == false
-                ? const Visibility(
-                    child: Text("Tap to see nutritional values"),
-                    visible: true,
-                  )
-                : Visibility(
-                    child: Text(
-                        "Calories: ${globals.listIngredients[index].caloriesKcal} Kcal"
-                        "\n"
-                        "Carbohydrates: ${globals.listIngredients[index].carbohydratesG} g"
-                        "\n"
-                        "Proteins: ${globals.listIngredients[index].proteinG} g"
-                        "\n"
-                        "Total Fats: ${globals.listIngredients[index].totalFatG} g"
-                        "\n"
-                        "Total Fibers: ${globals.listIngredients[index].totalFiberG} g"
-                        "\n"
-                        "Total Sugars: ${globals.listIngredients[index].totalSugarG} g"),
-                    visible: true,
+          ),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+              itemCount: ingredientsFromSearch.length,
+              itemBuilder: (context, index) {
+                return CheckboxListTile(
+                  title: Text(
+                    ingredientsFromSearch[index].name.toUpperCase(),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-            secondary: Text(globals.listIngredients[index].emoji,
-                style: const TextStyle(fontSize: 40)),
-            activeColor: const Color.fromARGB(255, 26, 117, 71),
-            controlAffinity: ListTileControlAffinity.leading,
-            value: globals.isCheckboxChecked[index],
-            onChanged: (bool? value) {
-              setState(
-                () {
-                  globals.isCheckboxChecked[index] = value!;
-                  if (globals.isCheckboxChecked[index] == true) {
-                    globals.selectedIngredients
-                        .add(globals.listIngredients[index]);
-                  } else {
-                    globals.selectedIngredients
-                        .remove(globals.listIngredients[index]);
-                  }
-                },
-              );
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
+                  subtitle: globals.isCheckboxChecked[index] == false
+                      ? const Visibility(
+                          child: Text("Tap to see nutritional values"),
+                          visible: true,
+                        )
+                      : Visibility(
+                          child: Text(
+                              "Calories: ${ingredientsFromSearch[index].caloriesKcal} Kcal"
+                              "\n"
+                              "Carbohydrates: ${ingredientsFromSearch[index].carbohydratesG} g"
+                              "\n"
+                              "Proteins: ${ingredientsFromSearch[index].proteinG} g"
+                              "\n"
+                              "Total Fats: ${ingredientsFromSearch[index].totalFatG} g"
+                              "\n"
+                              "Total Fibers: ${ingredientsFromSearch[index].totalFiberG} g"
+                              "\n"
+                              "Total Sugars: ${ingredientsFromSearch[index].totalSugarG} g"),
+                          visible: true,
+                        ),
+                  secondary: Text(ingredientsFromSearch[index].emoji,
+                      style: const TextStyle(fontSize: 40)),
+                  activeColor: const Color.fromARGB(255, 26, 117, 71),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: ingredientsFromSearch.length ==
+                          globals.listIngredients.length
+                      ? globals.isCheckboxChecked[index]
+                      : globals.isCheckboxChecked[mapIngredientToCheckboxIndex[
+                          ingredientsFromSearch[index].name]],
+                  onChanged: (bool? value) {
+                    setState(
+                      () {
+                        dynamic realIndex;
+                        // Map the real index of the ingredient, if search is applied
+                        if (ingredientsFromSearch.length ==
+                            globals.listIngredients.length) {
+                          realIndex = index;
+                        } else {
+                          realIndex = mapIngredientToCheckboxIndex[
+                              ingredientsFromSearch[index].name];
+                        }
+
+                        globals.isCheckboxChecked[realIndex] = value!;
+                        if (globals.isCheckboxChecked[realIndex] == true) {
+                          globals.selectedIngredients
+                              .add(globals.listIngredients[realIndex]);
+                          globals.selectedIngredients.sort((a, b) {
+                            return a.name.compareTo(b.name);
+                          });
+                        } else {
+                          globals.selectedIngredients
+                              .remove(globals.listIngredients[realIndex]);
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+            ),
+          ),
+        ],
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

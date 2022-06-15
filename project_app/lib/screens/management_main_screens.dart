@@ -1,6 +1,7 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/screens/second_screens/create_recipe.dart';
 import 'package:provider/provider.dart';
 import '../firebase/authentication_service.dart';
@@ -24,8 +25,8 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
   final PageController _pageController = PageController(initialPage: 0);
   final List _screens = [
     {"screen": const HomePage(), "title": "Home"},
-    {"screen": const IngredientsList(), "title": "Ingredients list"},
-    {"screen": const AlimentarPlan(), "title": "Your alimentar plan"},
+    {"screen": const IngredientsList(), "title": "Ingredients"},
+    {"screen": const AlimentarPlan(), "title": "Alimentar plan"},
   ];
 
   @override
@@ -36,7 +37,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
         actions: [
           IconButton(
             icon: const Icon(Icons.post_add_rounded),
-            iconSize: 30.0,
+            iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
             onPressed: () {
               if (globals.selectedIngredients.isEmpty) {
@@ -59,7 +60,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
           ),
           IconButton(
             icon: const Icon(Icons.favorite_outline),
-            iconSize: 30.0,
+            iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
             onPressed: () {
               Navigator.push(
@@ -71,7 +72,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
           ),
           PopupMenuButton<PopupMenuChoices>(
             icon: const Icon(Icons.more_vert),
-            iconSize: 30.0,
+            iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
             onSelected: (result) {
               if (result.title == 'Help') {
@@ -136,6 +137,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                 tooltip: 'The page with your alimentar plan'),
           ],
           type: BottomNavigationBarType.fixed),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
