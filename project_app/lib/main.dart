@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/models/personal_alimentar_plan.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
 import 'models/ingredients.dart';
@@ -112,6 +113,25 @@ class AutenticationWrapper extends StatelessWidget {
     }
   }
 
+  Future<void> retrieveSavedAlimentarPlans() async {
+    if (globals.listPlans.isEmpty) {
+      await FirebaseFirestore.instance
+          .collection('alimentarPlans')
+          .where("uid", isEqualTo: globals.uidUser)
+          .get()
+          .then((querySnapshot) {
+            for (var result in querySnapshot.docs) {
+              Map<String, dynamic> data = result.data();
+              AlimentarPlanDiary plan = AlimentarPlanDiary.fromJson(data);
+              globals.listPlans.add(plan);
+            }
+          })
+          .whenComplete(() => null)
+          // ignore: invalid_return_type_for_catch_error
+          .catchError((error) => {log(error.message.toString())});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
@@ -120,6 +140,7 @@ class AutenticationWrapper extends StatelessWidget {
       retrieveUsername(firebaseUser);
       retrieveIngredientsList();
       retrieveSavedRecipes();
+      retrieveSavedAlimentarPlans();
 
       return const ManagementMainScreens();
     }

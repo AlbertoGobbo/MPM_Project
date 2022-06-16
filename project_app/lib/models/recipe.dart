@@ -8,7 +8,6 @@ List<Recipe> ingredientsFromMap(String str) =>
 String ingredientsToMap(List<Recipe> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
-
 class Recipe extends Food {
   Recipe(
       {required this.userId,
@@ -37,6 +36,7 @@ class Recipe extends Food {
             json["ingredients"].map((x) => Ingredients.fromMap(x))),
       );
 
+  @override
   Map<String, dynamic> toMap() => {
         "userId": userId,
         "recipeName": recipeName,

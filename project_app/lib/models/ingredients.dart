@@ -61,6 +61,7 @@ class Ingredients extends Food {
         totalFiberG: json["Total Fiber (g)"],
       );
 
+  @override
   Map<String, dynamic> toMap() => {
         "emoji": emoji,
         "Calories (kcal)": caloriesKcal,
