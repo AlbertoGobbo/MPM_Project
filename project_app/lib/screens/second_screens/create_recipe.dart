@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/recipe.dart';
@@ -15,8 +17,9 @@ class CreateRecipe extends StatefulWidget {
 
 class _CreateRecipeState extends State<CreateRecipe> {
   final firestoreInstance = FirebaseFirestore.instance;
-  final myController = TextEditingController();
+  late TextEditingController dialogController;
   String titleRecipe = "";
+  String ingredientGrams = "";
 
   Widget setAppBarTitle() {
     if (globals.selectedIngredients.length == 1) {
@@ -45,11 +48,48 @@ class _CreateRecipeState extends State<CreateRecipe> {
     return ingredients;
   }
 
+  Future<String?> openDialogToInsertIngredientGrams() => showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: const Text("Ingredient grams"),
+            content: TextField(
+              autofocus: true,
+              decoration: const InputDecoration(hintText: "Enter grams"),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+              ],
+              controller: dialogController,
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text("Submit"),
+                onPressed: () {
+                  Navigator.of(context).pop(dialogController.text);
+                  dialogController.clear();
+                },
+              ),
+            ],
+          ));
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
-    myController.dispose();
+    dialogController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    dialogController = TextEditingController();
+    super.initState();
   }
 
   @override
@@ -87,25 +127,45 @@ class _CreateRecipeState extends State<CreateRecipe> {
               padding: const EdgeInsets.only(top: 10.0, left: 1.0, right: 3.0),
               itemCount: globals.selectedIngredients.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    "${globals.selectedIngredients[index].name.toUpperCase()} "
-                    "(${globals.selectedIngredients[index].caloriesKcal} Kcal)",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                return Slidable(
+                  endActionPane:
+                      ActionPane(motion: const ScrollMotion(), children: [
+                    SlidableAction(
+                      flex: 1,
+                      onPressed: (_) async {
+                        final grams = await openDialogToInsertIngredientGrams();
+                        if (grams == null || grams.isEmpty) return;
+
+                        setState(() {
+                          ingredientGrams = grams;
+                        });
+                      },
+                      backgroundColor: const Color.fromARGB(255, 19, 189, 84),
+                      foregroundColor: Colors.white,
+                      icon: Icons.add_box_rounded,
+                      label: 'Add grams',
+                    ),
+                  ]),
+                  child: ListTile(
+                    title: Text(
+                      "${globals.selectedIngredients[index].name.toUpperCase()} "
+                      "(${globals.selectedIngredients[index].caloriesKcal} Kcal)",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                        "Carbohydrates: ${globals.selectedIngredients[index].carbohydratesG} g"
+                        "\n"
+                        "Proteins: ${globals.selectedIngredients[index].proteinG} g"
+                        "\n"
+                        "Total Fats: ${globals.selectedIngredients[index].totalFatG} g"
+                        "\n"
+                        "Total Fibers: ${globals.selectedIngredients[index].totalFiberG} g"
+                        "\n"
+                        "Total Sugars: ${globals.selectedIngredients[index].totalSugarG} g"),
+                    trailing: Text(globals.selectedIngredients[index].emoji,
+                        style: const TextStyle(fontSize: 40)),
                   ),
-                  subtitle: Text(
-                      "Carbohydrates: ${globals.selectedIngredients[index].carbohydratesG} g"
-                      "\n"
-                      "Proteins: ${globals.selectedIngredients[index].proteinG} g"
-                      "\n"
-                      "Total Fats: ${globals.selectedIngredients[index].totalFatG} g"
-                      "\n"
-                      "Total Fibers: ${globals.selectedIngredients[index].totalFiberG} g"
-                      "\n"
-                      "Total Sugars: ${globals.selectedIngredients[index].totalSugarG} g"),
-                  trailing: Text(globals.selectedIngredients[index].emoji,
-                      style: const TextStyle(fontSize: 40)),
                 );
               },
               separatorBuilder: (context, index) {
@@ -114,6 +174,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
             ),
           ),
           Container(
+            // TODO: make suitable for all the screens this container
             height: MediaQuery.of(context).size.height * 0.1,
             color: Colors.lightGreen,
             alignment: Alignment.center,
@@ -191,6 +252,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         globals.selectedIngredients.clear();
                         // TODO: before changing the context, disable all the checkboxs
 
+                        //titleController.clear();
                         Navigator.pop(context);
                       }
                     },
