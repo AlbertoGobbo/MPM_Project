@@ -252,7 +252,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         globals.selectedIngredients.clear();
                         // TODO: before changing the context, disable all the checkboxs
 
-                        //titleController.clear();
                         Navigator.pop(context);
                       }
                     },
