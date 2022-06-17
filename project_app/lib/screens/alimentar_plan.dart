@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:project_app/firebase/firestore_function.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/pair.dart';
 import 'package:project_app/models/personal_alimentar_plan.dart';
+import 'package:project_app/screens/second_screens/choose_aliment.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class AlimentarPlan extends StatelessWidget {
@@ -297,12 +299,12 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
         dailyPlan.dinner.removeAt(indexOfFoodToRemove);
         break;
     }
+
+    updateAlimentarPlan(dailyPlan, dropdownvalue);
   }
 
-  callbackAdd(partOfTheDay, foodToAdd) {
-    setState(() {
-      addFood(partOfTheDay, foodToAdd);
-    });
+  callbackSetState() {
+    setState(() {});
   }
 
   void addFood(partOfTheDay, foodToAdd) {
@@ -409,28 +411,41 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
               child: Column(
                 children: <Widget>[
                   MealExpander(
-                      cardBreakfast,
-                      "Breakfast",
-                      item.breakfast,
-                      const Icon(Icons.free_breakfast),
-                      callbackRemove,
-                      callbackAdd),
+                    cardBreakfast,
+                    "Breakfast",
+                    item.breakfast,
+                    const Icon(Icons.free_breakfast),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                   MealExpander(
-                      cardLunch,
-                      "Lunch",
-                      item.lunch,
-                      const Icon(Icons.lunch_dining),
-                      callbackRemove,
-                      callbackAdd),
-                  MealExpander(cardSnack, "Snack", item.snack,
-                      const Icon(Icons.set_meal), callbackRemove, callbackAdd),
+                    cardLunch,
+                    "Lunch",
+                    item.lunch,
+                    const Icon(Icons.lunch_dining),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                   MealExpander(
-                      cardDinner,
-                      "Dinner",
-                      item.dinner,
-                      const Icon(Icons.dinner_dining),
-                      callbackRemove,
-                      callbackAdd),
+                    cardSnack,
+                    "Snack",
+                    item.snack,
+                    const Icon(Icons.set_meal),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
+                  MealExpander(
+                    cardDinner,
+                    "Dinner",
+                    item.dinner,
+                    const Icon(Icons.dinner_dining),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                 ],
               ),
             ),
@@ -467,10 +482,11 @@ class MealExpander extends StatefulWidget {
   final List<Pair> foodsList;
   final Icon icon;
   final Function callbackRemove;
-  final Function callbackAdd;
+  final String day;
+  final Function setStateCallback;
 
   const MealExpander(this.cardKey, this.title, this.foodsList, this.icon,
-      this.callbackRemove, this.callbackAdd,
+      this.callbackRemove, this.day, this.setStateCallback,
       {Key? key})
       : super(key: key);
 
@@ -493,7 +509,9 @@ class _MealExpanderState extends State<MealExpander> {
             widget.foodsList.fold(
                 0,
                 (previousValue, element) =>
-                    previousValue + double.parse(element.totalCalories))),
+                    previousValue + double.parse(element.totalCalories)),
+            widget.day,
+            widget.setStateCallback),
         leading: widget.icon,
         children: <Widget>[
           const Divider(
@@ -565,16 +583,9 @@ class _MealExpanderState extends State<MealExpander> {
     );
   }
 
-  Widget _buildTitle(String titleName, int numberOfItem, double totalCalories) {
-    int totcal = totalCalories.round();
-    Pair toAdd = Pair(
-        aliment: globals.listIngredients
-            .where((element) => element.name == "chicken")
-            .first,
-        grams: "100",
-        totalCalories:
-            "${double.parse(globals.listIngredients.where((element) => element.name == "chicken").first.caloriesKcal) * 100}",
-        isRecipe: "false");
+  Widget _buildTitle(String titleName, int numberOfItem, double totalCalories,
+      String day, Function callbackSetState) {
+    int totcal = totalCalories.toInt();
     return Row(
       children: <Widget>[
         Text(titleName),
@@ -587,9 +598,15 @@ class _MealExpanderState extends State<MealExpander> {
           ],
         ),
         IconButton(
-            onPressed: () {
-              //TODO: make the real functionality
-              widget.callbackAdd(titleName, toAdd);
+            onPressed: () async {
+              final value = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChooseAliment(
+                            partOfDay: titleName,
+                            day: day,
+                          )));
+              callbackSetState();
             },
             icon: const Icon(Icons.add))
       ],

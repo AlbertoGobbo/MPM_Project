@@ -1,7 +1,6 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/screens/second_screens/create_recipe.dart';
 import 'package:provider/provider.dart';
 import '../firebase/authentication_service.dart';
