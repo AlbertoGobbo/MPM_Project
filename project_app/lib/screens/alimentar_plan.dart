@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:project_app/models/food.dart';
+import 'package:project_app/firebase/firestore_function.dart';
 import 'package:project_app/models/ingredients.dart';
+import 'package:project_app/models/pair.dart';
 import 'package:project_app/models/personal_alimentar_plan.dart';
-import 'package:project_app/models/recipe.dart';
+import 'package:project_app/screens/second_screens/choose_aliment.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class AlimentarPlan extends StatelessWidget {
@@ -16,14 +20,6 @@ class AlimentarPlan extends StatelessWidget {
   Widget build(BuildContext context) {
     return const AlimentarPlanPage();
   }
-}
-
-class Pair<Food, int, double> {
-  final Food a;
-  final int b;
-  final double c;
-
-  Pair(this.a, this.b, this.c);
 }
 
 class AlimentarPlanPage extends StatefulWidget {
@@ -41,7 +37,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
   final GlobalKey<ExpansionTileCardState> cardDinner = GlobalKey();
   late AlimentarPlanDiary item;
   late String dropdownvalue;
-  late List<AlimentarPlanDiary> plans;
+  //late List<AlimentarPlanDiary> plans;
   late List<String> days = [
     'Monday',
     'Tuesday',
@@ -59,253 +55,226 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
     // Initial Selected Value
     dropdownvalue = DateFormat('EEEE').format(DateTime.now());
 
-    plans = List.of([
+    /*plans = List.of([
       AlimentarPlanDiary(
-          uid: "AAA",
+          uid: globals.uidUser,
           day: "Tuesday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
       AlimentarPlanDiary(
-          uid: "AAA",
+          uid: globals.uidUser,
           day: "Wednesday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
       AlimentarPlanDiary(
-          uid: "AAA",
+          uid: globals.uidUser,
           day: "Thursday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
       AlimentarPlanDiary(
-          uid: "AAA",
+          uid: globals.uidUser,
           day: "Saturday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
       AlimentarPlanDiary(
-          uid: "AAA",
+          uid: globals.uidUser,
           day: "Sunday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(uid: "AAA", day: "Monday", breakfast: [
+      AlimentarPlanDiary(uid: globals.uidUser, day: "Monday", breakfast: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "avocado")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "avocado")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "rice")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "rice")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            Recipe(userId: "Test", recipeName: "Test Recipe", ingredients: [
-              globals.listIngredients
-                  .where((element) => element.name == "rice")
-                  .first,
-              globals.listIngredients
-                  .where((element) => element.name == "avocado")
-                  .first
-            ]),
-            100,
-            300),
+            aliment: globals.savedRecipes.first,
+            grams: 100,
+            totalCalories: 300),
       ], lunch: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ], snack: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ], dinner: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ]),
-      AlimentarPlanDiary(uid: "AAA", day: "Friday", breakfast: [
+      AlimentarPlanDiary(uid: globals.uidUser, day: "Friday", breakfast: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "mushroom")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "mushroom")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            Recipe(userId: "Test", recipeName: "Test Recipe", ingredients: [
-              globals.listIngredients
-                  .where((element) => element.name == "mushroom")
-                  .first,
-              globals.listIngredients
-                  .where((element) => element.name == "avocado")
-                  .first
-            ]),
-            100,
-            300),
+            aliment: globals.savedRecipes.first,
+            grams: 100,
+            totalCalories: 300),
       ], lunch: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ], snack: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ], dinner: [
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "green apple")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "green apple")
                     .first
                     .caloriesKcal) *
                 100),
         Pair(
-            globals.listIngredients
+            aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
                 .first,
-            100,
-            double.parse(globals.listIngredients
+            grams: 100,
+            totalCalories: double.parse(globals.listIngredients
                     .where((element) => element.name == "strawberry")
                     .first
                     .caloriesKcal) *
                 100)
       ])
-    ]);
+    ]);*/
 
-    item = plans.where((element) => element.day == dropdownvalue).first;
-  }
-
-  //TODO: to change
-  void createListPlans() {
-    if (globals.listPlans.isEmpty) {
-      firestoreInstance
-          .collection('alimentar_plans')
-          .get()
-          .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
-          Map<String, dynamic> data = result.data();
-          AlimentarPlanDiary plans = AlimentarPlanDiary.fromJson(data);
-          globals.listPlans.add(plans);
-        }
-      });
-    }
+    //saveIntoFirestore(plans);
+    item = globals.listPlans
+        .where((element) => element.day == dropdownvalue)
+        .first;
   }
 
   callbackRemove(partOfTheDay, indexOfFoodToRemove) {
@@ -315,7 +284,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
   }
 
   void removeFood(partOfTheDay, indexOfFoodToRemove) {
-    var dailyPlan = plans.where((element) => element == item).first;
+    var dailyPlan = globals.listPlans.where((element) => element == item).first;
     switch (partOfTheDay) {
       case "Breakfast":
         dailyPlan.breakfast.removeAt(indexOfFoodToRemove);
@@ -330,16 +299,16 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
         dailyPlan.dinner.removeAt(indexOfFoodToRemove);
         break;
     }
+
+    updateAlimentarPlan(dailyPlan, dropdownvalue);
   }
 
-  callbackAdd(partOfTheDay, foodToAdd) {
-    setState(() {
-      addFood(partOfTheDay, foodToAdd);
-    });
+  callbackSetState() {
+    setState(() {});
   }
 
   void addFood(partOfTheDay, foodToAdd) {
-    var dailyPlan = plans.where((element) => element == item).first;
+    var dailyPlan = globals.listPlans.where((element) => element == item).first;
     switch (partOfTheDay) {
       case "Breakfast":
         dailyPlan.breakfast.add(foodToAdd);
@@ -358,7 +327,8 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
 
   callbackMove(partOfTheDayOld, partOfTheDayNew, index) {
     setState(() {
-      var dailyPlan = plans.where((element) => element == item).first;
+      var dailyPlan =
+          globals.listPlans.where((element) => element == item).first;
       late Pair food;
       switch (partOfTheDayOld) {
         case "Breakfast":
@@ -425,7 +395,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                   onChanged: (String? newValue) {
                     setState(() {
                       dropdownvalue = newValue!;
-                      item = plans
+                      item = globals.listPlans
                           .where((element) => element.day == dropdownvalue)
                           .first;
                     });
@@ -441,28 +411,41 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
               child: Column(
                 children: <Widget>[
                   MealExpander(
-                      cardBreakfast,
-                      "Breakfast",
-                      item.breakfast,
-                      const Icon(Icons.free_breakfast),
-                      callbackRemove,
-                      callbackAdd),
+                    cardBreakfast,
+                    "Breakfast",
+                    item.breakfast,
+                    const Icon(Icons.free_breakfast),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                   MealExpander(
-                      cardLunch,
-                      "Lunch",
-                      item.lunch,
-                      const Icon(Icons.lunch_dining),
-                      callbackRemove,
-                      callbackAdd),
-                  MealExpander(cardSnack, "Snack", item.snack,
-                      const Icon(Icons.set_meal), callbackRemove, callbackAdd),
+                    cardLunch,
+                    "Lunch",
+                    item.lunch,
+                    const Icon(Icons.lunch_dining),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                   MealExpander(
-                      cardDinner,
-                      "Dinner",
-                      item.dinner,
-                      const Icon(Icons.dinner_dining),
-                      callbackRemove,
-                      callbackAdd),
+                    cardSnack,
+                    "Snack",
+                    item.snack,
+                    const Icon(Icons.set_meal),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
+                  MealExpander(
+                    cardDinner,
+                    "Dinner",
+                    item.dinner,
+                    const Icon(Icons.dinner_dining),
+                    callbackRemove,
+                    dropdownvalue,
+                    callbackSetState,
+                  ),
                 ],
               ),
             ),
@@ -471,18 +454,39 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
       ),
     );
   }
+
+  Future<void> saveIntoFirestore(List<AlimentarPlanDiary> plans) async {
+    for (var i in plans) {
+      await firestoreInstance
+          .collection("alimentarPlans")
+          .add(i.toJson())
+          // ignore: invalid_return_type_for_catch_error
+          .catchError((err) => {
+                log(err.message.toString()),
+                Fluttertoast.showToast(
+                    msg: "Something is not working. Please, try again",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0),
+              });
+    }
+  }
 }
 
 class MealExpander extends StatefulWidget {
   final GlobalKey<ExpansionTileCardState> cardKey;
   final String title;
-  final List<Pair<dynamic, dynamic, dynamic>> foods_list;
+  final List<Pair> foodsList;
   final Icon icon;
   final Function callbackRemove;
-  final Function callbackAdd;
+  final String day;
+  final Function setStateCallback;
 
-  const MealExpander(this.cardKey, this.title, this.foods_list, this.icon,
-      this.callbackRemove, this.callbackAdd,
+  const MealExpander(this.cardKey, this.title, this.foodsList, this.icon,
+      this.callbackRemove, this.day, this.setStateCallback,
       {Key? key})
       : super(key: key);
 
@@ -501,9 +505,13 @@ class _MealExpanderState extends State<MealExpander> {
         elevation: 2,
         title: _buildTitle(
             widget.title,
-            widget.foods_list.length,
-            widget.foods_list.fold(
-                0, (previousValue, element) => previousValue + element.c)),
+            widget.foodsList.length,
+            widget.foodsList.fold(
+                0,
+                (previousValue, element) =>
+                    previousValue + double.parse(element.totalCalories)),
+            widget.day,
+            widget.setStateCallback),
         leading: widget.icon,
         children: <Widget>[
           const Divider(
@@ -515,7 +523,7 @@ class _MealExpanderState extends State<MealExpander> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 int i = index;
-                var item = widget.foods_list[index].a as Food;
+                var item = widget.foodsList[index].aliment;
                 return Slidable(
                   key: const ValueKey(0),
                   endActionPane:
@@ -558,9 +566,9 @@ class _MealExpanderState extends State<MealExpander> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Total grams: ${widget.foods_list[index].b}"),
+                        Text("Total grams: ${widget.foodsList[index].grams}"),
                         Text(
-                            "Total calories: ${widget.foods_list[index].c} Kcal")
+                            "Total calories: ${widget.foodsList[index].totalCalories} Kcal")
                       ],
                     ),
                   ),
@@ -569,14 +577,15 @@ class _MealExpanderState extends State<MealExpander> {
               separatorBuilder: (context, index) {
                 return const Divider();
               },
-              itemCount: widget.foods_list.length)
+              itemCount: widget.foodsList.length)
         ],
       ),
     );
   }
 
-  Widget _buildTitle(String titleName, int numberOfItem, double totalCalories) {
-    int totcal = totalCalories.round();
+  Widget _buildTitle(String titleName, int numberOfItem, double totalCalories,
+      String day, Function callbackSetState) {
+    int totcal = totalCalories.toInt();
     return Row(
       children: <Widget>[
         Text(titleName),
@@ -589,20 +598,15 @@ class _MealExpanderState extends State<MealExpander> {
           ],
         ),
         IconButton(
-            onPressed: () {
-              //TODO: make the real functionality
-              widget.callbackAdd(
-                  titleName,
-                  Pair(
-                      globals.listIngredients
-                          .where((element) => element.name == "chicken")
-                          .first,
-                      100,
-                      double.parse(globals.listIngredients
-                              .where((element) => element.name == "chicken")
-                              .first
-                              .caloriesKcal) *
-                          100));
+            onPressed: () async {
+              final value = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChooseAliment(
+                            partOfDay: titleName,
+                            day: day,
+                          )));
+              callbackSetState();
             },
             icon: const Icon(Icons.add))
       ],
