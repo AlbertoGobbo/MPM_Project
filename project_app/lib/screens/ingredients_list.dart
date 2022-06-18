@@ -81,17 +81,17 @@ class _IngredientsListState extends State<StatefulIngredientsList> {
                         )
                       : Visibility(
                           child: Text(
-                              "Calories: ${ingredientsFromSearch[index].caloriesKcal} Kcal"
+                              "Calories (Kcal/g): ${ingredientsFromSearch[index].caloriesKcal}"
                               "\n"
-                              "Carbohydrates: ${ingredientsFromSearch[index].carbohydratesG} g"
+                              "Carbohydrates/g: ${ingredientsFromSearch[index].carbohydratesG}"
                               "\n"
-                              "Proteins: ${ingredientsFromSearch[index].proteinG} g"
+                              "Proteins/g: ${ingredientsFromSearch[index].proteinG}"
                               "\n"
-                              "Total Fats: ${ingredientsFromSearch[index].totalFatG} g"
+                              "Total Fats/g: ${ingredientsFromSearch[index].totalFatG}"
                               "\n"
-                              "Total Fibers: ${ingredientsFromSearch[index].totalFiberG} g"
+                              "Total Fibers/g: ${ingredientsFromSearch[index].totalFiberG}"
                               "\n"
-                              "Total Sugars: ${ingredientsFromSearch[index].totalSugarG} g"),
+                              "Total Sugars/g: ${ingredientsFromSearch[index].totalSugarG}"),
                           visible: true,
                         ),
                   secondary: Text(ingredientsFromSearch[index].emoji,

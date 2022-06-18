@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +5,8 @@ import 'package:project_app/firebase/authentication_service.dart';
 import 'package:project_app/models/personal_alimentar_plan.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
-import 'models/ingredients.dart';
-import 'models/recipe.dart';
+import 'firebase/firestore_function.dart';
 import 'screens/management_main_screens.dart';
-import 'package:project_app/variables/global_variables.dart' as globals;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -131,7 +127,7 @@ class AutenticationWrapper extends StatelessWidget {
           .catchError((error) => {log(error.message.toString())});
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();

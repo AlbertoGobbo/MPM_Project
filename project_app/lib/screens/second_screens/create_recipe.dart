@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/recipe.dart';
@@ -15,7 +17,7 @@ class CreateRecipe extends StatefulWidget {
 
 class _CreateRecipeState extends State<CreateRecipe> {
   final firestoreInstance = FirebaseFirestore.instance;
-  final myController = TextEditingController();
+  TextEditingController dialogController = TextEditingController();
   String titleRecipe = "";
 
   Widget setAppBarTitle() {
@@ -39,16 +41,88 @@ class _CreateRecipeState extends State<CreateRecipe> {
           proteinG: globals.selectedIngredients[i].proteinG,
           totalFatG: globals.selectedIngredients[i].totalFatG,
           carbohydratesG: globals.selectedIngredients[i].carbohydratesG,
-          totalFiberG: globals.selectedIngredients[i].totalFiberG));
+          totalFiberG: globals.selectedIngredients[i].totalFiberG,
+          totalGrams: globals.selectedIngredients[i].totalGrams));
     }
 
     return ingredients;
   }
 
+  Future<String?> openDialogToModifyIngredientGrams(String ingredientName) =>
+      showDialog<String>(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Grams for $ingredientName:"),
+                content: TextField(
+                  autofocus: true,
+                  controller: dialogController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter grams",
+                  ),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Submit"),
+                    onPressed: () {
+                      setState(() {
+                        if (dialogController.value.text.isNotEmpty) {
+                          if (dialogController.value.text.substring(0, 1) !=
+                              ".") {
+                            if ((double.parse(dialogController.value.text) !=
+                                0.0)) {
+                              Navigator.of(context).pop(dialogController.text);
+                              dialogController.clear();
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "N° of grams must be more than 0",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "N° of grams must not start with .",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "N° of grams must not be empty",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ));
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
-    myController.dispose();
+    dialogController.dispose();
     super.dispose();
   }
 
@@ -62,20 +136,24 @@ class _CreateRecipeState extends State<CreateRecipe> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
-            color: Colors.lightGreen,
+            color: const Color.fromARGB(255, 168, 230, 170),
             padding:
-                const EdgeInsets.only(bottom: 12.0, left: 18.0, right: 18.0),
+                const EdgeInsets.only(bottom: 8.0, left: 18.0, right: 18.0),
             alignment: Alignment.topLeft,
             child: TextField(
+              textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                ),
                 border: UnderlineInputBorder(),
-                hintText: 'Recipe title',
+                hintText: 'Insert a title',
                 hintStyle: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(255, 201, 25, 25)),
+                    fontSize: 20, color: Color.fromARGB(240, 75, 75, 75)),
               ),
               onChanged: (text) {
                 titleRecipe = text;
@@ -87,25 +165,72 @@ class _CreateRecipeState extends State<CreateRecipe> {
               padding: const EdgeInsets.only(top: 10.0, left: 1.0, right: 3.0),
               itemCount: globals.selectedIngredients.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    "${globals.selectedIngredients[index].name.toUpperCase()} "
-                    "(${globals.selectedIngredients[index].caloriesKcal} Kcal)",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                return Slidable(
+                  endActionPane:
+                      ActionPane(motion: const ScrollMotion(), children: [
+                    SlidableAction(
+                      flex: 1,
+                      onPressed: (_) async {
+                        final grams = await openDialogToModifyIngredientGrams(
+                            globals.selectedIngredients[index].name);
+                        if (grams == null || grams.isEmpty) return;
+
+                        setState(() {
+                          globals.selectedIngredients[index].totalGrams = grams;
+                        });
+                      },
+                      backgroundColor: const Color.fromARGB(255, 19, 189, 84),
+                      foregroundColor: Colors.white,
+                      icon: Icons.mode,
+                      label: 'Modify grams',
+                    ),
+                  ]),
+                  child: ListTile(
+                    title: Text(
+                      "${globals.selectedIngredients[index].name.toUpperCase()} "
+                      "(${(double.parse(globals.selectedIngredients[index].caloriesKcal) * double.parse(globals.selectedIngredients[index].totalGrams)).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          color: Color.fromARGB(255, 133, 132, 132),
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text:
+                                  "Carbohydrates/g: ${globals.selectedIngredients[index].carbohydratesG}"),
+                          const TextSpan(text: "\n"),
+                          TextSpan(
+                              text:
+                                  "Proteins/g: ${globals.selectedIngredients[index].proteinG}"),
+                          const TextSpan(text: "\n"),
+                          TextSpan(
+                              text:
+                                  "Total Fats/g: ${globals.selectedIngredients[index].totalFatG}"),
+                          const TextSpan(text: "\n"),
+                          TextSpan(
+                              text:
+                                  "Total Fibers/g: ${globals.selectedIngredients[index].totalFiberG}"),
+                          const TextSpan(text: "\n"),
+                          TextSpan(
+                              text:
+                                  "Total Sugars/g: ${globals.selectedIngredients[index].totalSugarG}"),
+                          const TextSpan(text: "\n"),
+                          TextSpan(
+                              text:
+                                  "Total Grams: ${globals.selectedIngredients[index].totalGrams} g",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                    trailing: Text(globals.selectedIngredients[index].emoji,
+                        style: const TextStyle(fontSize: 40)),
                   ),
-                  subtitle: Text(
-                      "Carbohydrates: ${globals.selectedIngredients[index].carbohydratesG} g"
-                      "\n"
-                      "Proteins: ${globals.selectedIngredients[index].proteinG} g"
-                      "\n"
-                      "Total Fats: ${globals.selectedIngredients[index].totalFatG} g"
-                      "\n"
-                      "Total Fibers: ${globals.selectedIngredients[index].totalFiberG} g"
-                      "\n"
-                      "Total Sugars: ${globals.selectedIngredients[index].totalSugarG} g"),
-                  trailing: Text(globals.selectedIngredients[index].emoji,
-                      style: const TextStyle(fontSize: 40)),
                 );
               },
               separatorBuilder: (context, index) {
@@ -129,7 +254,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       "Total calories:",
                     ),
                     Text(
-                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + double.parse(element.caloriesKcal)).toStringAsFixed(3).replaceAll(".", ",")} Kcal",
+                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).toStringAsFixed(3).replaceAll(".", ",")} Kcal",
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -189,7 +314,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         globals.isCheckboxChecked.fillRange(
                             0, globals.isCheckboxChecked.length, false);
                         globals.selectedIngredients.clear();
-                        // TODO: before changing the context, disable all the checkboxs
 
                         Navigator.pop(context);
                       }

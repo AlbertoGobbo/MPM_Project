@@ -18,6 +18,7 @@ class Ingredients extends Food {
     required this.totalFatG,
     required this.carbohydratesG,
     required this.totalFiberG,
+    required this.totalGrams,
   });
 
   String emoji;
@@ -28,6 +29,7 @@ class Ingredients extends Food {
   String totalFatG;
   String carbohydratesG;
   String totalFiberG;
+  String totalGrams;
 
   Ingredients copyWith({
     required String emoji,
@@ -38,6 +40,7 @@ class Ingredients extends Food {
     required String totalFatG,
     required String carbohydratesG,
     required String totalFiberG,
+    required String totalGrams,
   }) =>
       Ingredients(
         emoji: emoji,
@@ -48,6 +51,7 @@ class Ingredients extends Food {
         totalFatG: totalFatG,
         carbohydratesG: carbohydratesG,
         totalFiberG: totalFiberG,
+        totalGrams: totalGrams,
       );
 
   factory Ingredients.fromMap(Map<String, dynamic> json) => Ingredients(
@@ -59,6 +63,7 @@ class Ingredients extends Food {
         totalFatG: json["Total Fat (g)"],
         carbohydratesG: json["Carbohydrates (g)"],
         totalFiberG: json["Total Fiber (g)"],
+        totalGrams: json["Total Grams"],
       );
 
   @override
@@ -71,6 +76,7 @@ class Ingredients extends Food {
         "Total Fat (g)": totalFatG,
         "Carbohydrates (g)": carbohydratesG,
         "Total Fiber (g)": totalFiberG,
+        "Total Grams": totalGrams,
       };
 
   @override
