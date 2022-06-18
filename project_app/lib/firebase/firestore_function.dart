@@ -1,3 +1,4 @@
+//Alimentar Plan Functions
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +89,6 @@ Future<void> retrieveSavedAlimentarPlans() async {
   }
 }
 
-//Alimentar Plan Function
 Future<void> updateAlimentarPlan(
     AlimentarPlanDiary dailyPlan, String day) async {
   var coll = await FirebaseFirestore.instance
