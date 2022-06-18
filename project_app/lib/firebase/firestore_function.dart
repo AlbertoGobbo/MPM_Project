@@ -87,6 +87,20 @@ Future<void> retrieveSavedAlimentarPlans() async {
         // ignore: invalid_return_type_for_catch_error
         .catchError((error) => {log(error.message.toString())});
   }
+
+  if (globals.listPlans.isEmpty) {
+    for (var day in globals.days) {
+      await createAlimentarPlanForDay(day);
+    }
+  } else if (globals.listPlans.length != 7) {
+    for (var day in globals.days) {
+      var emptyCheck =
+          globals.listPlans.where((element) => element.day == day).isEmpty;
+      if (emptyCheck) {
+        await createAlimentarPlanForDay(day);
+      }
+    }
+  }
 }
 
 Future<void> updateAlimentarPlan(
@@ -101,4 +115,17 @@ Future<void> updateAlimentarPlan(
       .collection("alimentarPlans")
       .doc(id)
       .set(dailyPlan.toJson());
+}
+
+Future<void> createAlimentarPlanForDay(String day) async {
+  AlimentarPlanDiary d = AlimentarPlanDiary(
+      uid: globals.uidUser,
+      day: day,
+      breakfast: [],
+      lunch: [],
+      snack: [],
+      dinner: []);
+
+  globals.listPlans.add(d);
+  await FirebaseFirestore.instance.collection("alimentarPlans").add(d.toJson());
 }

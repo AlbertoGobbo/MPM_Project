@@ -11,6 +11,15 @@ List<Ingredients> listIngredients = [];
 List<Ingredients> selectedIngredients = [];
 List<Recipe> savedRecipes = [];
 List<AlimentarPlanDiary> listPlans = [];
+List<String> days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+];
 
 void clearGlobalVariables() {
   username = "";
