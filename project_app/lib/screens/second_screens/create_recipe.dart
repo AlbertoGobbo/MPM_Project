@@ -62,7 +62,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                    FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
                   ],
                 ),
                 actions: <Widget>[
@@ -78,9 +78,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       setState(() {
                         if (dialogController.value.text.isNotEmpty) {
                           if (dialogController.value.text.substring(0, 1) !=
-                                  "," &&
-                              dialogController.value.text.substring(0, 1) !=
-                                  ".") {
+                              ".") {
                             if ((double.parse(dialogController.value.text) !=
                                 0.0)) {
                               Navigator.of(context).pop(dialogController.text);
@@ -97,7 +95,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             }
                           } else {
                             Fluttertoast.showToast(
-                                msg: "N° of grams must not start with , or .",
+                                msg: "N° of grams must not start with .",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.CENTER,
                                 timeInSecForIosWeb: 1,
@@ -138,20 +136,24 @@ class _CreateRecipeState extends State<CreateRecipe> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
-            color: Colors.lightGreen,
+            color: const Color.fromARGB(255, 168, 230, 170),
             padding:
-                const EdgeInsets.only(bottom: 12.0, left: 18.0, right: 18.0),
+                const EdgeInsets.only(bottom: 8.0, left: 18.0, right: 18.0),
             alignment: Alignment.topLeft,
             child: TextField(
+              textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 4.0),
+                ),
                 border: UnderlineInputBorder(),
-                hintText: 'Recipe title',
+                hintText: 'Insert a title',
                 hintStyle: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(255, 201, 25, 25)),
+                    fontSize: 20, color: Color.fromARGB(240, 75, 75, 75)),
               ),
               onChanged: (text) {
                 titleRecipe = text;
@@ -237,7 +239,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
             ),
           ),
           Container(
-            // TODO: make suitable for all the screens this container
             height: MediaQuery.of(context).size.height * 0.1,
             color: Colors.lightGreen,
             alignment: Alignment.center,
@@ -265,7 +266,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   width: 88,
                 ),
                 SizedBox(
-                  //TODO: modify title style, in order to be more usable
                   height: 55,
                   width: 180,
                   child: ElevatedButton(
@@ -314,7 +314,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         globals.isCheckboxChecked.fillRange(
                             0, globals.isCheckboxChecked.length, false);
                         globals.selectedIngredients.clear();
-                        // TODO: before changing the context, disable all the checkboxs
 
                         Navigator.pop(context);
                       }
