@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/firebase/firestore_function.dart';
 import 'package:project_app/models/pair.dart';
+import 'package:project_app/screens/second_screens/show_add_ingredient.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class ChooseAliment extends StatefulWidget {
@@ -71,6 +73,16 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                     icon: const Icon(Icons.add_circle_rounded),
                     color: const Color.fromARGB(255, 52, 141, 214),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowAddIngredient(
+                          ingredient: item,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
               separatorBuilder: (context, index) {
@@ -142,5 +154,6 @@ class _ChooseAlimentState extends State<ChooseAliment> {
         dailyPlan.dinner.add(foodToAdd);
         break;
     }
+    Fluttertoast.showToast(msg: "Ingredient added");
   }
 }

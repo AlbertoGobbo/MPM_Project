@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
         title: 'HealthyFood',
         theme: ThemeData(
             appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 26, 117, 71),
+          backgroundColor: Color.fromARGB(255, 26, 117,
+              71), //TODO: cambio colore Color.fromARGB(255, 74, 212, 143)
           foregroundColor: Colors.white,
         )),
         home: //const MyLoginPage(),
