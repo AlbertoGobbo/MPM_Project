@@ -310,15 +310,19 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                       fontSize: 16.0),
                                 });
 
-                        globals.savedRecipes.add(newRecipe);
-                        for (int i = 0;
-                            i < globals.selectedIngredients.length;
-                            i = i + 1) {
-                          globals.selectedIngredients[i].totalGrams = "1";
-                        }
-                        globals.selectedIngredients.clear();
-                        globals.isCheckboxChecked.fillRange(
-                            0, globals.isCheckboxChecked.length, false);
+                        setState(() {
+                          globals.savedRecipes.add(newRecipe);
+                          /*for (int i = 0;
+                              i < globals.selectedIngredients.length;
+                              i = i + 1) {
+                            globals.selectedIngredients[i].totalGrams = "1";
+                          }*/
+                          globals.selectedIngredients
+                              .map((ingredient) => ingredient.totalGrams = "1");
+                          globals.selectedIngredients.clear();
+                          globals.isCheckboxChecked.fillRange(
+                              0, globals.isCheckboxChecked.length, false);
+                        });
 
                         Navigator.pop(context);
                       }

@@ -57,11 +57,13 @@ class _SavedRecipesState extends State<SavedRecipes> {
                           snapshot.docs.single.reference.delete());
                 }
 
-                selectedRecipes.clear();
-                selectingStateRecipes = List<bool>.filled(
-                    globals.savedRecipes.length, false,
-                    growable: true);
-                selectingMode = false;
+                setState(() {
+                  selectedRecipes.clear();
+                  selectingStateRecipes = List<bool>.filled(
+                      globals.savedRecipes.length, false,
+                      growable: true);
+                  selectingMode = false;
+                });
 
                 Navigator.of(context).pop();
               },
