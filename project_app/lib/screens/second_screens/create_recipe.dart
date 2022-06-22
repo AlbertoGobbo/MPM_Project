@@ -296,6 +296,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         await firestoreInstance
                             .collection("recipes")
                             .add(newRecipe.toMap())
+                            .whenComplete(() => setState(() {
+                                  globals.savedRecipes.add(newRecipe);
+                                  for (int i = 0;
+                                      i < globals.selectedIngredients.length;
+                                      i = i + 1) {
+                                    globals.selectedIngredients[i].totalGrams =
+                                        "1";
+                                  }
+                                  globals.selectedIngredients.clear();
+                                  globals.isCheckboxChecked.fillRange(0,
+                                      globals.isCheckboxChecked.length, false);
+
+                                  Navigator.pop(context);
+                                }))
                             // ignore: invalid_return_type_for_catch_error
                             .catchError((err) => {
                                   log(err.message.toString()),
@@ -309,22 +323,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                       textColor: Colors.white,
                                       fontSize: 16.0),
                                 });
-
-                        setState(() {
-                          globals.savedRecipes.add(newRecipe);
-                          /*for (int i = 0;
-                              i < globals.selectedIngredients.length;
-                              i = i + 1) {
-                            globals.selectedIngredients[i].totalGrams = "1";
-                          }*/
-                          globals.selectedIngredients
-                              .map((ingredient) => ingredient.totalGrams = "1");
-                          globals.selectedIngredients.clear();
-                          globals.isCheckboxChecked.fillRange(
-                              0, globals.isCheckboxChecked.length, false);
-                        });
-
-                        Navigator.pop(context);
                       }
                     },
                   ),
