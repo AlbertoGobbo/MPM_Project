@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:project_app/firebase/authentication_service.dart';
 import 'package:project_app/screens/login.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'firebase/firestore_function.dart';
 import 'screens/management_main_screens.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(const MyApp()));
   runApp(const MyApp());
 }
 

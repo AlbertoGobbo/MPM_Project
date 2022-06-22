@@ -311,9 +311,14 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                 });
 
                         globals.savedRecipes.add(newRecipe);
+                        for (int i = 0;
+                            i < globals.selectedIngredients.length;
+                            i = i + 1) {
+                          globals.selectedIngredients[i].totalGrams = "1";
+                        }
+                        globals.selectedIngredients.clear();
                         globals.isCheckboxChecked.fillRange(
                             0, globals.isCheckboxChecked.length, false);
-                        globals.selectedIngredients.clear();
 
                         Navigator.pop(context);
                       }
