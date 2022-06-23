@@ -38,15 +38,6 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
   late AlimentarPlanDiary item;
   late String dropdownvalue;
   //late List<AlimentarPlanDiary> plans;
-  late List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
 
   @override
   void initState() {
@@ -384,7 +375,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                   icon: const Icon(Icons.keyboard_arrow_down),
 
                   // Array list of items
-                  items: days.map((String items) {
+                  items: globals.days.map((String items) {
                     return DropdownMenuItem(
                       value: items,
                       child: Text(items),

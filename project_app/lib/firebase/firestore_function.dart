@@ -1,3 +1,4 @@
+//Alimentar Plan Functions
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -86,9 +87,22 @@ Future<void> retrieveSavedAlimentarPlans() async {
         // ignore: invalid_return_type_for_catch_error
         .catchError((error) => {log(error.message.toString())});
   }
+
+  if (globals.listPlans.isEmpty) {
+    for (var day in globals.days) {
+      await createAlimentarPlanForDay(day);
+    }
+  } else if (globals.listPlans.length != 7) {
+    for (var day in globals.days) {
+      var emptyCheck =
+          globals.listPlans.where((element) => element.day == day).isEmpty;
+      if (emptyCheck) {
+        await createAlimentarPlanForDay(day);
+      }
+    }
+  }
 }
 
-//Alimentar Plan Function
 Future<void> updateAlimentarPlan(
     AlimentarPlanDiary dailyPlan, String day) async {
   var coll = await FirebaseFirestore.instance
@@ -101,4 +115,17 @@ Future<void> updateAlimentarPlan(
       .collection("alimentarPlans")
       .doc(id)
       .set(dailyPlan.toJson());
+}
+
+Future<void> createAlimentarPlanForDay(String day) async {
+  AlimentarPlanDiary d = AlimentarPlanDiary(
+      uid: globals.uidUser,
+      day: day,
+      breakfast: [],
+      lunch: [],
+      snack: [],
+      dinner: []);
+
+  globals.listPlans.add(d);
+  await FirebaseFirestore.instance.collection("alimentarPlans").add(d.toJson());
 }
