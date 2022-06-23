@@ -287,42 +287,69 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             textColor: Colors.white,
                             fontSize: 16.0);
                       } else {
-                        Recipe newRecipe = Recipe(
-                          userId: globals.uidUser,
-                          recipeName: titleRecipe,
-                          ingredients: preprocessRecipeDataForFirestore(),
-                        );
-
-                        await firestoreInstance
+                        final bool isTitleNeverUsed = await firestoreInstance
                             .collection("recipes")
-                            .add(newRecipe.toMap())
-                            .whenComplete(() => setState(() {
-                                  globals.savedRecipes.add(newRecipe);
-                                  for (int i = 0;
-                                      i < globals.selectedIngredients.length;
-                                      i = i + 1) {
-                                    globals.selectedIngredients[i].totalGrams =
-                                        "1";
-                                  }
-                                  globals.selectedIngredients.clear();
-                                  globals.isCheckboxChecked.fillRange(0,
-                                      globals.isCheckboxChecked.length, false);
+                            .where("recipeName", isEqualTo: titleRecipe)
+                            .get()
+                            .then((value) {
+                          if (value.docs.isEmpty) {
+                            return true;
+                          } else {
+                            return false;
+                          }
+                        });
 
-                                  Navigator.pop(context);
-                                }))
-                            // ignore: invalid_return_type_for_catch_error
-                            .catchError((err) => {
-                                  log(err.message.toString()),
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "Something is not working. Please, try again",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0),
-                                });
+                        if (isTitleNeverUsed) {
+                          Recipe newRecipe = Recipe(
+                            userId: globals.uidUser,
+                            recipeName: titleRecipe,
+                            ingredients: preprocessRecipeDataForFirestore(),
+                          );
+
+                          await firestoreInstance
+                              .collection("recipes")
+                              .add(newRecipe.toMap())
+                              .whenComplete(() => setState(() {
+                                    globals.savedRecipes.add(newRecipe);
+                                    for (int i = 0;
+                                        i < globals.selectedIngredients.length;
+                                        i = i + 1) {
+                                      globals.selectedIngredients[i]
+                                          .totalGrams = "1";
+                                    }
+                                    globals.selectedIngredients.clear();
+                                    globals.isCheckboxChecked.fillRange(
+                                        0,
+                                        globals.isCheckboxChecked.length,
+                                        false);
+
+                                    // Navigator.of(context).pop(true);
+                                    Navigator.pop(context);
+                                  }))
+                              // ignore: invalid_return_type_for_catch_error
+                              .catchError((err) => {
+                                    log(err.message.toString()),
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Something is not working. Please, try again",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0),
+                                  });
+                        } else {
+                          Fluttertoast.showToast(
+                              msg:
+                                  "Insert a new title: it has been already used",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
                       }
                     },
                   ),
