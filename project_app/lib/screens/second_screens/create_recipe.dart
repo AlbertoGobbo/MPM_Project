@@ -240,13 +240,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.1,
-            color: Colors.lightGreen,
+            color: const Color.fromARGB(255, 168, 230, 170),
             alignment: Alignment.center,
             child: Row(
               children: [
-                const SizedBox(
-                  width: 18,
-                ),
+                const Spacer(),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -262,8 +260,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 88,
+                const Spacer(
+                  flex: 3,
                 ),
                 SizedBox(
                   height: 55,
@@ -302,7 +300,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                         if (isTitleNeverUsed) {
                           Recipe newRecipe = Recipe(
                             userId: globals.uidUser,
-                            recipeName: titleRecipe,
+                            recipeName: titleRecipe.trim(),
                             ingredients: preprocessRecipeDataForFirestore(),
                           );
 
@@ -322,9 +320,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                         0,
                                         globals.isCheckboxChecked.length,
                                         false);
-
-                                    // Navigator.of(context).pop(true);
-                                    Navigator.pop(context);
                                   }))
                               // ignore: invalid_return_type_for_catch_error
                               .catchError((err) => {
@@ -339,6 +334,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                         textColor: Colors.white,
                                         fontSize: 16.0),
                                   });
+
+                          Navigator.pop(context);
                         } else {
                           Fluttertoast.showToast(
                               msg:
@@ -354,9 +351,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     },
                   ),
                 ),
-                const SizedBox(
-                  width: 18,
-                ),
+                const Spacer(),
               ],
             ),
           ),
