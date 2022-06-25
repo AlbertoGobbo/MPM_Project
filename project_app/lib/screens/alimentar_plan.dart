@@ -7,6 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:project_app/firebase/firestore_function.dart';
+import 'package:project_app/models/food.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/pair.dart';
 import 'package:project_app/models/personal_alimentar_plan.dart';
@@ -409,6 +410,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                     callbackRemove,
                     dropdownvalue,
                     callbackSetState,
+                    callbackMove,
                   ),
                   MealExpander(
                     cardLunch,
@@ -418,6 +420,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                     callbackRemove,
                     dropdownvalue,
                     callbackSetState,
+                    callbackMove,
                   ),
                   MealExpander(
                     cardSnack,
@@ -427,6 +430,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                     callbackRemove,
                     dropdownvalue,
                     callbackSetState,
+                    callbackMove,
                   ),
                   MealExpander(
                     cardDinner,
@@ -436,6 +440,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                     callbackRemove,
                     dropdownvalue,
                     callbackSetState,
+                    callbackMove,
                   ),
                 ],
               ),
@@ -475,9 +480,10 @@ class MealExpander extends StatefulWidget {
   final Function callbackRemove;
   final String day;
   final Function setStateCallback;
+  final Function callbackMove;
 
   const MealExpander(this.cardKey, this.title, this.foodsList, this.icon,
-      this.callbackRemove, this.day, this.setStateCallback,
+      this.callbackRemove, this.day, this.setStateCallback, this.callbackMove,
       {Key? key})
       : super(key: key);
 
@@ -533,7 +539,9 @@ class _MealExpanderState extends State<MealExpander> {
                     SlidableAction(
                       // An action can be bigger than the others.
                       flex: 1,
-                      onPressed: (_) {},
+                      onPressed: (_) {
+                        shoDialogForMoveFood(context, item, index);
+                      },
                       backgroundColor: const Color.fromARGB(255, 19, 189, 84),
                       foregroundColor: Colors.white,
                       icon: Icons.drive_file_move,
@@ -574,6 +582,84 @@ class _MealExpanderState extends State<MealExpander> {
     );
   }
 
+  void shoDialogForMoveFood(BuildContext context, Food item, int index) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Where to move ${item.getName().toUpperCase()}:"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            if (widget.title != "Breakfast")
+              TextButton(
+                child: const Text("Breakfast"),
+                onPressed: () {
+                  widget.callbackMove(widget.title, "Breakfast", index);
+                  Navigator.of(context).pop();
+                  Fluttertoast.showToast(
+                    msg: "Move to Breakfast done!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                  );
+                },
+              ),
+            if (widget.title != "Lunch")
+              TextButton(
+                child: const Text("Lunch"),
+                onPressed: () {
+                  widget.callbackMove(widget.title, "Lunch", index);
+                  Navigator.of(context).pop();
+                  Fluttertoast.showToast(
+                    msg: "Move to Lunch done!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                  );
+                },
+              ),
+            if (widget.title != "Snack")
+              TextButton(
+                child: const Text("Snack"),
+                onPressed: () {
+                  widget.callbackMove(widget.title, "Snack", index);
+                  Navigator.of(context).pop();
+                  Fluttertoast.showToast(
+                    msg: "Move to Snack done!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                  );
+                },
+              ),
+            if (widget.title != "Dinner")
+              TextButton(
+                child: const Text("Dinner"),
+                onPressed: () {
+                  widget.callbackMove(widget.title, "Dinner", index);
+                  Navigator.of(context).pop();
+                  Fluttertoast.showToast(
+                    msg: "Move to Dinner done!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                  );
+                },
+              )
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTitle(String titleName, int numberOfItem, double totalCalories,
       String day, Function callbackSetState) {
     int totcal = totalCalories.toInt();
@@ -590,7 +676,7 @@ class _MealExpanderState extends State<MealExpander> {
         ),
         IconButton(
             onPressed: () async {
-              final value = await Navigator.push(
+              await Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ChooseAliment(

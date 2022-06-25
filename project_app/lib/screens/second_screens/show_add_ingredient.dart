@@ -35,7 +35,6 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     caloriesCarbo =
