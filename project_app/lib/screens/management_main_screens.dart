@@ -23,7 +23,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
   final List _screens = [
-    {"screen": const HomePage(), "title": "Home"},
+    {"screen": const Homepage(), "title": "Home"},
     {"screen": const IngredientsList(), "title": "Ingredients"},
     {"screen": const AlimentarPlan(), "title": "Alimentar plan"},
   ];
