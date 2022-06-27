@@ -98,7 +98,16 @@ class _AutenticationWrapperState extends State<AutenticationWrapper> {
         return const ManagementMainScreens();
       } else {
         return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
+          body: Center(
+            child: SizedBox(
+                height: 80,
+                width: 80,
+                child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation(Color.fromARGB(255, 23, 91, 26)),
+                  strokeWidth: 7,
+                )),
+          ),
         );
       }
     }
