@@ -32,3 +32,44 @@ String? usernameValidator(String? value) {
   }
   return null;
 }
+
+String? ageValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your age';
+  }
+  if (value.contains(".") || value.contains(",") || value.contains("-")) {
+    return 'Age must contains only numbers';
+  }
+  if (int.parse(value) <= 0 || int.parse(value) > 99) {
+    return 'Age must be between 1 and 99';
+  }
+  return null;
+}
+
+String? weightValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your weight';
+  }
+  if (int.parse(value) <= 0) {
+    return 'Weight must be greater than 0';
+  }
+  if ((value.contains(".") && value.contains(",")) || value.contains("-")) {
+    return 'Invalid format for weight';
+  }
+  return null;
+}
+
+String? caloriesValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your calories goal';
+  }
+  if (value.trim().contains('.') ||
+      value.trim().contains(',') ||
+      value.trim().contains('-')) {
+    return 'Calories must contains only numbers';
+  }
+  if (int.tryParse(value) == null || int.tryParse(value)! <= 0) {
+    return 'Calories must be greater than 0';
+  }
+  return null;
+}
