@@ -16,7 +16,6 @@ class CreateRecipe extends StatefulWidget {
 }
 
 class _CreateRecipeState extends State<CreateRecipe> {
-  final firestoreInstance = FirebaseFirestore.instance;
   TextEditingController dialogController = TextEditingController();
   String titleRecipe = "";
 
@@ -285,7 +284,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             textColor: Colors.white,
                             fontSize: 16.0);
                       } else {
-                        final bool isTitleNeverUsed = await firestoreInstance
+                        final bool isTitleNeverUsed = await FirebaseFirestore
+                            .instance
                             .collection("recipes")
                             .where("recipeName", isEqualTo: titleRecipe)
                             .get()
@@ -304,7 +304,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             ingredients: preprocessRecipeDataForFirestore(),
                           );
 
-                          await firestoreInstance
+                          // Remove keyword "await" because the user would get stuck until a Future is returned if the offline mode is on
+                          FirebaseFirestore.instance
                               .collection("recipes")
                               .add(newRecipe.toMap())
                               .whenComplete(() => setState(() {

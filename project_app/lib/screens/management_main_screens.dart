@@ -1,4 +1,5 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/screens/second_screens/create_recipe.dart';
@@ -73,13 +74,14 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             icon: const Icon(Icons.more_vert),
             iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
-            onSelected: (result) {
+            onSelected: (result) async {
               if (result.title == 'Help') {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const HelpPage()));
               }
               if (result.title == 'Logout') {
                 globals.clearGlobalVariables();
+                await FirebaseFirestore.instance.clearPersistence();
                 context.read<AuthenticationService>().signOut();
               }
             },

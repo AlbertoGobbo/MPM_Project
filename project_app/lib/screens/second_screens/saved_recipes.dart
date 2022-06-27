@@ -12,7 +12,6 @@ class SavedRecipes extends StatefulWidget {
 }
 
 class _SavedRecipesState extends State<SavedRecipes> {
-  final firestoreInstance = FirebaseFirestore.instance;
   bool selectingMode = false;
   List<Recipe> selectedRecipes = [];
   List<bool> selectingStateRecipes = [];
@@ -43,11 +42,12 @@ class _SavedRecipesState extends State<SavedRecipes> {
             ),
             TextButton(
               child: const Text("Yes"),
-              onPressed: () async {
+              onPressed: () {
                 for (int i = 0; i < selectedRecipes.length; i = i + 1) {
                   globals.savedRecipes.remove(selectedRecipes[i]);
 
-                  await firestoreInstance
+                  // Remove keyword "await" because the user would get stuck until a Future is returned if the offline mode is on
+                  FirebaseFirestore.instance
                       .collection("recipes")
                       .where("userId", isEqualTo: globals.uidUser)
                       .where("recipeName",
