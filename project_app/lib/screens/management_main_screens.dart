@@ -81,7 +81,6 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
               }
               if (result.title == 'Logout') {
                 globals.clearGlobalVariables();
-                await FirebaseFirestore.instance.clearPersistence();
                 context.read<AuthenticationService>().signOut();
               }
             },
