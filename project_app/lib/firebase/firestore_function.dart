@@ -29,6 +29,24 @@ Future<void> retrieveUsername(User firebaseUser) async {
 }
 
 // Main function
+Future<void> retrieveUserKcal(User firebaseUser) async {
+  if (globals.uidUser.isEmpty) {
+    globals.uidUser = firebaseUser.uid;
+  }
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(globals.uidUser)
+      .get()
+      .then((querySnapshot) {
+        Map<String, dynamic>? data = querySnapshot.data();
+        globals.caloriesGoal = data!["users_kcal"];
+      })
+      .whenComplete(() => null)
+      // ignore: invalid_return_type_for_catch_error
+      .catchError((error) => {log(error.message.toString())});
+}
+
+// Main function
 Future<void> retrieveIngredientsList() async {
   if (globals.listIngredients.isEmpty) {
     await FirebaseFirestore.instance

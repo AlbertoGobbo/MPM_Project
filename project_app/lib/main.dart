@@ -61,6 +61,7 @@ class AutenticationWrapper extends StatelessWidget {
 
     if (firebaseUser != null) {
       retrieveUsername(firebaseUser);
+      retrieveUserKcal(firebaseUser);
       retrieveIngredientsList();
       retrieveSavedRecipes();
       retrieveSavedAlimentarPlans();

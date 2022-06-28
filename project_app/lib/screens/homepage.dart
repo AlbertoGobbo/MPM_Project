@@ -48,10 +48,12 @@ class HomePage extends StatelessWidget {
       const Color.fromARGB(255, 251, 255, 3),
       const Color.fromARGB(255, 255, 0, 0),
     ];
+
     var today = DateFormat('EEEE').format(DateTime.now());
     var todayAlimentarPlan =
         globals.listPlans.where((element) => element.day == today).first;
     var totCaloriesConsumedToday = 0.0;
+    bool overflow = false;
 
     List<Pair> breakfast = todayAlimentarPlan.breakfast;
     List<Pair> lunch = todayAlimentarPlan.lunch;
@@ -87,6 +89,11 @@ class HomePage extends StatelessWidget {
     var caloriesOverflow =
         totCaloriesConsumedToday.toInt() - int.parse(globals.caloriesGoal);
 
+    if (caloriesOverflow > 0) {
+      totCaloriesConsumedToday = double.parse(globals.caloriesGoal);
+      overflow = true;
+    }
+
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 1),
@@ -115,13 +122,15 @@ class HomePage extends StatelessWidget {
                       progressBarColors: colors),
                   infoProperties: InfoProperties(
                     modifier: (percentage) {
-                      return "${percentage.toInt()}";
+                      return overflow
+                          ? "${percentage.toInt()}+"
+                          : "${percentage.toInt()}";
                     },
                   )),
               min: 0,
               max: double.parse(globals.caloriesGoal),
-              initialValue: totCaloriesConsumedToday +
-                  0.0000001, //totCaloriesConsumedToday.toDouble(),
+              initialValue:
+                  totCaloriesConsumedToday, //totCaloriesConsumedToday.toDouble(),
             ),
             const Text("CALORIES OVERFLOW:"),
             Text(
@@ -139,16 +148,16 @@ class HomePage extends StatelessWidget {
   }
 
   getColorOveflow(int caloriesOverflow) {
-    var divisor = 2250 / 3;
+    int cal = int.parse(globals.caloriesGoal);
+    var divisor = cal / 3;
     if (caloriesOverflow > 0) {
       return Colors.red;
-    } else if (caloriesOverflow > -2250 && caloriesOverflow < -2250 + divisor) {
+    } else if (caloriesOverflow > -cal && caloriesOverflow < -cal + divisor) {
       return Colors.redAccent;
-    } else if (caloriesOverflow > -2250 + divisor &&
-        caloriesOverflow < -2250 + divisor * 2) {
-      return Colors.yellowAccent;
-    } else if (caloriesOverflow > -2250 + divisor * 2 &&
-        caloriesOverflow <= 0) {
+    } else if (caloriesOverflow > -cal + divisor &&
+        caloriesOverflow < -cal + divisor * 2) {
+      return Colors.amber;
+    } else if (caloriesOverflow > cal + divisor * 2 && caloriesOverflow <= 0) {
       return Colors.greenAccent;
     }
   }

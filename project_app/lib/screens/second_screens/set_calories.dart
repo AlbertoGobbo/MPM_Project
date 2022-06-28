@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/helpers/reusable_widgets.dart';
@@ -18,9 +19,23 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
   TextEditingController caloriesController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController weightController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
   String? errorAgeMsg;
   String? errorWeightMsg;
+  String? errorHeightMsg;
   String? errorCaloriesMsg;
+
+  List<bool> isSelectedGender = [true, false];
+  List<bool> isSelectedBaseActivity = [true, false, false];
+  List<bool> isSelectedAuspicActivity = [true, false];
+
+  List<String> basicActivityDescriptions = [
+    "If you are: employed administrative and managerial staff freelancers, technicians or similar",
+    "If you are: housewives domestic helpers sales staff tertiary workers or similar",
+    "If you are: workers in agriculture, livestock, forestry and fishing unskilled workers production and transport equipment operators or similar"
+  ];
+
+  int indexBaseAcitivity = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +65,11 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                         TextInputType.number),
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        trySetCustomCalories();
-                      },
-                      child: const Text("Set Calories"))
+                    onPressed: () {
+                      trySetCustomCalories();
+                    },
+                    child: const Text("Set Calories"),
+                  ),
                 ],
               )),
           const Divider(height: 2),
@@ -63,25 +79,134 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: reusableTextFieldForm(
-                      "Age",
-                      Icons.calendar_view_day_outlined,
-                      false,
-                      ageController,
-                      ageValidator,
-                      errorAgeMsg,
-                      TextInputType.number),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 2),
+                              child: Text("Gender:"),
+                            ),
+                            ToggleButtons(
+                              children: const <Widget>[
+                                Text("Male"),
+                                Text("Female"),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int buttonIndex = 0;
+                                      buttonIndex < isSelectedGender.length;
+                                      buttonIndex++) {
+                                    if (buttonIndex == index) {
+                                      isSelectedGender[buttonIndex] = true;
+                                    } else {
+                                      isSelectedGender[buttonIndex] = false;
+                                    }
+                                  }
+                                });
+                              },
+                              isSelected: isSelectedGender,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Flexible(
+                        child: reusableTextFieldForm(
+                            "Age",
+                            Icons.calendar_view_day_outlined,
+                            false,
+                            ageController,
+                            ageValidator,
+                            errorAgeMsg,
+                            TextInputType.number),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: reusableTextFieldForm(
-                      "Weight",
-                      Icons.monitor_weight,
-                      false,
-                      weightController,
-                      weightValidator,
-                      errorWeightMsg,
-                      TextInputType.number),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: reusableTextFieldForm(
+                            "Weight",
+                            Icons.monitor_weight,
+                            false,
+                            weightController,
+                            weightValidator,
+                            errorWeightMsg,
+                            TextInputType.number),
+                      ),
+                      const SizedBox(width: 20),
+                      Flexible(
+                        child: reusableTextFieldForm(
+                            "Height",
+                            Icons.height,
+                            false,
+                            heightController,
+                            heightValidator,
+                            errorHeightMsg,
+                            TextInputType.number),
+                      ),
+                    ],
+                  ),
+                ),
+                const Text("Basic physical activity:"),
+                const Text(
+                    "Choose your daily physical activity level based on the work you do"),
+                ToggleButtons(
+                  children: const <Widget>[
+                    Text("Soft"),
+                    Text("Moderate"),
+                    Text("Intense"),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int buttonIndex = 0;
+                          buttonIndex < isSelectedBaseActivity.length;
+                          buttonIndex++) {
+                        if (buttonIndex == index) {
+                          isSelectedBaseActivity[buttonIndex] = true;
+                          indexBaseAcitivity = index;
+                        } else {
+                          isSelectedBaseActivity[buttonIndex] = false;
+                        }
+                      }
+                    });
+                  },
+                  isSelected: isSelectedBaseActivity,
+                ),
+                Text(basicActivityDescriptions[indexBaseAcitivity]),
+                const Text("Workout during the week:"),
+                const Text(
+                    "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating."),
+                ToggleButtons(
+                  children: const <Widget>[
+                    Text("YES"),
+                    Text("NO"),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int buttonIndex = 0;
+                          buttonIndex < isSelectedAuspicActivity.length;
+                          buttonIndex++) {
+                        if (buttonIndex == index) {
+                          isSelectedAuspicActivity[buttonIndex] = true;
+                        } else {
+                          isSelectedAuspicActivity[buttonIndex] = false;
+                        }
+                      }
+                    });
+                  },
+                  isSelected: isSelectedAuspicActivity,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    tryCalculateCaloriesGoal();
+                  },
+                  child: const Text("Calculate Calories"),
                 ),
               ],
             ),
@@ -91,7 +216,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
     );
   }
 
-  void trySetCustomCalories() {
+  Future<void> trySetCustomCalories() async {
     errorCaloriesMsg = null;
 
     String calories = caloriesController.text.trim();
@@ -99,16 +224,30 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
     bool? isValid = _formKey1.currentState?.validate();
 
     if (isValid == true) {
-      globals.caloriesGoal = calories;
-      Fluttertoast.showToast(
-          msg: "Calories Goal Set",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          fontSize: 16.0);
-      Navigator.pop(context);
+      //add to firestore
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(globals.uidUser)
+          .update({"user_kcal": calories}).then((value) {
+        globals.caloriesGoal = calories;
+        Fluttertoast.showToast(
+            msg: "Calories Goal Set",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+        Navigator.pop(context);
+      }, onError: (e) => print("Error updating document $e"));
     } else {
       setState(() {});
+    }
+  }
+
+  void tryCalculateCaloriesGoal() {
+    bool? isValid = _formKey2.currentState?.validate();
+
+    if (isValid == true) {
+      print("GOOD");
     }
   }
 }
