@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ class CreateRecipe extends StatefulWidget {
 class _CreateRecipeState extends State<CreateRecipe> {
   TextEditingController dialogController = TextEditingController();
   String titleRecipe = "";
+  Timer? _countdownTimer;
 
   Widget setAppBarTitle() {
     if (globals.selectedIngredients.length == 1) {
@@ -122,6 +125,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     dialogController.dispose();
+    _countdownTimer?.cancel();
     super.dispose();
   }
 
@@ -310,6 +314,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               .add(newRecipe.toMap())
                               .whenComplete(() => setState(() {
                                     globals.savedRecipes.add(newRecipe);
+                                    // Possible error: setState() called after dispose()
+                                    globals.savedRecipes.sort((a, b) =>
+                                        a.recipeName.compareTo(b.recipeName));
+
                                     for (int i = 0;
                                         i < globals.selectedIngredients.length;
                                         i = i + 1) {

@@ -1,5 +1,4 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/screens/second_screens/create_recipe.dart';
@@ -63,10 +62,21 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SavedRecipes()),
-              );
+              if (globals.savedRecipes.isEmpty) {
+                Fluttertoast.showToast(
+                    msg: "No recipes create: please, create one",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SavedRecipes()),
+                );
+              }
             },
             tooltip: 'Your recipes',
           ),

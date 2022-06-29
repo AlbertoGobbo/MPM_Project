@@ -53,8 +53,9 @@ class _SavedRecipesState extends State<SavedRecipes> {
                       .where("recipeName",
                           isEqualTo: selectedRecipes[i].recipeName)
                       .get()
-                      .then((snapshot) =>
-                          snapshot.docs.single.reference.delete());
+                      .then(
+                          (snapshot) => snapshot.docs.single.reference.delete())
+                      .whenComplete(() => setState(() {}));
                 }
 
                 setState(() {
