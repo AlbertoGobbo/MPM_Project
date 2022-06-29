@@ -247,7 +247,99 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
     bool? isValid = _formKey2.currentState?.validate();
 
     if (isValid == true) {
-      print("GOOD");
+      String gender = "M";
+      if (isSelectedGender[0] == true) {
+        gender = "M";
+      } else {
+        gender = "F";
+      }
+
+      String age = ageController.text.trim();
+      String weight = weightController.text.trim().replaceAll(",", ".");
+      String height = heightController.text.trim();
+
+      double basale = getBasale(gender, age, weight);
+
+      double laf =
+          getLAF(gender, age, isSelectedBaseActivity, isSelectedAuspicActivity);
+
+      print("Total calories: ${(basale * laf).toInt()}");
     }
+  }
+
+  double getBasale(String gender, String age, String weight) {
+    double basale = 0;
+    if (gender == "M") {
+      if (int.parse(age) <= 29 && int.parse(age) >= 18) {
+        basale = 15.3 * double.parse(weight) + 679;
+      } else if (int.parse(age) <= 59 && int.parse(age) >= 30) {
+        basale = 11.6 * double.parse(weight) + 879;
+      } else if (int.parse(age) <= 74 && int.parse(age) >= 60) {
+        basale = 11.9 * double.parse(weight) + 700;
+      } else {
+        basale = 8.4 * double.parse(weight) + 819;
+      }
+    } else {
+      if (int.parse(age) <= 29 && int.parse(age) >= 18) {
+        basale = 14.7 * double.parse(weight) + 496;
+      } else if (int.parse(age) <= 59 && int.parse(age) >= 30) {
+        basale = 8.7 * double.parse(weight) + 829;
+      } else if (int.parse(age) <= 74 && int.parse(age) >= 60) {
+        basale = 9.2 * double.parse(weight) + 688;
+      } else {
+        basale = 9.8 * double.parse(weight) + 624;
+      }
+    }
+    return basale;
+  }
+
+  double getLAF(String gender, String age, List<bool> isSelectedBaseActivity,
+      List<bool> isSelectedAuspicActivity) {
+    double laf = 0;
+
+    if (gender == "M") {
+      if (int.parse(age) <= 59 && int.parse(age) >= 18) {
+        switch (
+            isSelectedBaseActivity.indexWhere((element) => element == true)) {
+          case 0:
+            laf = isSelectedAuspicActivity[0] == true ? 1.55 : 1.41;
+            break;
+
+          case 1:
+            laf = isSelectedAuspicActivity[0] == true ? 1.78 : 1.70;
+            break;
+
+          case 2:
+            laf = isSelectedAuspicActivity[0] == true ? 2.10 : 2.01;
+            break;
+        }
+      } else if (int.parse(age) <= 74 && int.parse(age) >= 60) {
+        laf = isSelectedAuspicActivity[0] == true ? 1.51 : 1.40;
+      } else {
+        laf = isSelectedAuspicActivity[0] == true ? 1.51 : 1.33;
+      }
+    } else {
+      if (int.parse(age) <= 59 && int.parse(age) >= 18) {
+        switch (
+            isSelectedBaseActivity.indexWhere((element) => element == true)) {
+          case 0:
+            laf = isSelectedAuspicActivity[0] == true ? 1.56 : 1.42;
+            break;
+
+          case 1:
+            laf = isSelectedAuspicActivity[0] == true ? 1.64 : 1.56;
+            break;
+
+          case 2:
+            laf = isSelectedAuspicActivity[0] == true ? 1.82 : 1.73;
+            break;
+        }
+      } else if (int.parse(age) <= 74 && int.parse(age) >= 60) {
+        laf = isSelectedAuspicActivity[0] == true ? 1.56 : 1.44;
+      } else {
+        laf = isSelectedAuspicActivity[0] == true ? 1.56 : 1.37;
+      }
+    }
+    return laf;
   }
 }

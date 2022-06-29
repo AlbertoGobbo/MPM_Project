@@ -47,14 +47,19 @@ String? ageValidator(String? value) {
 }
 
 String? weightValidator(String? value) {
+  value = value?.replaceAll(",", ".");
+
   if (value == null || value.trim().isEmpty) {
     return 'Please enter your weight';
   }
-  if (int.parse(value) <= 0) {
-    return 'Weight must be greater than 0';
-  }
-  if ((value.contains(".") && value.contains(",")) || value.contains("-")) {
+  if (value.contains('-')) {
     return 'Invalid format for weight';
+  }
+  if (value.split(".").toList().length - 1 > 1) {
+    return 'Invalid format for weight';
+  }
+  if (double.parse(value) <= 0) {
+    return 'Weight must be greater than 0';
   }
   return null;
 }
