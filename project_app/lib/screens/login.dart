@@ -168,7 +168,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
               await tryLogin(context);
             },
           ),
-          //See if need to remove this
+          /*
           Padding(
             padding: const EdgeInsets.all(8),
             child: SignInButton(
@@ -178,7 +178,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
                 GoogleSignIn().signIn();
               },
             ),
-          )
+          )*/
         ],
       ),
     );

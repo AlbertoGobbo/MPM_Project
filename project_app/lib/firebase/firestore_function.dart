@@ -30,9 +30,6 @@ Future<void> retrieveUsername(User firebaseUser) async {
 
 // Main function
 Future<void> retrieveUserKcal(User firebaseUser) async {
-  if (globals.uidUser.isEmpty) {
-    globals.uidUser = firebaseUser.uid;
-  }
   await FirebaseFirestore.instance
       .collection("users")
       .doc(globals.uidUser)
