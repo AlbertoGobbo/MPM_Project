@@ -40,6 +40,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Calories Goal"),
       ),
@@ -62,7 +63,8 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                         caloriesController,
                         caloriesValidator,
                         errorCaloriesMsg,
-                        TextInputType.number),
+                        TextInputType.number,
+                        RegExp('[0-9]')),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -111,7 +113,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 10),
                       Flexible(
                         child: reusableTextFieldForm(
                             "Age",
@@ -120,7 +122,8 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             ageController,
                             ageValidator,
                             errorAgeMsg,
-                            TextInputType.number),
+                            TextInputType.number,
+                            RegExp('[0-9]')),
                       ),
                     ],
                   ),
@@ -137,7 +140,8 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             weightController,
                             weightValidator,
                             errorWeightMsg,
-                            TextInputType.number),
+                            TextInputType.number,
+                            RegExp('[0-9.]')),
                       ),
                       const SizedBox(width: 20),
                       Flexible(
@@ -148,7 +152,8 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             heightController,
                             heightValidator,
                             errorHeightMsg,
-                            TextInputType.number),
+                            TextInputType.number,
+                            RegExp('[0-9]')),
                       ),
                     ],
                   ),

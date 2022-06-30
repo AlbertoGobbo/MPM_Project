@@ -34,33 +34,33 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          const Spacer(flex: 1),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.07,
-            child: Text(
-              "Welcome\n"
-              "${globals.username}",
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+        child: Column(
+      children: [
+        const Spacer(flex: 1),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.07,
+          child: Text(
+            "Welcome\n"
+            "${globals.username}",
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
-          const Spacer(flex: 2),
-          buildCaloriesConsume(context),
-          const Spacer(flex: 2),
-          const Expanded(
-            child: Text(
-              "Your recipes:",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+        ),
+        const Spacer(flex: 2),
+        buildCaloriesConsume(context),
+        const Spacer(flex: 2),
+        const Expanded(
+          child: Text(
+            "Your recipes:",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          buildListRecipes(),
-          buildRowListRecipes(),
-          const Spacer(),
-        ],
-     ));
+        ),
+        buildListRecipes(),
+        buildRowListRecipes(),
+        const Spacer(),
+      ],
+    ));
   }
 
   CarouselSlider buildListRecipes() {
@@ -241,50 +241,54 @@ class _HomepageState extends State<Homepage> {
       overflow = true;
     }
 
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1),
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
-        child: Column(
-          children: [
-            const Text("CALORIES GOAL:"),
-            Text(
-              globals.caloriesGoal,
-            ),
-            ElevatedButton(
-              onPressed: () => {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SetCaloriesGoal(),
-                ))
-              },
-              child: const Text("Change Goal"),
-            ),
-            SleekCircularSlider(
-              appearance: CircularSliderAppearance(
-                  customWidths: CustomSliderWidths(progressBarWidth: 10),
-                  customColors: CustomSliderColors(
-                      trackColor: Colors.greenAccent,
-                      progressBarColors: colors),
-                  infoProperties: InfoProperties(
-                    modifier: (percentage) {
-                      return overflow
-                          ? "${percentage.toInt()}+"
-                          : "${percentage.toInt()}";
-                    },
-                  )),
-              min: 0,
-              max: double.parse(globals.caloriesGoal),
-              initialValue:
-                  totCaloriesConsumedToday, //totCaloriesConsumedToday.toDouble(),
-            ),
-            const Text("CALORIES OVERFLOW:"),
-            Text(
-              "$caloriesOverflow",
-              style: TextStyle(color: getColorOveflow(caloriesOverflow)),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const SetCaloriesGoal(),
+          ),
+        ),
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 1),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
+          child: Column(
+            children: [
+              const Text("CALORIES GOAL:"),
+              Text(
+                globals.caloriesGoal,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SleekCircularSlider(
+                appearance: CircularSliderAppearance(
+                    customWidths: CustomSliderWidths(progressBarWidth: 10),
+                    customColors: CustomSliderColors(
+                        trackColor: Colors.greenAccent,
+                        progressBarColors: colors),
+                    infoProperties: InfoProperties(
+                      modifier: (percentage) {
+                        return overflow
+                            ? "${percentage.toInt()}+"
+                            : "${percentage.toInt()}";
+                      },
+                    )),
+                min: 0,
+                max: double.parse(globals.caloriesGoal),
+                initialValue:
+                    totCaloriesConsumedToday, //totCaloriesConsumedToday.toDouble(),
+              ),
+              const Text("CALORIES OVERFLOW:"),
+              Text(
+                "$caloriesOverflow",
+                style: TextStyle(color: getColorOveflow(caloriesOverflow)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -304,5 +308,4 @@ class _HomepageState extends State<Homepage> {
       return Colors.greenAccent;
     }
   }
-
 }

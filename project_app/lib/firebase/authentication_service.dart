@@ -28,6 +28,7 @@ class AuthenticationService {
         "email": email,
         "password": password,
         "username": username,
+        "users_kcal": "2000",
       };
 
       // Add a new document with a generated ID

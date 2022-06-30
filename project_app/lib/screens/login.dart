@@ -104,13 +104,15 @@ class _MyLoginFormState extends State<MyLoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: reusableTextFieldForm(
-                "Email",
-                Icons.email,
-                false,
-                emailController,
-                emailValidator,
-                errorEmailMsg,
-                TextInputType.emailAddress),
+              "Email",
+              Icons.email,
+              false,
+              emailController,
+              emailValidator,
+              errorEmailMsg,
+              TextInputType.emailAddress,
+              null,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),

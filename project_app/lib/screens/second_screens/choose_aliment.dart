@@ -198,9 +198,23 @@ class _ChooseAlimentState extends State<ChooseAliment> {
               itemBuilder: (context, index) {
                 var item = globals.savedRecipes[index];
                 var totCal = 0;
-                for (var element in item.ingredients) {
-                  totCal += double.parse(element.caloriesKcal).toInt();
-                }
+                totCal = item.ingredients
+                    .fold(
+                        0.0,
+                        (previousValue, element) =>
+                            double.parse(previousValue.toString()) +
+                            double.parse(element.caloriesKcal) *
+                                double.parse(element.totalGrams))
+                    .toInt();
+
+                var totgram = 0;
+                totgram = item.ingredients
+                    .fold(
+                        0.0,
+                        (previousValue, element) =>
+                            double.parse(previousValue.toString()) +
+                            double.parse(element.totalGrams))
+                    .toInt();
                 return ListTile(
                   title: Text(
                     item.recipeName.toUpperCase(),
@@ -217,7 +231,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                             ? Colors.red
                             : Colors.amber,
                   ),
-                  subtitle: Text("Calories: ${totCal * 100} Kcal (100g)"),
+                  subtitle: Text("Calories: $totCal Kcal (${totgram}g)"),
                   trailing: IconButton(
                     onPressed: () async {
                       double gramsSelected = 0;
