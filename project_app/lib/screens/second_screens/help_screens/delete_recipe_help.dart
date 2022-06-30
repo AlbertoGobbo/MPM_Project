@@ -9,7 +9,19 @@ class DeleteRecipeHelp extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Delete recipe'),
       ),
-      body: const Text("Text"),
+      body: Column(
+        children: [
+          const Spacer(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              "assets/delete_recipe.gif",
+              scale: 2,
+            ),
+          ),
+          const Spacer(),
+        ],
+      ),
     );
   }
 }

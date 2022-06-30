@@ -9,7 +9,20 @@ class CreateRecipeHelp extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Create recipe'),
       ),
-      body: const Text("Text"),
+      body: Column(
+        children: [
+          const Spacer(),
+          // PROBLEMS WITH create_recipe.gif
+          /*Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              "assets/create_recipe.gif",
+              scale: 2,
+            ),
+          ),*/
+          const Spacer(),
+        ],
+      ),
     );
   }
 }

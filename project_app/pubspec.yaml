@@ -82,6 +82,8 @@ flutter:
   assets:
     - assets/icon_app.png
     - assets/google_logo.png
+    # - assets/create_recipe.gif
+    - assets/delete_recipe.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
