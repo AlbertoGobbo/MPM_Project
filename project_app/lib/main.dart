@@ -67,6 +67,7 @@ class _AutenticationWrapperState extends State<AutenticationWrapper> {
     });
 
     await retrieveUsername(firebaseUser);
+    await retrieveUserKcal(firebaseUser);
     await retrieveIngredientsList();
     await retrieveSavedRecipes();
     await retrieveSavedAlimentarPlans();

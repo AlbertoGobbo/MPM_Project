@@ -6,6 +6,7 @@ import 'package:project_app/models/recipe.dart';
 
 String uidUser = "";
 String username = "";
+String caloriesGoal = "2000";
 List<bool> isCheckboxChecked = [];
 List<Ingredients> listIngredients = [];
 List<Ingredients> selectedIngredients = [];

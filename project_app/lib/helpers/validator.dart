@@ -32,3 +32,62 @@ String? usernameValidator(String? value) {
   }
   return null;
 }
+
+String? ageValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your age';
+  }
+  if (value.contains(".") || value.contains(",") || value.contains("-")) {
+    return 'Age must contains only numbers';
+  }
+  if (int.parse(value) <= 0 || int.parse(value) > 99) {
+    return 'Age must be between 1 and 99';
+  }
+  return null;
+}
+
+String? weightValidator(String? value) {
+  value = value?.replaceAll(",", ".");
+
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your weight';
+  }
+  if (value.contains('-')) {
+    return 'Invalid format for weight';
+  }
+  if (value.split(".").toList().length - 1 > 1) {
+    return 'Invalid format for weight';
+  }
+  if (double.parse(value) <= 0) {
+    return 'Weight must be greater than 0';
+  }
+  return null;
+}
+
+String? heightValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your height';
+  }
+  if (value.contains('.') || value.contains(',') || value.contains('-')) {
+    return 'Invalid format for height';
+  }
+  if (int.parse(value) <= 10 || int.parse(value) >= 300) {
+    return 'Height must be greater than 10cm and less than 300cm';
+  }
+  return null;
+}
+
+String? caloriesValidator(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Please enter your calories goal';
+  }
+  if (value.trim().contains('.') ||
+      value.trim().contains(',') ||
+      value.trim().contains('-')) {
+    return 'Calories must contains only numbers';
+  }
+  if (int.tryParse(value) == null || int.tryParse(value)! <= 0) {
+    return 'Calories must be greater than 0';
+  }
+  return null;
+}

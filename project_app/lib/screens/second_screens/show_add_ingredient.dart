@@ -35,7 +35,6 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     caloriesCarbo =
@@ -52,25 +51,33 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
             .round();
     totalRealCalories = caloriesCarbo + caloriesProt + caloriesFat;
 
-    percentCarbo =
-        ((double.parse(widget.ingredient.carbohydratesG) * gramsSelected)
-                    .toInt() *
-                4 /
-                totalRealCalories *
-                100)
-            .round();
-    percentProteins =
-        ((double.parse(widget.ingredient.proteinG) * gramsSelected).toInt() *
-                4 /
-                totalRealCalories *
-                100)
-            .round();
-    percentFats =
-        (((double.parse(widget.ingredient.totalFatG) * gramsSelected).toInt() *
-                    9) /
-                totalRealCalories *
-                100)
-            .round();
+    if (totalRealCalories == 0) {
+      percentProteins = 0;
+      percentFats = 0;
+      percentCarbo = 0;
+    } else {
+      percentCarbo =
+          ((double.parse(widget.ingredient.carbohydratesG) * gramsSelected)
+                      .toInt() *
+                  4 /
+                  totalRealCalories *
+                  100)
+              .round();
+
+      percentProteins =
+          ((double.parse(widget.ingredient.proteinG) * gramsSelected).toInt() *
+                  4 /
+                  totalRealCalories *
+                  100)
+              .round();
+      percentFats =
+          (((double.parse(widget.ingredient.totalFatG) * gramsSelected)
+                          .toInt() *
+                      9) /
+                  totalRealCalories *
+                  100)
+              .round();
+    }
 
     dataMap = <String, double>{
       "Carbos": percentCarbo.toDouble(),
