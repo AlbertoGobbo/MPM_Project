@@ -44,29 +44,73 @@ class MyApp extends StatelessWidget {
               71), //TODO: cambio colore Color.fromARGB(255, 74, 212, 143)
           foregroundColor: Colors.white,
         )),
-        home: //const MyLoginPage(),
-            const AutenticationWrapper(),
+        home: const AutenticationWrapper(),
       ),
     );
   }
 }
 
-//Use for understand if the user is logged into the application
-class AutenticationWrapper extends StatelessWidget {
+// Used to understand if the user is logged into the application
+class AutenticationWrapper extends StatefulWidget {
   const AutenticationWrapper({Key? key}) : super(key: key);
+
+  @override
+  State<AutenticationWrapper> createState() => _AutenticationWrapperState();
+}
+
+class _AutenticationWrapperState extends State<AutenticationWrapper> {
+  bool isLoaded = false;
+
+  Future<void> getValue(User firebaseUser) async {
+    setState(() {
+      isLoaded = false;
+    });
+
+    await retrieveUsername(firebaseUser);
+    await retrieveUserKcal(firebaseUser);
+    await retrieveIngredientsList();
+    await retrieveSavedRecipes();
+    await retrieveSavedAlimentarPlans();
+
+    setState(() {
+      isLoaded = true;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await getValue(firebaseUser);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      retrieveUsername(firebaseUser);
-      retrieveUserKcal(firebaseUser);
-      retrieveIngredientsList();
-      retrieveSavedRecipes();
-      retrieveSavedAlimentarPlans();
-
-      return const ManagementMainScreens();
+      if (isLoaded) {
+        return const ManagementMainScreens();
+      } else {
+        return const Scaffold(
+          body: Center(
+            child: SizedBox(
+                height: 80,
+                width: 80,
+                child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation(Color.fromARGB(255, 23, 91, 26)),
+                  strokeWidth: 7,
+                )),
+          ),
+        );
+      }
     }
 
     return const MyLoginPage();

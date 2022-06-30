@@ -81,7 +81,9 @@ Future<void> retrieveSavedRecipes() async {
             globals.savedRecipes.add(recipe);
           }
         })
-        .whenComplete(() => null)
+        .whenComplete(() => globals.savedRecipes.sort((a, b) {
+              return a.recipeName.compareTo(b.recipeName);
+            }))
         // ignore: invalid_return_type_for_catch_error
         .catchError((error) => {log(error.message.toString())});
   }

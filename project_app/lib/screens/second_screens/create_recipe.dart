@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,9 +18,9 @@ class CreateRecipe extends StatefulWidget {
 }
 
 class _CreateRecipeState extends State<CreateRecipe> {
-  final firestoreInstance = FirebaseFirestore.instance;
   TextEditingController dialogController = TextEditingController();
   String titleRecipe = "";
+  Timer? _countdownTimer;
 
   Widget setAppBarTitle() {
     if (globals.selectedIngredients.length == 1) {
@@ -123,6 +125,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     dialogController.dispose();
+    _countdownTimer?.cancel();
     super.dispose();
   }
 
@@ -240,13 +243,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.1,
-            color: Colors.lightGreen,
+            color: const Color.fromARGB(255, 168, 230, 170),
             alignment: Alignment.center,
             child: Row(
               children: [
-                const SizedBox(
-                  width: 18,
-                ),
+                const Spacer(),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -262,8 +263,8 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 88,
+                const Spacer(
+                  flex: 3,
                 ),
                 SizedBox(
                   height: 55,
@@ -287,49 +288,79 @@ class _CreateRecipeState extends State<CreateRecipe> {
                             textColor: Colors.white,
                             fontSize: 16.0);
                       } else {
-                        Recipe newRecipe = Recipe(
-                          userId: globals.uidUser,
-                          recipeName: titleRecipe,
-                          ingredients: preprocessRecipeDataForFirestore(),
-                        );
-
-                        await firestoreInstance
+                        final bool isTitleNeverUsed = await FirebaseFirestore
+                            .instance
                             .collection("recipes")
-                            .add(newRecipe.toMap())
-                            .whenComplete(() => setState(() {
-                                  globals.savedRecipes.add(newRecipe);
-                                  for (int i = 0;
-                                      i < globals.selectedIngredients.length;
-                                      i = i + 1) {
-                                    globals.selectedIngredients[i].totalGrams =
-                                        "1";
-                                  }
-                                  globals.selectedIngredients.clear();
-                                  globals.isCheckboxChecked.fillRange(0,
-                                      globals.isCheckboxChecked.length, false);
+                            .where("recipeName", isEqualTo: titleRecipe)
+                            .get()
+                            .then((value) {
+                          if (value.docs.isEmpty) {
+                            return true;
+                          } else {
+                            return false;
+                          }
+                        });
 
-                                  Navigator.pop(context);
-                                }))
-                            // ignore: invalid_return_type_for_catch_error
-                            .catchError((err) => {
-                                  log(err.message.toString()),
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "Something is not working. Please, try again",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0),
-                                });
+                        if (isTitleNeverUsed) {
+                          Recipe newRecipe = Recipe(
+                            userId: globals.uidUser,
+                            recipeName: titleRecipe.trim(),
+                            ingredients: preprocessRecipeDataForFirestore(),
+                          );
+
+                          // Remove keyword "await" because the user would get stuck until a Future is returned if the offline mode is on
+                          FirebaseFirestore.instance
+                              .collection("recipes")
+                              .add(newRecipe.toMap())
+                              .whenComplete(() => setState(() {
+                                    globals.savedRecipes.add(newRecipe);
+                                    // Possible error: setState() called after dispose()
+                                    globals.savedRecipes.sort((a, b) =>
+                                        a.recipeName.compareTo(b.recipeName));
+
+                                    for (int i = 0;
+                                        i < globals.selectedIngredients.length;
+                                        i = i + 1) {
+                                      globals.selectedIngredients[i]
+                                          .totalGrams = "1";
+                                    }
+                                    globals.selectedIngredients.clear();
+                                    globals.isCheckboxChecked.fillRange(
+                                        0,
+                                        globals.isCheckboxChecked.length,
+                                        false);
+                                  }))
+                              // ignore: invalid_return_type_for_catch_error
+                              .catchError((err) => {
+                                    log(err.message.toString()),
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Something is not working. Please, try again",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0),
+                                  });
+
+                          Navigator.pop(context);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg:
+                                  "Insert a new title: it has been already used",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
                       }
                     },
                   ),
                 ),
-                const SizedBox(
-                  width: 18,
-                ),
+                const Spacer(),
               ],
             ),
           ),

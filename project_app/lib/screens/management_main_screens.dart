@@ -23,7 +23,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
   final List _screens = [
-    {"screen": const HomePage(), "title": "Home"},
+    {"screen": const Homepage(), "title": "Home"},
     {"screen": const IngredientsList(), "title": "Ingredients"},
     {"screen": const AlimentarPlan(), "title": "Alimentar plan"},
   ];
@@ -62,10 +62,21 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SavedRecipes()),
-              );
+              if (globals.savedRecipes.isEmpty) {
+                Fluttertoast.showToast(
+                    msg: "No recipes create: please, create one",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SavedRecipes()),
+                );
+              }
             },
             tooltip: 'Your recipes',
           ),
@@ -73,7 +84,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             icon: const Icon(Icons.more_vert),
             iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
-            onSelected: (result) {
+            onSelected: (result) async {
               if (result.title == 'Help') {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const HelpPage()));
