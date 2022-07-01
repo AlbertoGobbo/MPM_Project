@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>938315269903-viu66fdceri8pbu8iak22r4aqqau1buk.apps.googleusercontent.com</string>
+	<string>922537851131-6ubjdmf6r7kpvgr27cbc5hgfm6m0r7th.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.938315269903-viu66fdceri8pbu8iak22r4aqqau1buk</string>
+	<string>com.googleusercontent.apps.922537851131-6ubjdmf6r7kpvgr27cbc5hgfm6m0r7th</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>922537851131-1hv0i7tlj8hajm1nprklaaennj9sphk8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDMs1mD4JafQd3IsZ644Et9Zuqr_b_d31A</string>
+	<string>AIzaSyARsifUrmR0KQCGarMJOPiGH2VXakAo_rI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>938315269903</string>
+	<string>922537851131</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.projectApp</string>
+	<string>com.example.alberto.gobbo.5-studenti.unipd.it</string>
 	<key>PROJECT_ID</key>
-	<string>mpm-project-8c01d</string>
+	<string>mpm-project-6e7dd</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mpm-project-8c01d.appspot.com</string>
+	<string>mpm-project-6e7dd.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:938315269903:ios:c54014d540c5cb1cfd207a</string>
+	<string>1:922537851131:ios:4881ce3446d8ab25ddd85e</string>
 </dict>
 </plist>
