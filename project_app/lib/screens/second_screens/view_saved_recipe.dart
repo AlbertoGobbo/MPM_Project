@@ -459,7 +459,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                 aliment: widget.savedRecipe,
                 grams: selectedGrams.toString(),
                 totalCalories: totCalories.toString(),
-                isRecipe: "false");
+                isRecipe: "true");
             Navigator.of(context).pop(food);
           },
           child: const Text("Add Ingredient"),
