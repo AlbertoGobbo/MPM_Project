@@ -83,7 +83,11 @@ flutter:
     - assets/icon_app.png
     - assets/google_logo.png
     # - assets/create_recipe.gif
-    - assets/delete_recipe.gif
+    - assets/delete_recipe/delete_recipe_1.jpg
+    - assets/delete_recipe/delete_recipe_2.gif
+    - assets/delete_recipe/delete_recipe_3.gif
+    - assets/delete_recipe/delete_recipe_4.jpg
+    - assets/delete_recipe/delete_recipe_5.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

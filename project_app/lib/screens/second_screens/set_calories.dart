@@ -228,7 +228,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(globals.uidUser)
-          .update({"user_kcal": calories}).then((value) {
+          .update({"users_kcal": calories}).then((value) {
         globals.caloriesGoal = calories;
         Fluttertoast.showToast(
             msg: "Calories Goal Set",
