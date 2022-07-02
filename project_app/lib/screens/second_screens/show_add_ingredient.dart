@@ -297,19 +297,20 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
               ),
             ),
             ElevatedButton(
-                onPressed: () {
-                  int totCalories =
-                      (double.parse(widget.ingredient.caloriesKcal) *
-                              gramsSelected)
-                          .toInt();
-                  var food = Pair(
-                      aliment: widget.ingredient,
-                      grams: gramsSelected.toString(),
-                      totalCalories: totCalories.toString(),
-                      isRecipe: "false");
-                  Navigator.of(context).pop(food);
-                },
-                child: const Text("Add Ingredient")),
+              onPressed: () {
+                int totCalories =
+                    (double.parse(widget.ingredient.caloriesKcal) *
+                            gramsSelected)
+                        .toInt();
+                var food = Pair(
+                    aliment: widget.ingredient,
+                    grams: gramsSelected.toString(),
+                    totalCalories: totCalories.toString(),
+                    isRecipe: "false");
+                Navigator.of(context).pop(food);
+              },
+              child: const Text("Add Ingredient"),
+            ),
           ],
         ),
       ),

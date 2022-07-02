@@ -159,7 +159,9 @@ class _HomepageState extends State<Homepage> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ViewSavedRecipe(
-                            savedRecipe: globals.savedRecipes[index])));
+                              savedRecipe: globals.savedRecipes[index],
+                              isAddMode: false,
+                            )));
                   },
                 ),
               ),

@@ -331,15 +331,24 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                     icon: const Icon(Icons.add_circle_rounded),
                     color: const Color.fromARGB(255, 52, 141, 214),
                   ),
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    final Pair? itemToAdd = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ViewSavedRecipe(
                           savedRecipe: item,
+                          isAddMode: true,
                         ),
                       ),
                     );
+                    if (itemToAdd != null) {
+                      addFood(widget.partOfDay, itemToAdd);
+                      updateAlimentarPlan(
+                          globals.listPlans
+                              .where((element) => element.day == widget.day)
+                              .first,
+                          widget.day);
+                    }
                   },
                 );
               },
