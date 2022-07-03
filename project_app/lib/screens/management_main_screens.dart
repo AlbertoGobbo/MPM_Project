@@ -143,7 +143,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                 tooltip: 'The page with the list of all the ingredients'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
-                label: 'Alimentaryy plan',
+                label: 'Alimentary plan',
                 tooltip: 'The page with your alimentary plan'),
           ],
           type: BottomNavigationBarType.fixed),
