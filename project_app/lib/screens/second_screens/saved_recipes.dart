@@ -139,7 +139,9 @@ class _SavedRecipesState extends State<SavedRecipes> {
                 } else {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ViewSavedRecipe(
-                          savedRecipe: globals.savedRecipes[index])));
+                            savedRecipe: globals.savedRecipes[index],
+                            isAddMode: false,
+                          )));
                 }
               });
             },

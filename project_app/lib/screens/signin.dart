@@ -90,6 +90,7 @@ class _MySignInFormState extends State<MySignInForm> {
               emailValidator,
               errorEmailMsg,
               TextInputType.emailAddress,
+              null,
             ),
           ),
           Padding(
@@ -101,7 +102,8 @@ class _MySignInFormState extends State<MySignInForm> {
                 userController,
                 usernameValidator,
                 errorUsernameMsg,
-                TextInputType.text),
+                TextInputType.text,
+                null),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),

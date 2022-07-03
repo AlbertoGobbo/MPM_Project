@@ -1,5 +1,6 @@
 //Can be usefull
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 TextFormField reusableTextFieldForm(
     String text,
@@ -8,7 +9,8 @@ TextFormField reusableTextFieldForm(
     TextEditingController controller,
     String? Function(String?)? validatorFunction,
     String? errorMessage,
-    TextInputType? inputType) {
+    TextInputType? inputType,
+    Pattern? filterPattern) {
   return TextFormField(
     controller: controller,
     obscureText: isPasswordType,
@@ -20,11 +22,15 @@ TextFormField reusableTextFieldForm(
         icon,
         color: Colors.blue,
       ),
+      //ADD SUFFIX IN CASE
       labelText: text,
       errorText: errorMessage,
       border: const OutlineInputBorder(),
     ),
     keyboardType: inputType,
+    inputFormatters: filterPattern != null
+        ? [FilteringTextInputFormatter.allow(filterPattern)]
+        : null,
   );
 }
 
