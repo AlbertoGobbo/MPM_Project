@@ -31,6 +31,10 @@ class _HomepageState extends State<Homepage> {
     return result;
   }
 
+  setStateCallback() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -47,7 +51,9 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         const Spacer(flex: 2),
-        buildCaloriesConsume(context),
+        buildCaloriesConsume(
+          context,
+        ),
         const Spacer(flex: 2),
         const Expanded(
           child: Text(
@@ -245,11 +251,10 @@ class _HomepageState extends State<Homepage> {
 
     return GestureDetector(
       onTap: () => {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const SetCaloriesGoal(),
-          ),
-        ),
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              SetCaloriesGoal(setStateCallback: setStateCallback),
+        ))
       },
       child: Container(
         decoration: BoxDecoration(
@@ -262,9 +267,6 @@ class _HomepageState extends State<Homepage> {
               const Text("CALORIES GOAL:"),
               Text(
                 globals.caloriesGoal,
-              ),
-              const SizedBox(
-                height: 10,
               ),
               SleekCircularSlider(
                 appearance: CircularSliderAppearance(

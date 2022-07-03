@@ -147,6 +147,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           "${widget.savedRecipe.recipeName} "

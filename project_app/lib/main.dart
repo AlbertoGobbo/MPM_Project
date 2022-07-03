@@ -78,11 +78,20 @@ class _AutenticationWrapperState extends State<AutenticationWrapper> {
   }
 
   @override
-  void didChangeDependencies() async {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
+      /*bool operationsOk = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        operationsOk = await getValue(firebaseUser);
+      });
+
+      if (operationsOk == false) {
+        await getValue(firebaseUser);
+      }*/
+
       await getValue(firebaseUser);
     }
   }

@@ -112,6 +112,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
               errorEmailMsg,
               TextInputType.emailAddress,
               null,
+              null,
             ),
           ),
           Padding(

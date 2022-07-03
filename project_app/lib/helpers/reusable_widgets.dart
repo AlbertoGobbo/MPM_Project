@@ -10,7 +10,8 @@ TextFormField reusableTextFieldForm(
     String? Function(String?)? validatorFunction,
     String? errorMessage,
     TextInputType? inputType,
-    Pattern? filterPattern) {
+    Pattern? filterPattern,
+    String? suffixTxt) {
   return TextFormField(
     controller: controller,
     obscureText: isPasswordType,
@@ -22,7 +23,7 @@ TextFormField reusableTextFieldForm(
         icon,
         color: Colors.blue,
       ),
-      //ADD SUFFIX IN CASE
+      suffixText: suffixTxt,
       labelText: text,
       errorText: errorMessage,
       border: const OutlineInputBorder(),

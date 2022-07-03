@@ -6,7 +6,9 @@ import 'package:project_app/helpers/validator.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class SetCaloriesGoal extends StatefulWidget {
-  const SetCaloriesGoal({Key? key}) : super(key: key);
+  Function setStateCallback;
+
+  SetCaloriesGoal({required this.setStateCallback, Key? key}) : super(key: key);
 
   @override
   State<SetCaloriesGoal> createState() => _SetCaloriesGoalState();
@@ -44,179 +46,192 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
       appBar: AppBar(
         title: const Text("Calories Goal"),
       ),
-      body: Column(
-        children: [
-          const Text(
-            "Set you custom calories goal",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Form(
-              key: _formKey1,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Set you custom calories goal",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            Form(
+                key: _formKey1,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: reusableTextFieldForm(
+                          "Calories",
+                          Icons.fireplace,
+                          false,
+                          caloriesController,
+                          caloriesValidator,
+                          errorCaloriesMsg,
+                          TextInputType.number,
+                          RegExp('[0-9]'),
+                          "kcal"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        trySetCustomCalories();
+                      },
+                      child: const Text("Set Calories"),
+                    ),
+                  ],
+                )),
+            const Divider(height: 3),
+            Form(
+              key: _formKey2,
               child: Column(
                 children: <Widget>[
+                  const Text(
+                    "Calculate your goal",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: reusableTextFieldForm(
-                        "Calories",
-                        Icons.fireplace,
-                        false,
-                        caloriesController,
-                        caloriesValidator,
-                        errorCaloriesMsg,
-                        TextInputType.number,
-                        RegExp('[0-9]')),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 2),
+                                child: Text("Gender:"),
+                              ),
+                              ToggleButtons(
+                                children: const <Widget>[
+                                  Text("Male"),
+                                  Text("Female"),
+                                ],
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0;
+                                        buttonIndex < isSelectedGender.length;
+                                        buttonIndex++) {
+                                      if (buttonIndex == index) {
+                                        isSelectedGender[buttonIndex] = true;
+                                      } else {
+                                        isSelectedGender[buttonIndex] = false;
+                                      }
+                                    }
+                                  });
+                                },
+                                isSelected: isSelectedGender,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: reusableTextFieldForm(
+                              "Age",
+                              Icons.calendar_view_day_outlined,
+                              false,
+                              ageController,
+                              ageValidator,
+                              errorAgeMsg,
+                              TextInputType.number,
+                              RegExp('[0-9]'),
+                              "Year"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: reusableTextFieldForm(
+                              "Weight",
+                              Icons.monitor_weight,
+                              false,
+                              weightController,
+                              weightValidator,
+                              errorWeightMsg,
+                              TextInputType.number,
+                              RegExp('[0-9.]'),
+                              "Kg"),
+                        ),
+                        const SizedBox(width: 20),
+                        Flexible(
+                          child: reusableTextFieldForm(
+                              "Height",
+                              Icons.height,
+                              false,
+                              heightController,
+                              heightValidator,
+                              errorHeightMsg,
+                              TextInputType.number,
+                              RegExp('[0-9]'),
+                              "Cm"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Text("Basic physical activity:"),
+                  const Text(
+                      "Choose your daily physical activity level based on the work you do"),
+                  ToggleButtons(
+                    children: const <Widget>[
+                      Text("Soft"),
+                      Text("Moderate"),
+                      Text("Intense"),
+                    ],
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int buttonIndex = 0;
+                            buttonIndex < isSelectedBaseActivity.length;
+                            buttonIndex++) {
+                          if (buttonIndex == index) {
+                            isSelectedBaseActivity[buttonIndex] = true;
+                            indexBaseAcitivity = index;
+                          } else {
+                            isSelectedBaseActivity[buttonIndex] = false;
+                          }
+                        }
+                      });
+                    },
+                    isSelected: isSelectedBaseActivity,
+                  ),
+                  Text(basicActivityDescriptions[indexBaseAcitivity]),
+                  const Text("Workout during the week:"),
+                  const Text(
+                      "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating."),
+                  ToggleButtons(
+                    children: const <Widget>[
+                      Text("YES"),
+                      Text("NO"),
+                    ],
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int buttonIndex = 0;
+                            buttonIndex < isSelectedAuspicActivity.length;
+                            buttonIndex++) {
+                          if (buttonIndex == index) {
+                            isSelectedAuspicActivity[buttonIndex] = true;
+                          } else {
+                            isSelectedAuspicActivity[buttonIndex] = false;
+                          }
+                        }
+                      });
+                    },
+                    isSelected: isSelectedAuspicActivity,
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      trySetCustomCalories();
+                      tryCalculateCaloriesGoal();
                     },
-                    child: const Text("Set Calories"),
+                    child: const Text("Calculate Calories"),
                   ),
                 ],
-              )),
-          const Divider(height: 2),
-          Form(
-            key: _formKey2,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 2),
-                              child: Text("Gender:"),
-                            ),
-                            ToggleButtons(
-                              children: const <Widget>[
-                                Text("Male"),
-                                Text("Female"),
-                              ],
-                              onPressed: (int index) {
-                                setState(() {
-                                  for (int buttonIndex = 0;
-                                      buttonIndex < isSelectedGender.length;
-                                      buttonIndex++) {
-                                    if (buttonIndex == index) {
-                                      isSelectedGender[buttonIndex] = true;
-                                    } else {
-                                      isSelectedGender[buttonIndex] = false;
-                                    }
-                                  }
-                                });
-                              },
-                              isSelected: isSelectedGender,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Flexible(
-                        child: reusableTextFieldForm(
-                            "Age",
-                            Icons.calendar_view_day_outlined,
-                            false,
-                            ageController,
-                            ageValidator,
-                            errorAgeMsg,
-                            TextInputType.number,
-                            RegExp('[0-9]')),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: reusableTextFieldForm(
-                            "Weight",
-                            Icons.monitor_weight,
-                            false,
-                            weightController,
-                            weightValidator,
-                            errorWeightMsg,
-                            TextInputType.number,
-                            RegExp('[0-9.]')),
-                      ),
-                      const SizedBox(width: 20),
-                      Flexible(
-                        child: reusableTextFieldForm(
-                            "Height",
-                            Icons.height,
-                            false,
-                            heightController,
-                            heightValidator,
-                            errorHeightMsg,
-                            TextInputType.number,
-                            RegExp('[0-9]')),
-                      ),
-                    ],
-                  ),
-                ),
-                const Text("Basic physical activity:"),
-                const Text(
-                    "Choose your daily physical activity level based on the work you do"),
-                ToggleButtons(
-                  children: const <Widget>[
-                    Text("Soft"),
-                    Text("Moderate"),
-                    Text("Intense"),
-                  ],
-                  onPressed: (int index) {
-                    setState(() {
-                      for (int buttonIndex = 0;
-                          buttonIndex < isSelectedBaseActivity.length;
-                          buttonIndex++) {
-                        if (buttonIndex == index) {
-                          isSelectedBaseActivity[buttonIndex] = true;
-                          indexBaseAcitivity = index;
-                        } else {
-                          isSelectedBaseActivity[buttonIndex] = false;
-                        }
-                      }
-                    });
-                  },
-                  isSelected: isSelectedBaseActivity,
-                ),
-                Text(basicActivityDescriptions[indexBaseAcitivity]),
-                const Text("Workout during the week:"),
-                const Text(
-                    "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating."),
-                ToggleButtons(
-                  children: const <Widget>[
-                    Text("YES"),
-                    Text("NO"),
-                  ],
-                  onPressed: (int index) {
-                    setState(() {
-                      for (int buttonIndex = 0;
-                          buttonIndex < isSelectedAuspicActivity.length;
-                          buttonIndex++) {
-                        if (buttonIndex == index) {
-                          isSelectedAuspicActivity[buttonIndex] = true;
-                        } else {
-                          isSelectedAuspicActivity[buttonIndex] = false;
-                        }
-                      }
-                    });
-                  },
-                  isSelected: isSelectedAuspicActivity,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    tryCalculateCaloriesGoal();
-                  },
-                  child: const Text("Calculate Calories"),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -233,7 +248,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(globals.uidUser)
-          .update({"users_kcal": calories}).then((value) {
+          .update({"user_kcal": calories}).then((value) {
         globals.caloriesGoal = calories;
         Fluttertoast.showToast(
             msg: "Calories Goal Set",
@@ -248,7 +263,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
     }
   }
 
-  void tryCalculateCaloriesGoal() {
+  void tryCalculateCaloriesGoal() async {
     bool? isValid = _formKey2.currentState?.validate();
 
     if (isValid == true) {
@@ -268,7 +283,45 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
       double laf =
           getLAF(gender, age, isSelectedBaseActivity, isSelectedAuspicActivity);
 
-      print("Total calories: ${(basale * laf).toInt()}");
+      showDialog<String>(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Calories goal obtained:"),
+                content: Text("${(basale * laf).toInt()}"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Recalculate"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Set Goal"),
+                    onPressed: () async {
+                      globals.caloriesGoal = "${(basale * laf).toInt()}";
+//add to firestore
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(globals.uidUser)
+                          .update({
+                        "users_kcal": (basale * laf).toInt().toString()
+                      }).then((value) {
+                        globals.caloriesGoal = "${(basale * laf).toInt()}";
+                        Fluttertoast.showToast(
+                            msg: "Calories Goal Set",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            fontSize: 16.0);
+                        Navigator.pop(context);
+                      }, onError: (e) => print("Error updating document $e"));
+
+                      widget.setStateCallback;
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ));
     }
   }
 
