@@ -6,6 +6,8 @@ import 'package:project_app/screens/second_screens/help_screens/delete_recipe_he
 import 'package:project_app/screens/second_screens/help_screens/manage_alimentary_plan_help.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'help_screens/view_recipe_help.dart';
+
 class HelpPage extends StatefulWidget {
   const HelpPage({Key? key}) : super(key: key);
 
@@ -15,13 +17,14 @@ class HelpPage extends StatefulWidget {
 
 class _HelpPageState extends State<HelpPage> {
   final List _helpScreens = [
-    {"screen": const AddDailyCaloriesHelp(), "title": "Add daily calories"},
     {"screen": const CreateRecipeHelp(), "title": "Create recipe"},
+    {"screen": const ViewRecipeHelp(), "title": "View recipe"},
+    {"screen": const DeleteRecipeHelp(), "title": "Delete recipe"},
+    {"screen": const AddDailyCaloriesHelp(), "title": "Add daily calories"},
     {
       "screen": const ManageAlimentaryPlanHelp(),
       "title": "Manage alimentary plan"
     },
-    {"screen": const DeleteRecipeHelp(), "title": "Delete recipe"},
   ];
 
   @override
@@ -47,7 +50,7 @@ class _HelpPageState extends State<HelpPage> {
                     Icons.double_arrow_outlined,
                     color: Color.fromARGB(255, 23, 91, 26),
                   ),
-                  tileColor: Color.fromARGB(255, 177, 202, 177),
+                  tileColor: const Color.fromARGB(255, 177, 202, 177),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => _helpScreens[index]["screen"]));

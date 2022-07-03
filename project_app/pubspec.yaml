@@ -82,16 +82,21 @@ flutter:
   assets:
     - assets/icon_app.png
     - assets/google_logo.png
-    - assets/delete_recipe/delete_recipe_1.jpg
-    - assets/delete_recipe/delete_recipe_2.gif
-    - assets/delete_recipe/delete_recipe_3.gif
-    - assets/delete_recipe/delete_recipe_4.jpg
-    - assets/delete_recipe/delete_recipe_5.gif
     - assets/create_recipe/create_recipe_1.gif
     - assets/create_recipe/create_recipe_2.jpg
     - assets/create_recipe/create_recipe_3.gif
     - assets/create_recipe/create_recipe_4.gif
     - assets/create_recipe/create_recipe_5.jpg
+    - assets/delete_recipe/delete_recipe_1.jpg
+    - assets/delete_recipe/delete_recipe_2.gif
+    - assets/delete_recipe/delete_recipe_3.gif
+    - assets/delete_recipe/delete_recipe_4.jpg
+    - assets/delete_recipe/delete_recipe_5.gif
+    # - assets/add_daily_calories/add_daily_calories_1.jpg
+    # - assets/manage_alimentary_plan/manage_alimentary_plan_1.jpg
+    - assets/view_recipe/view_recipe_1.jpg
+    - assets/view_recipe/view_recipe_2.gif
+    - assets/view_recipe/view_recipe_3.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

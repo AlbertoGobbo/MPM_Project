@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AddDailyCaloriesHelp extends StatelessWidget {
-  const AddDailyCaloriesHelp({Key? key}) : super(key: key);
+class ViewRecipeHelp extends StatelessWidget {
+  const ViewRecipeHelp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add daily calories'),
+        title: const Text('View recipe'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10.0),
@@ -18,7 +18,16 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                "- Tap on the circular slider box.",
+                "There are two ways to view a recipe.",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 40),
+            const Align(
+              // TEXT
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "- The first way is tapping on the following icon from AppBar.",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
@@ -27,24 +36,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // IMAGE
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                "assets/create_recipe/create_recipe_1.gif",
-                scale: 1.5,
-              ),
-            ),
-            const SizedBox(height: 40),
-            const Align(
-              // TEXT
-              alignment: Alignment.centerLeft,
-              child: Text(
-                  "- If you are sure about your calories target, enter the number of calories on the text field and tap the 'Set Calories' button.",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(height: 20),
-            Align(
-              // IMAGE
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                "assets/create_recipe/create_recipe_2.jpg",
+                "assets/view_recipe/view_recipe_1.jpg",
                 scale: 2,
               ),
             ),
@@ -53,8 +45,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- Otherwise, your application can help you to set your goal inserting some information about you. Indeed, you need to insert your age, weight and height on the text fields and tap on the other available options. Tapping on the 'Calculate Calories' button, the suggested calories are given, and you can set them tapping on 'Set Goal' or turn back to the data tapping on 'Recalculate'.",
-                  textAlign: TextAlign.left,
+                  "- You can see a list of saved recipes. To go into detail about a specific recipe, tap on it.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
@@ -62,7 +53,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // IMAGE
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                "assets/create_recipe/create_recipe_3.gif",
+                "assets/view_recipe/view_recipe_2.gif",
                 scale: 1.5,
               ),
             ),
@@ -71,7 +62,24 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "Once you set the calories goal, the circular slider box in the homepage is updated.",
+                  "- The second way is tapping on one item of the recipes carousel located in the homepage.",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 20),
+            Align(
+              // IMAGE
+              alignment: Alignment.bottomCenter,
+              child: Image.asset(
+                "assets/view_recipe/view_recipe_3.gif",
+                scale: 1.5,
+              ),
+            ),
+            const SizedBox(height: 40),
+            const Align(
+              // TEXT
+              alignment: Alignment.centerLeft,
+              child: Text("- In both situations, you can see the same page.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
