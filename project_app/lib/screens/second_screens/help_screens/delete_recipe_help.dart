@@ -18,7 +18,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                "- Tap on the following icon from AppBar",
+                "- Tap on the following icon from AppBar.",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
@@ -36,7 +36,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- Apply a long press tap in the recipe you want to delete",
+                  "- Apply a long press tap in the recipe you want to delete.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
@@ -53,7 +53,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- If necessary, delete other recipes tapping on them",
+                  "- If necessary, delete other recipes tapping on them.",
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
@@ -70,7 +70,7 @@ class DeleteRecipeHelp extends StatelessWidget {
             const Align(
               // TEXT
               alignment: Alignment.centerLeft,
-              child: Text("- Tap the trash button",
+              child: Text("- Tap the trash button.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
@@ -86,7 +86,7 @@ class DeleteRecipeHelp extends StatelessWidget {
             const Align(
               // TEXT
               alignment: Alignment.centerLeft,
-              child: Text("- Confirm the delete operation",
+              child: Text("- Confirm the delete operation.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
