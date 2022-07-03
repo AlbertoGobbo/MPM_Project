@@ -90,6 +90,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               errorEmailMsg,
               TextInputType.emailAddress,
               null,
+              null,
             ),
           ),
           const Padding(
