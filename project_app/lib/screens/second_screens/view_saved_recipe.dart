@@ -275,7 +275,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                       const TextSpan(text: "\n"),
                       TextSpan(
                           text:
-                              "Total Grams: ${widget.savedRecipe.ingredients[index].totalGrams} g",
+                              "Total Grams: ${((int.parse(widget.savedRecipe.ingredients[index].totalGrams) / totalGrams) * selectedGrams).toInt()} g",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),
@@ -463,7 +463,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                 isRecipe: "true");
             Navigator.of(context).pop(food);
           },
-          child: const Text("Add Ingredient"),
+          child: const Text("Add Recipe"),
         ),
       ],
     );
