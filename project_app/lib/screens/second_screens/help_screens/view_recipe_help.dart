@@ -54,7 +54,7 @@ class ViewRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/view_recipe/view_recipe_2.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -72,7 +72,7 @@ class ViewRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/view_recipe/view_recipe_3.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),

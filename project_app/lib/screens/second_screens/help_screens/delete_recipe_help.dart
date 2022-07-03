@@ -63,7 +63,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/delete_recipe/delete_recipe_3.gif",
-                scale: 1.1,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -95,7 +95,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/delete_recipe/delete_recipe_5.gif",
-                scale: 1.1,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),

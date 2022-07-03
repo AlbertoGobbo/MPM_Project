@@ -45,7 +45,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/add_daily_calories/add_daily_calories_2.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -63,7 +63,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/add_daily_calories/add_daily_calories_3.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),

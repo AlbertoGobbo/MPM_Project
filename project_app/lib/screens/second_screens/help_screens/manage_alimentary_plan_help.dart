@@ -28,7 +28,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_1.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -63,7 +63,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_3.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -80,7 +80,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_4.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -97,7 +97,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_5.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -131,7 +131,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_7.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 40),
@@ -148,7 +148,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_8.gif",
-                scale: 1.5,
+                scale: 1.2,
               ),
             ),
             const SizedBox(height: 20),
