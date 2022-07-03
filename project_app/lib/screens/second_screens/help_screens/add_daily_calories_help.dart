@@ -53,7 +53,7 @@ class AddDailyCaloriesHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- Otherwise, we can help you to set your calories goal inserting some information about you, as: age, weight, height, the daily activity level and workout during the week. Tapping on the 'Calculate Calories' button, the suggested calories are given, and you can set them tapping on 'Set Goal' or turn back to the data tapping on 'Recalculate'.",
+                  "- Otherwise, we can help you to set your calories goal inserting some information about you, as: age, weight, height, the daily activity level and if you do workout during the week. Tapping on the 'Calculate Calories' button, the suggested calories are given, and you can set them tapping on 'Set Goal' or turn back to the data tapping on 'Recalculate'.",
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
