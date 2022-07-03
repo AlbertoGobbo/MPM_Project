@@ -6,9 +6,7 @@ import 'package:project_app/helpers/validator.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class SetCaloriesGoal extends StatefulWidget {
-  Function setStateCallback;
-
-  SetCaloriesGoal({required this.setStateCallback, Key? key}) : super(key: key);
+  const SetCaloriesGoal({Key? key}) : super(key: key);
 
   @override
   State<SetCaloriesGoal> createState() => _SetCaloriesGoalState();
@@ -61,7 +59,8 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16),
                       child: reusableTextFieldForm(
                           "Calories",
                           Icons.fireplace,
@@ -81,7 +80,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                     ),
                   ],
                 )),
-            const Divider(height: 3),
+            const Divider(height: 5, thickness: 2),
             Form(
               key: _formKey2,
               child: Column(
@@ -172,9 +171,17 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                       ],
                     ),
                   ),
-                  const Text("Basic physical activity:"),
                   const Text(
-                      "Choose your daily physical activity level based on the work you do"),
+                    "Basic physical activity:",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Choose your daily physical activity level based on the work you do",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   ToggleButtons(
                     children: const <Widget>[
                       Text("Soft"),
@@ -197,10 +204,24 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                     },
                     isSelected: isSelectedBaseActivity,
                   ),
-                  Text(basicActivityDescriptions[indexBaseAcitivity]),
-                  const Text("Workout during the week:"),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      basicActivityDescriptions[indexBaseAcitivity],
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   const Text(
-                      "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating."),
+                    "Workout during the week:",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating.",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   ToggleButtons(
                     children: const <Widget>[
                       Text("YES"),
@@ -315,8 +336,6 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             fontSize: 16.0);
                         Navigator.pop(context);
                       }, onError: (e) => print("Error updating document $e"));
-
-                      widget.setStateCallback;
                       Navigator.of(context).pop();
                     },
                   ),

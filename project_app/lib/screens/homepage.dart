@@ -253,8 +253,7 @@ class _HomepageState extends State<Homepage> {
       onTap: () async {
         var result = await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                SetCaloriesGoal(setStateCallback: setStateCallback),
+            builder: (context) => const SetCaloriesGoal(),
           ),
         );
 
