@@ -1,7 +1,7 @@
 import 'package:project_app/models/pair.dart';
 
-class AlimentarPlanDiary {
-  AlimentarPlanDiary(
+class AlimentaryPlanDiary {
+  AlimentaryPlanDiary(
       {required this.uid,
       required this.day,
       required this.breakfast,
@@ -16,8 +16,8 @@ class AlimentarPlanDiary {
   List<Pair> snack;
   List<Pair> dinner;
 
-  factory AlimentarPlanDiary.fromJson(Map<String, dynamic> json) =>
-      AlimentarPlanDiary(
+  factory AlimentaryPlanDiary.fromJson(Map<String, dynamic> json) =>
+      AlimentaryPlanDiary(
         uid: json["uid"],
         day: json["day"],
         breakfast:

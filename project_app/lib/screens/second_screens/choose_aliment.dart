@@ -160,7 +160,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                             totalCalories: totCalories.toString(),
                             isRecipe: "false");
                         addFood(widget.partOfDay, food);
-                        updateAlimentarPlan(
+                        updateAlimentaryPlan(
                             globals.listPlans
                                 .where((element) => element.day == widget.day)
                                 .first,
@@ -181,7 +181,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                     );
                     if (itemToAdd != null) {
                       addFood(widget.partOfDay, itemToAdd);
-                      updateAlimentarPlan(
+                      updateAlimentaryPlan(
                           globals.listPlans
                               .where((element) => element.day == widget.day)
                               .first,
@@ -343,7 +343,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                     );
                     if (itemToAdd != null) {
                       addFood(widget.partOfDay, itemToAdd);
-                      updateAlimentarPlan(
+                      updateAlimentaryPlan(
                           globals.listPlans
                               .where((element) => element.day == widget.day)
                               .first,

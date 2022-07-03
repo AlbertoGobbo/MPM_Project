@@ -9,35 +9,35 @@ import 'package:project_app/firebase/firestore_function.dart';
 import 'package:project_app/models/food.dart';
 import 'package:project_app/models/ingredients.dart';
 import 'package:project_app/models/pair.dart';
-import 'package:project_app/models/personal_alimentar_plan.dart';
+import 'package:project_app/models/personal_alimentary_plan.dart';
 import 'package:project_app/screens/second_screens/choose_aliment.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
-class AlimentarPlan extends StatelessWidget {
-  const AlimentarPlan({Key? key}) : super(key: key);
+class AlimentaryPlan extends StatelessWidget {
+  const AlimentaryPlan({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const AlimentarPlanPage();
+    return const AlimentaryPlanPage();
   }
 }
 
-class AlimentarPlanPage extends StatefulWidget {
-  const AlimentarPlanPage({Key? key}) : super(key: key);
+class AlimentaryPlanPage extends StatefulWidget {
+  const AlimentaryPlanPage({Key? key}) : super(key: key);
 
   @override
-  State<AlimentarPlanPage> createState() => _AlimentarPlanPageState();
+  State<AlimentaryPlanPage> createState() => _AlimentaryPlanPageState();
 }
 
-class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
+class _AlimentaryPlanPageState extends State<AlimentaryPlanPage> {
   final firestoreInstance = FirebaseFirestore.instance;
   final GlobalKey<ExpansionTileCardState> cardBreakfast = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardLunch = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardSnack = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardDinner = GlobalKey();
-  late AlimentarPlanDiary item;
+  late AlimentaryPlanDiary item;
   late String dropdownvalue;
-  //late List<AlimentarPlanDiary> plans;
+  //late List<AlimentaryPlanDiary> plans;
 
   @override
   void initState() {
@@ -47,42 +47,42 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
     dropdownvalue = DateFormat('EEEE').format(DateTime.now());
 
     /*plans = List.of([
-      AlimentarPlanDiary(
+      AlimentaryPlanDiary(
           uid: globals.uidUser,
           day: "Tuesday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(
+      AlimentaryPlanDiary(
           uid: globals.uidUser,
           day: "Wednesday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(
+      AlimentaryPlanDiary(
           uid: globals.uidUser,
           day: "Thursday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(
+      AlimentaryPlanDiary(
           uid: globals.uidUser,
           day: "Saturday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(
+      AlimentaryPlanDiary(
           uid: globals.uidUser,
           day: "Sunday",
           breakfast: [],
           lunch: [],
           snack: [],
           dinner: []),
-      AlimentarPlanDiary(uid: globals.uidUser, day: "Monday", breakfast: [
+      AlimentaryPlanDiary(uid: globals.uidUser, day: "Monday", breakfast: [
         Pair(
             aliment: globals.listIngredients
                 .where((element) => element.name == "avocado")
@@ -171,7 +171,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
                     .caloriesKcal) *
                 100)
       ]),
-      AlimentarPlanDiary(uid: globals.uidUser, day: "Friday", breakfast: [
+      AlimentaryPlanDiary(uid: globals.uidUser, day: "Friday", breakfast: [
         Pair(
             aliment: globals.listIngredients
                 .where((element) => element.name == "strawberry")
@@ -291,7 +291,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
         break;
     }
 
-    updateAlimentarPlan(dailyPlan, dropdownvalue);
+    updateAlimentaryPlan(dailyPlan, dropdownvalue);
   }
 
   callbackSetState() {
@@ -450,7 +450,7 @@ class _AlimentarPlanPageState extends State<AlimentarPlanPage> {
     );
   }
 
-  Future<void> saveIntoFirestore(List<AlimentarPlanDiary> plans) async {
+  Future<void> saveIntoFirestore(List<AlimentaryPlanDiary> plans) async {
     for (var i in plans) {
       await firestoreInstance
           .collection("alimentarPlans")

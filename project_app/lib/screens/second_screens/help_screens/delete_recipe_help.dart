@@ -106,17 +106,6 @@ class DeleteRecipeHelp extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
-
-            //const Spacer(),
-            //Expanded(child: child),
-            /*Align(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                "assets/delete_recipe.gif",
-                scale: 2,
-              ),
-            ),
-            const Spacer(),*/
           ],
         ),
       ),

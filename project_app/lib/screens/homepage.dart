@@ -205,15 +205,15 @@ class _HomepageState extends State<Homepage> {
     ];
 
     var today = DateFormat('EEEE').format(DateTime.now());
-    var todayAlimentarPlan =
+    var todayAlimentaryPlan =
         globals.listPlans.where((element) => element.day == today).first;
     var totCaloriesConsumedToday = 0.0;
     bool overflow = false;
 
-    List<Pair> breakfast = todayAlimentarPlan.breakfast;
-    List<Pair> lunch = todayAlimentarPlan.lunch;
-    List<Pair> snack = todayAlimentarPlan.snack;
-    List<Pair> dinner = todayAlimentarPlan.dinner;
+    List<Pair> breakfast = todayAlimentaryPlan.breakfast;
+    List<Pair> lunch = todayAlimentaryPlan.lunch;
+    List<Pair> snack = todayAlimentaryPlan.snack;
+    List<Pair> dinner = todayAlimentaryPlan.dinner;
 
     var totB = 0.0;
 

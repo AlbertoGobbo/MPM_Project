@@ -1,9 +1,8 @@
-//Alimentar Plan Functions
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_app/models/ingredients.dart';
-import 'package:project_app/models/personal_alimentar_plan.dart';
+import 'package:project_app/models/personal_alimentary_plan.dart';
 import 'package:project_app/models/recipe.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
@@ -87,7 +86,7 @@ Future<void> retrieveSavedRecipes() async {
 }
 
 // Main function
-Future<void> retrieveSavedAlimentarPlans() async {
+Future<void> retrieveSavedAlimentaryPlans() async {
   if (globals.listPlans.isEmpty) {
     await FirebaseFirestore.instance
         .collection("alimentarPlans")
@@ -96,7 +95,7 @@ Future<void> retrieveSavedAlimentarPlans() async {
         .then((querySnapshot) {
           for (var result in querySnapshot.docs) {
             Map<String, dynamic> data = result.data();
-            AlimentarPlanDiary plan = AlimentarPlanDiary.fromJson(data);
+            AlimentaryPlanDiary plan = AlimentaryPlanDiary.fromJson(data);
             globals.listPlans.add(plan);
           }
         })
@@ -107,21 +106,22 @@ Future<void> retrieveSavedAlimentarPlans() async {
 
   if (globals.listPlans.isEmpty) {
     for (var day in globals.days) {
-      await createAlimentarPlanForDay(day);
+      await createAlimentaryPlanForDay(day);
     }
   } else if (globals.listPlans.length != 7) {
     for (var day in globals.days) {
       var emptyCheck =
           globals.listPlans.where((element) => element.day == day).isEmpty;
       if (emptyCheck) {
-        await createAlimentarPlanForDay(day);
+        await createAlimentaryPlanForDay(day);
       }
     }
   }
 }
 
-Future<void> updateAlimentarPlan(
-    AlimentarPlanDiary dailyPlan, String day) async {
+// Alimentary Plan function
+Future<void> updateAlimentaryPlan(
+    AlimentaryPlanDiary dailyPlan, String day) async {
   var coll = await FirebaseFirestore.instance
       .collection("alimentarPlans")
       .where("uid", isEqualTo: globals.uidUser)
@@ -134,8 +134,9 @@ Future<void> updateAlimentarPlan(
       .set(dailyPlan.toJson());
 }
 
-Future<void> createAlimentarPlanForDay(String day) async {
-  AlimentarPlanDiary d = AlimentarPlanDiary(
+// Alimentary Plan function
+Future<void> createAlimentaryPlanForDay(String day) async {
+  AlimentaryPlanDiary d = AlimentaryPlanDiary(
       uid: globals.uidUser,
       day: day,
       breakfast: [],

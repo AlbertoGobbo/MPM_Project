@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ManageAlimentarPlanHelp extends StatelessWidget {
-  const ManageAlimentarPlanHelp({Key? key}) : super(key: key);
+class ManageAlimentaryPlanHelp extends StatelessWidget {
+  const ManageAlimentaryPlanHelp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage alimentar plan'),
+        title: const Text('Manage alimentary plan'),
       ),
       body: const Text("Text"),
     );

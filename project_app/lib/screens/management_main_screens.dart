@@ -1,4 +1,4 @@
-// This code allows to manage the main screens (homepage/ingredients_list/alimentar_plan) after the login/signin procedure
+// This code allows to manage the main screens (homepage/ingredients_list/alimentary_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_app/screens/second_screens/create_recipe.dart';
@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../firebase/authentication_service.dart';
 import 'ingredients_list.dart';
 import 'homepage.dart';
-import 'alimentar_plan.dart';
+import 'alimentary_plan.dart';
 import 'second_screens/help_page.dart';
 import 'second_screens/saved_recipes.dart';
 import '../models/popup_menu_choices.dart';
@@ -25,7 +25,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
   final List _screens = [
     {"screen": const Homepage(), "title": "Home"},
     {"screen": const IngredientsList(), "title": "Ingredients"},
-    {"screen": const AlimentarPlan(), "title": "Alimentar plan"},
+    {"screen": const AlimentaryPlan(), "title": "Alimentary plan"},
   ];
 
   @override
@@ -143,8 +143,8 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                 tooltip: 'The page with the list of all the ingredients'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
-                label: 'Alimentar plan',
-                tooltip: 'The page with your alimentar plan'),
+                label: 'Alimentaryy plan',
+                tooltip: 'The page with your alimentary plan'),
           ],
           type: BottomNavigationBarType.fixed),
       resizeToAvoidBottomInset: false,

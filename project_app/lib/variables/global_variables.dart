@@ -1,7 +1,7 @@
 library globals;
 
 import 'package:project_app/models/ingredients.dart';
-import 'package:project_app/models/personal_alimentar_plan.dart';
+import 'package:project_app/models/personal_alimentary_plan.dart';
 import 'package:project_app/models/recipe.dart';
 
 String uidUser = "";
@@ -11,7 +11,7 @@ List<bool> isCheckboxChecked = [];
 List<Ingredients> listIngredients = [];
 List<Ingredients> selectedIngredients = [];
 List<Recipe> savedRecipes = [];
-List<AlimentarPlanDiary> listPlans = [];
+List<AlimentaryPlanDiary> listPlans = [];
 List<String> days = [
   'Monday',
   'Tuesday',

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'HealthyFood',
+        title: 'Smart Food',
         theme: ThemeData(
             appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 26, 117,
@@ -70,7 +70,7 @@ class _AutenticationWrapperState extends State<AutenticationWrapper> {
     await retrieveUserKcal(firebaseUser);
     await retrieveIngredientsList();
     await retrieveSavedRecipes();
-    await retrieveSavedAlimentarPlans();
+    await retrieveSavedAlimentaryPlans();
 
     setState(() {
       isLoaded = true;
@@ -78,20 +78,11 @@ class _AutenticationWrapperState extends State<AutenticationWrapper> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      /*bool operationsOk = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        operationsOk = await getValue(firebaseUser);
-      });
-
-      if (operationsOk == false) {
-        await getValue(firebaseUser);
-      }*/
-
       await getValue(firebaseUser);
     }
   }
