@@ -20,13 +20,14 @@ class _IngredientsListState extends State<IngredientsList> {
 
   @override
   void initState() {
+    super.initState();
+
     globals.isCheckboxChecked = List<bool>.filled(
         globals.listIngredients.length, false,
         growable: true);
     for (int i = 0; i < globals.listIngredients.length; i = i + 1) {
       mapIngredientToCheckboxIndex[globals.listIngredients[i].name] = i;
     }
-    super.initState();
   }
 
   @override
@@ -46,9 +47,11 @@ class _IngredientsListState extends State<IngredientsList> {
               child: SearchWidget(
                 text: searchText,
                 hintText: "Search ingredients",
-                onChanged: (text) => setState(() {
-                  searchText = text;
-                }),
+                onChanged: (text) => setState(
+                  () {
+                    searchText = text;
+                  },
+                ),
               ),
             ),
             Expanded(

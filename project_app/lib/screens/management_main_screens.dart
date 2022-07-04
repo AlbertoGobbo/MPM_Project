@@ -62,6 +62,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                     textColor: Colors.white,
                     fontSize: 16.0);
               } else {
+                FocusScope.of(context).unfocus();
                 await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CreateRecipe()),
@@ -132,6 +133,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
         scrollDirection: Axis.horizontal,
         controller: _pageController,
         onPageChanged: (newIndex) {
+          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
           setState(() {
             _currentScreenIndex = newIndex;
           });
