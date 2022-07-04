@@ -250,11 +250,14 @@ class _HomepageState extends State<Homepage> {
     }
 
     return GestureDetector(
-      onTap: () => {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              SetCaloriesGoal(setStateCallback: setStateCallback),
-        ))
+      onTap: () async {
+        var result = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const SetCaloriesGoal(),
+          ),
+        );
+
+        setState(() {});
       },
       child: Container(
         decoration: BoxDecoration(

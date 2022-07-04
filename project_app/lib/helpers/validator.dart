@@ -41,7 +41,7 @@ String? ageValidator(String? value) {
     return 'Age must contains only numbers';
   }
   if (int.parse(value) <= 0 || int.parse(value) > 99) {
-    return 'Age must be between 1 and 99';
+    return 'Insert valid age';
   }
   return null;
 }
@@ -72,7 +72,7 @@ String? heightValidator(String? value) {
     return 'Invalid format for height';
   }
   if (int.parse(value) <= 10 || int.parse(value) >= 300) {
-    return 'Height must be greater than 10cm and less than 300cm';
+    return 'Insert a valid height';
   }
   return null;
 }
