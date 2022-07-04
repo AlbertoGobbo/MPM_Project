@@ -226,14 +226,14 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
     return Column(
       children: <Widget>[
         const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(15.0),
           child: Text(
             "Ingredients list",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 158,
           child: ListView.separated(
             padding: const EdgeInsets.all(10.0),
             itemCount: widget.savedRecipe.ingredients.length,
@@ -295,9 +295,12 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
           ),
         ),
         const Divider(
-          height: 2,
+          height: 10,
+          thickness: 3,
         ),
-        Flexible(
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -323,8 +326,9 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
             ],
           ),
         ),
+        const Spacer(),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -370,6 +374,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
             ],
           ),
         ),
+        const Spacer(),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
@@ -468,6 +473,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
           },
           child: const Text("Add Recipe"),
         ),
+        const Spacer(),
       ],
     );
   }
