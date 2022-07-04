@@ -63,7 +63,6 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                       Text(item.emoji, style: const TextStyle(fontSize: 40)),
                   subtitle: Text(
                       "Calories: ${double.parse(item.caloriesKcal) * 100} Kcal (100g)"),
-                  //TODO: insert "TAP FOR MORE INFO"?
                   trailing: IconButton(
                     onPressed: () async {
                       double gramsSelected = 0;

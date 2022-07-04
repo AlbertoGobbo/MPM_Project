@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -265,7 +266,6 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
     bool? isValid = _formKey1.currentState?.validate();
 
     if (isValid == true) {
-      //add to firestore
       await FirebaseFirestore.instance
           .collection("users")
           .doc(globals.uidUser)
@@ -278,7 +278,9 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
             timeInSecForIosWeb: 1,
             fontSize: 16.0);
         Navigator.pop(context);
-      }, onError: (e) => print("Error updating document $e"));
+      },
+              onError: (e) =>
+                  log("Error updating document: " + e.message.toString()));
     } else {
       setState(() {});
     }
@@ -297,6 +299,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
 
       String age = ageController.text.trim();
       String weight = weightController.text.trim().replaceAll(",", ".");
+      // ignore: unused_local_variable
       String height = heightController.text.trim();
 
       double basale = getBasale(gender, age, weight);
@@ -320,7 +323,6 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                     child: const Text("Set Goal"),
                     onPressed: () async {
                       globals.caloriesGoal = "${(basale * laf).toInt()}";
-//add to firestore
                       await FirebaseFirestore.instance
                           .collection("users")
                           .doc(globals.uidUser)
@@ -335,7 +337,9 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             timeInSecForIosWeb: 1,
                             fontSize: 16.0);
                         Navigator.pop(context);
-                      }, onError: (e) => print("Error updating document $e"));
+                      },
+                              onError: (e) => log("Error updating document: " +
+                                  e.message.toString()));
                       Navigator.of(context).pop();
                     },
                   ),

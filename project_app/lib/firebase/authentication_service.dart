@@ -31,7 +31,6 @@ class AuthenticationService {
         "users_kcal": "2000",
       };
 
-      // Add a new document with a generated ID
       FirebaseFirestore.instance.collection("users").doc(idUser).set(user);
       return "Sign Up";
     } on FirebaseAuthException catch (e) {

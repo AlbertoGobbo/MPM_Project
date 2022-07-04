@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:project_app/models/ingredients.dart';
-
-import '../../models/pair.dart';
+import 'package:project_app/models/pair.dart';
 
 class ShowAddIngredient extends StatefulWidget {
   final Ingredients ingredient;

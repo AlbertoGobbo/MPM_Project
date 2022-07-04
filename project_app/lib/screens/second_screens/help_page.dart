@@ -4,9 +4,8 @@ import 'package:project_app/screens/second_screens/help_screens/add_daily_calori
 import 'package:project_app/screens/second_screens/help_screens/create_recipe_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/delete_recipe_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/manage_alimentary_plan_help.dart';
+import 'package:project_app/screens/second_screens/help_screens/view_recipe_help.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'help_screens/view_recipe_help.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({Key? key}) : super(key: key);

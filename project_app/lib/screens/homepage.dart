@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:project_app/screens/second_screens/set_calories.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:project_app/screens/second_screens/view_saved_recipe.dart';
+import 'package:project_app/models/pair.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:intl/intl.dart';
-
-import '../models/pair.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -251,7 +250,7 @@ class _HomepageState extends State<Homepage> {
 
     return GestureDetector(
       onTap: () async {
-        var result = await Navigator.of(context).push(
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const SetCaloriesGoal(),
           ),

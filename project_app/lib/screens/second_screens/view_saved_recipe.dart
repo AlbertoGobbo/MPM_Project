@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:project_app/models/recipe.dart';
-
-import '../../models/pair.dart';
+import 'package:project_app/models/pair.dart';
 
 class ViewSavedRecipe extends StatefulWidget {
   final Recipe savedRecipe;
@@ -53,7 +50,6 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     totalGrams = widget.savedRecipe.ingredients.fold(

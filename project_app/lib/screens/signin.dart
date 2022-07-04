@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project_app/painters/login_painter.dart';
 import 'package:provider/provider.dart';
-
-import '../firebase/authentication_service.dart';
-import '../helpers/reusable_widgets.dart';
-import '../helpers/validator.dart';
+import 'package:project_app/painters/login_painter.dart';
+import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/helpers/reusable_widgets.dart';
+import 'package:project_app/helpers/validator.dart';
 
 class MySigninPage extends StatefulWidget {
   const MySigninPage({Key? key}) : super(key: key);

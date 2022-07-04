@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_app/models/ingredients.dart';
-import 'package:project_app/widget/search_widget.dart';
+import 'package:project_app/helpers/search_widget.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class IngredientsList extends StatelessWidget {

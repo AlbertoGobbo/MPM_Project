@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_app/firebase/authentication_service.dart';
-import 'package:project_app/screens/login.dart';
+import 'package:project_app/firebase/firestore_function.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'firebase/firestore_function.dart';
-import 'screens/management_main_screens.dart';
+import 'package:project_app/screens/login.dart';
+import 'package:project_app/screens/management_main_screens.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
         title: 'Smart Food',
         theme: ThemeData(
             appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 26, 117,
-              71), //TODO: cambio colore Color.fromARGB(255, 74, 212, 143)
+          backgroundColor: Color.fromARGB(255, 26, 117, 71),
           foregroundColor: Colors.white,
         )),
         home: const AutenticationWrapper(),
@@ -50,7 +49,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Used to understand if the user is logged into the application
 class AutenticationWrapper extends StatefulWidget {
   const AutenticationWrapper({Key? key}) : super(key: key);
 

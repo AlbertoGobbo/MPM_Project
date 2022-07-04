@@ -1,15 +1,15 @@
 // This code allows to manage the main screens (homepage/ingredients_list/alimentary_plan) after the login/signin procedure
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_app/screens/second_screens/create_recipe.dart';
 import 'package:provider/provider.dart';
-import '../firebase/authentication_service.dart';
-import 'ingredients_list.dart';
-import 'homepage.dart';
-import 'alimentary_plan.dart';
-import 'second_screens/help_page.dart';
-import 'second_screens/saved_recipes.dart';
-import '../models/popup_menu_choices.dart';
+import 'package:project_app/firebase/authentication_service.dart';
+import 'package:project_app/screens/second_screens/create_recipe.dart';
+import 'package:project_app/screens/ingredients_list.dart';
+import 'package:project_app/screens/homepage.dart';
+import 'package:project_app/screens/alimentary_plan.dart';
+import 'package:project_app/screens/second_screens/help_page.dart';
+import 'package:project_app/screens/second_screens/saved_recipes.dart';
+import 'package:project_app/models/popup_menu_choices.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
 class ManagementMainScreens extends StatefulWidget {
