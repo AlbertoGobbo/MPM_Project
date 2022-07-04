@@ -151,7 +151,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
       appBar: AppBar(
         title: Text(
           "${widget.savedRecipe.recipeName} "
-          "(${widget.savedRecipe.ingredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+          "(${widget.savedRecipe.ingredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).round()} Kcal)",
           style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
@@ -167,7 +167,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
         return ListTile(
           title: Text(
             "${widget.savedRecipe.ingredients[index].name.toUpperCase()} "
-            "(${(double.parse(widget.savedRecipe.ingredients[index].caloriesKcal) * double.parse(widget.savedRecipe.ingredients[index].totalGrams)).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+            "(${(double.parse(widget.savedRecipe.ingredients[index].caloriesKcal) * double.parse(widget.savedRecipe.ingredients[index].totalGrams)).toStringAsFixed(2).replaceAll(".", ",")} Kcal)",
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           subtitle: RichText(
@@ -238,7 +238,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
               return ListTile(
                 title: Text(
                   "${widget.savedRecipe.ingredients[index].name.toUpperCase()} "
-                  "(${(double.parse(widget.savedRecipe.ingredients[index].caloriesKcal) * double.parse(widget.savedRecipe.ingredients[index].totalGrams)).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+                  "(${(double.parse(widget.savedRecipe.ingredients[index].caloriesKcal) * double.parse(widget.savedRecipe.ingredients[index].totalGrams)).toStringAsFixed(2).replaceAll(".", ",")} Kcal)",
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -275,7 +275,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                       const TextSpan(text: "\n"),
                       TextSpan(
                           text:
-                              "Total Grams: ${((int.parse(widget.savedRecipe.ingredients[index].totalGrams) / totalGrams) * selectedGrams).toInt()} g",
+                              "Total Grams: ${((double.parse(widget.savedRecipe.ingredients[index].totalGrams) / totalGrams) * selectedGrams).round()} g",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),

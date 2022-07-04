@@ -195,7 +195,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   child: ListTile(
                     title: Text(
                       "${globals.selectedIngredients[index].name.toUpperCase()} "
-                      "(${(double.parse(globals.selectedIngredients[index].caloriesKcal) * double.parse(globals.selectedIngredients[index].totalGrams)).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+                      "(${(double.parse(globals.selectedIngredients[index].caloriesKcal) * double.parse(globals.selectedIngredients[index].totalGrams)).toStringAsFixed(2).replaceAll(".", ",")} Kcal)",
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -259,7 +259,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                       "Total calories:",
                     ),
                     Text(
-                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).toStringAsFixed(3).replaceAll(".", ",")} Kcal",
+                      "${globals.selectedIngredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).round()} Kcal",
                       style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
