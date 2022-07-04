@@ -20,13 +20,26 @@ class ManagementMainScreens extends StatefulWidget {
 }
 
 class _ManagementMainScreensState extends State<ManagementMainScreens> {
+  final ingredientListKey = GlobalKey<State<IngredientsList>>();
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
-  final List _screens = [
-    {"screen": const Homepage(), "title": "Home"},
-    {"screen": const IngredientsList(), "title": "Ingredients"},
-    {"screen": const AlimentaryPlan(), "title": "Alimentary Plan"},
-  ];
+  late List _screens;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _screens = [
+      {"screen": const Homepage(), "title": "Home"},
+      {
+        "screen": IngredientsList(
+          key: ingredientListKey,
+        ),
+        "title": "Ingredients"
+      },
+      {"screen": const AlimentaryPlan(), "title": "Alimentary Plan"},
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +51,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             icon: const Icon(Icons.post_add_rounded),
             iconSize: 27.0,
             padding: const EdgeInsets.all(13.5),
-            onPressed: () {
+            onPressed: () async {
               if (globals.selectedIngredients.isEmpty) {
                 Fluttertoast.showToast(
                     msg: "Please, select at least one ingredient",
@@ -49,10 +62,14 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                     textColor: Colors.white,
                     fontSize: 16.0);
               } else {
-                Navigator.push(
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CreateRecipe()),
                 );
+
+                final state = ingredientListKey.currentState!;
+
+                state.setState(() {});
               }
             },
             tooltip: 'Create a new recipe',
