@@ -25,7 +25,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
   final List _screens = [
     {"screen": const Homepage(), "title": "Home"},
     {"screen": const IngredientsList(), "title": "Ingredients"},
-    {"screen": const AlimentaryPlan(), "title": "Alimentary plan"},
+    {"screen": const AlimentaryPlan(), "title": "Alimentary Plan"},
   ];
 
   @override
@@ -134,16 +134,14 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
           },
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Homepage',
-                tooltip: 'The homepage'),
+                icon: Icon(Icons.home), label: 'Home', tooltip: 'The homepage'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant),
                 label: "Ingredients",
                 tooltip: 'The page with the list of all the ingredients'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
-                label: 'Alimentary plan',
+                label: 'Alimentary Plan',
                 tooltip: 'The page with your alimentary plan'),
           ],
           type: BottomNavigationBarType.fixed),

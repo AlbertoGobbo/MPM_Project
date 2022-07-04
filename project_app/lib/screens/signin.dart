@@ -67,6 +67,16 @@ class _MySignInFormState extends State<MySignInForm> {
   bool _isPswConfHidden = true;
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    userController.dispose();
+    emailController.dispose();
+    pswController.dispose();
+    pswConfController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,

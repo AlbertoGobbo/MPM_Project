@@ -49,6 +49,13 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
   late Map<String, double> dataMap;
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    dialogController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 

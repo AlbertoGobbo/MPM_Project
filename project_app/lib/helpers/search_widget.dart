@@ -20,6 +20,13 @@ class _SearchWidgetState extends State<SearchWidget> {
   final controller = TextEditingController();
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const styleActive = TextStyle(color: Colors.black);
     const styleHint = TextStyle(color: Colors.black54);
