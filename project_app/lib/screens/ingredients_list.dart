@@ -10,23 +10,6 @@ class IngredientsList extends StatefulWidget {
   State<IngredientsList> createState() => _IngredientsListState();
 }
 
-/*class _IngredientsListState extends State<IngredientsList> {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ,
-    );
-  }
-}*/
-
-/*class StatefulIngredientsList extends StatefulWidget {
-  const StatefulIngredientsList({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulIngredientsList> createState() => _IngredientsListState();
-}*/
-
 class _IngredientsListState extends State<IngredientsList> {
   String searchText = '';
   var mapIngredientToCheckboxIndex = {};
