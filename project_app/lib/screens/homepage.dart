@@ -261,9 +261,15 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
           child: Column(
             children: [
-              const Text("CALORIES GOAL:"),
-              Text(
-                globals.caloriesGoal,
+              const Text("CALORIES GOAL (kcal):"),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  globals.caloriesGoal,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ),
               SleekCircularSlider(
                 appearance: CircularSliderAppearance(
@@ -304,7 +310,7 @@ class _HomepageState extends State<Homepage> {
       return Colors.redAccent;
     } else if (caloriesOverflow > -cal + divisor &&
         caloriesOverflow < -cal + divisor * 2) {
-      return Colors.amber;
+      return const Color.fromARGB(255, 201, 151, 1);
     } else if (caloriesOverflow > cal + divisor * 2 && caloriesOverflow <= 0) {
       return Colors.greenAccent;
     }
