@@ -313,7 +313,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                           );
 
                           // Remove keyword "await" because the user would get stuck until a Future is returned if the offline mode is on
-                          FirebaseFirestore.instance
+                          await FirebaseFirestore.instance
                               .collection("recipes")
                               .add(newRecipe.toMap())
                               .whenComplete(() => setState(() {
@@ -346,7 +346,15 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                         textColor: Colors.white,
                                         fontSize: 16.0),
                                   });
-
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Fluttertoast.showToast(
+                              msg: "Recipe added!",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                           Navigator.pop(context);
                         } else {
                           Fluttertoast.showToast(
