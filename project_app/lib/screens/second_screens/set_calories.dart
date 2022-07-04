@@ -50,7 +50,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "Set you custom calories goal",
+                "Set your custom calories goal",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
