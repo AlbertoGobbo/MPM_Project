@@ -148,7 +148,7 @@ class _HomepageState extends State<Homepage> {
                       Text(
                           "${globals.savedRecipes[index].ingredients.length} ingredients"
                           "\n"
-                          "(${globals.savedRecipes[index].ingredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).toStringAsFixed(3).replaceAll(".", ",")} Kcal)",
+                          "(${globals.savedRecipes[index].ingredients.fold(0.0, (previousValue, element) => double.parse(previousValue.toString()) + (double.parse(element.caloriesKcal) * double.parse(element.totalGrams))).toStringAsFixed(0).replaceAll(".", ",")} Kcal)",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               color: Colors.white,
