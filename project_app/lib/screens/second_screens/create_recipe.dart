@@ -347,6 +347,14 @@ class _CreateRecipeState extends State<CreateRecipe> {
                                         fontSize: 16.0),
                                   });
                           FocusManager.instance.primaryFocus?.unfocus();
+                          Fluttertoast.showToast(
+                              msg: "Recipe added!",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                           Navigator.pop(context);
                         } else {
                           Fluttertoast.showToast(
