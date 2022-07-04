@@ -39,28 +39,23 @@ class _HomepageState extends State<Homepage> {
     return Center(
         child: Column(
       children: [
-        const Spacer(flex: 1),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.07,
-          child: Text(
-            "Welcome\n"
-            "${globals.username}",
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
+        const Spacer(),
+        Text(
+          "Welcome ${globals.username}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        const Spacer(flex: 2),
+        const Spacer(),
         buildCaloriesConsume(
           context,
         ),
         const Spacer(flex: 2),
-        const Expanded(
-          child: Text(
-            "Your recipes:",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+        const Text(
+          "Your recipes:",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
+        const Spacer(),
         buildListRecipes(),
         buildRowListRecipes(),
         const Spacer(),
