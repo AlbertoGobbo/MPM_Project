@@ -53,6 +53,15 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             padding: const EdgeInsets.all(13.5),
             onPressed: () async {
               if (globals.selectedIngredients.isEmpty) {
+                if (_currentScreenIndex == 0 || _currentScreenIndex == 2) {
+                  setState(() {
+                    _currentScreenIndex = 1;
+                    _pageController.animateToPage(_currentScreenIndex,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease);
+                  });
+                }
+
                 Fluttertoast.showToast(
                     msg: "Please, select at least one ingredient",
                     toastLength: Toast.LENGTH_LONG,
@@ -81,8 +90,17 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
             padding: const EdgeInsets.all(13.5),
             onPressed: () {
               if (globals.savedRecipes.isEmpty) {
+                if (_currentScreenIndex == 0 || _currentScreenIndex == 2) {
+                  setState(() {
+                    _currentScreenIndex = 1;
+                    _pageController.animateToPage(_currentScreenIndex,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease);
+                  });
+                }
+
                 Fluttertoast.showToast(
-                    msg: "No recipes create: please, create one",
+                    msg: "No recipes created: please, create one",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 2,
