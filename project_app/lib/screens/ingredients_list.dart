@@ -10,13 +10,17 @@ class IngredientsList extends StatefulWidget {
   State<IngredientsList> createState() => _IngredientsListState();
 }
 
-class _IngredientsListState extends State<IngredientsList> {
+class _IngredientsListState extends State<IngredientsList>
+    with AutomaticKeepAliveClientMixin {
   String searchText = '';
   var mapIngredientToCheckboxIndex = {};
 
   bool containsSearchText(Ingredients ingredients) {
     return ingredients.name.toLowerCase().contains(searchText.toLowerCase());
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -32,6 +36,8 @@ class _IngredientsListState extends State<IngredientsList> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final ingredientsFromSearch =
         globals.listIngredients.where(containsSearchText).toList();
 

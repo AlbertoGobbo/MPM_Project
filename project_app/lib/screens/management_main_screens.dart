@@ -20,6 +20,7 @@ class ManagementMainScreens extends StatefulWidget {
 }
 
 class _ManagementMainScreensState extends State<ManagementMainScreens> {
+  final homepageKey = GlobalKey<State<Homepage>>();
   final ingredientListKey = GlobalKey<State<IngredientsList>>();
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
@@ -30,7 +31,7 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
     super.initState();
 
     _screens = [
-      {"screen": const Homepage(), "title": "Home"},
+      {"screen": Homepage(key: homepageKey), "title": "Home"},
       {
         "screen": IngredientsList(
           key: ingredientListKey,
@@ -77,9 +78,10 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                   MaterialPageRoute(builder: (context) => const CreateRecipe()),
                 );
 
-                final state = ingredientListKey.currentState!;
-
-                state.setState(() {});
+                if (ingredientListKey.currentState != null) {
+                  final state = ingredientListKey.currentState!;
+                  state.setState(() {});
+                }
               }
             },
             tooltip: 'Create a new recipe',
@@ -112,6 +114,11 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
                   context,
                   MaterialPageRoute(builder: (context) => const SavedRecipes()),
                 );
+
+                if (homepageKey.currentState != null) {
+                  final state = homepageKey.currentState!;
+                  state.setState(() {});
+                }
               }
             },
             tooltip: 'Your recipes',

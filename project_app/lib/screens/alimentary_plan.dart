@@ -29,7 +29,8 @@ class AlimentaryPlanPage extends StatefulWidget {
   State<AlimentaryPlanPage> createState() => _AlimentaryPlanPageState();
 }
 
-class _AlimentaryPlanPageState extends State<AlimentaryPlanPage> {
+class _AlimentaryPlanPageState extends State<AlimentaryPlanPage>
+    with AutomaticKeepAliveClientMixin {
   final firestoreInstance = FirebaseFirestore.instance;
   final GlobalKey<ExpansionTileCardState> cardBreakfast = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardLunch = GlobalKey();
@@ -38,6 +39,9 @@ class _AlimentaryPlanPageState extends State<AlimentaryPlanPage> {
   late AlimentaryPlanDiary item;
   late String dropdownvalue;
   //late List<AlimentaryPlanDiary> plans;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -127,6 +131,8 @@ class _AlimentaryPlanPageState extends State<AlimentaryPlanPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

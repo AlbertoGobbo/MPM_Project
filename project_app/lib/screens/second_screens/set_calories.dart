@@ -116,7 +116,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                         Expanded(
                           child: Column(
                             children: [
-                              /*const Padding(
+                              /*const Padding()
                                 padding: EdgeInsets.only(bottom: 2),
                                 child: Text(
                                   "Gender:",
