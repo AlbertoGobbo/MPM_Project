@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:project_app/models/food.dart';
 
 List<Ingredients> ingredientsFromMap(String str) =>

@@ -1,5 +1,4 @@
 String? passwordValidator(String? value) {
-  //<-- add String? as a return type
   if (value == null || value.trim().isEmpty) {
     return 'This field is required';
   }
@@ -11,7 +10,6 @@ String? passwordValidator(String? value) {
 }
 
 String? emailValidator(String? value) {
-  //<-- add String? as a return type
   if (value == null || value.trim().isEmpty) {
     return 'Please enter your email address';
   }
@@ -23,7 +21,6 @@ String? emailValidator(String? value) {
 }
 
 String? usernameValidator(String? value) {
-  //<-- add String? as a return type
   if (value == null || value.trim().isEmpty) {
     return 'Please enter your username';
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:project_app/screens/second_screens/help_screens/add_daily_calories_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/create_recipe_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/delete_recipe_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/manage_alimentary_plan_help.dart';
 import 'package:project_app/screens/second_screens/help_screens/view_recipe_help.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({Key? key}) : super(key: key);

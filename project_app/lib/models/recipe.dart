@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:project_app/models/food.dart';
 import 'package:project_app/models/ingredients.dart';
-import 'dart:convert';
 
 List<Recipe> ingredientsFromMap(String str) =>
     List<Recipe>.from(json.decode(str).map((x) => Recipe.fromMap(x)));
