@@ -36,7 +36,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- You want to add some meals for lunch (the same procedure is valid for 'Breakfast', 'Snack' and 'Dinner' windows). So, tap the add button on the expander window.",
+                  "- You want to add some meals for 'Lunch' (the same procedure is valid for 'Breakfast', 'Snack' and 'Dinner' windows). So, tap the add button on the expander window.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
@@ -114,7 +114,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/manage_alimentary_plan/manage_alimentary_plan_6.jpg",
-                scale: 2,
+                scale: 3.5,
               ),
             ),
             const SizedBox(height: 40),
@@ -139,7 +139,7 @@ class ManageAlimentaryPlanHelp extends StatelessWidget {
               // TEXT
               alignment: Alignment.centerLeft,
               child: Text(
-                  "- Finally, you can move an ingredient/recipe swiping left on it and tapping on the green button. It will appear a dialog with the options available and you only to tap on one option. After that, you can see the interface is updated.",
+                  "- Finally, you can move an ingredient/recipe swiping left on it and tapping on the green button. It will appear a dialog with the options available and you need to tap only one option. After that, you can see the interface is updated.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),

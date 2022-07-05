@@ -45,7 +45,7 @@ class DeleteRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/delete_recipe/delete_recipe_2.gif",
-                scale: 2,
+                scale: 1.5,
               ),
             ),
             const SizedBox(height: 40),
@@ -63,14 +63,15 @@ class DeleteRecipeHelp extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 "assets/delete_recipe/delete_recipe_3.gif",
-                scale: 1.2,
+                scale: 1.5,
               ),
             ),
             const SizedBox(height: 40),
             const Align(
               // TEXT
               alignment: Alignment.centerLeft,
-              child: Text("- Tap the trash button.",
+              child: Text(
+                  "- Tap the trash button on the top-right of the screen and confirm the delete operation.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
@@ -78,24 +79,8 @@ class DeleteRecipeHelp extends StatelessWidget {
               // IMAGE
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                "assets/delete_recipe/delete_recipe_4.jpg",
-                scale: 2,
-              ),
-            ),
-            const SizedBox(height: 40),
-            const Align(
-              // TEXT
-              alignment: Alignment.centerLeft,
-              child: Text("- Confirm the delete operation.",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(height: 20),
-            Align(
-              // IMAGE
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                "assets/delete_recipe/delete_recipe_5.gif",
-                scale: 1.2,
+                "assets/delete_recipe/delete_recipe_4.gif",
+                scale: 1.3,
               ),
             ),
             const SizedBox(height: 40),

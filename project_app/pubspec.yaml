@@ -88,8 +88,7 @@ flutter:
     - assets/delete_recipe/delete_recipe_1.jpg
     - assets/delete_recipe/delete_recipe_2.gif
     - assets/delete_recipe/delete_recipe_3.gif
-    - assets/delete_recipe/delete_recipe_4.jpg
-    - assets/delete_recipe/delete_recipe_5.gif
+    - assets/delete_recipe/delete_recipe_4.gif
     - assets/add_daily_calories/add_daily_calories_1.jpg
     - assets/add_daily_calories/add_daily_calories_2.gif
     - assets/add_daily_calories/add_daily_calories_3.gif
