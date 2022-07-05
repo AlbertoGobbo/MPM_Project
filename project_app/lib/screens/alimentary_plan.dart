@@ -458,17 +458,19 @@ class _MealExpanderState extends State<MealExpander> {
           ],
         ),
         IconButton(
-            onPressed: () async {
-              await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChooseAliment(
-                            partOfDay: titleName,
-                            day: day,
-                          )));
-              callbackSetState();
-            },
-            icon: const Icon(Icons.add))
+          onPressed: () async {
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChooseAliment(
+                          partOfDay: titleName,
+                          day: day,
+                        )));
+            callbackSetState();
+          },
+          icon: const Icon(Icons.add),
+          iconSize: 27,
+        )
       ],
     );
   }

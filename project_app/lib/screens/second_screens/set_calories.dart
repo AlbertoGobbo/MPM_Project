@@ -77,7 +77,13 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                       onPressed: () {
                         trySetCustomCalories();
                       },
-                      child: const Text("Set Calories"),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Set Calories",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     ),
                   ],
                 )),
@@ -86,9 +92,13 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
               key: _formKey2,
               child: Column(
                 children: <Widget>[
-                  const Text(
-                    "Calculate your goal",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      "Calculate your goal",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -99,12 +109,27 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                             children: [
                               const Padding(
                                 padding: EdgeInsets.only(bottom: 2),
-                                child: Text("Gender:"),
+                                child: Text(
+                                  "Gender:",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ),
                               ToggleButtons(
                                 children: const <Widget>[
-                                  Text("Male"),
-                                  Text("Female"),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Male",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Female",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
                                 ],
                                 onPressed: (int index) {
                                   setState(() {
@@ -174,20 +199,39 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                   ),
                   const Text(
                     "Basic physical activity:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(8),
                     child: Text(
                       "Choose your daily physical activity level based on the work you do",
+                      style: TextStyle(fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   ToggleButtons(
                     children: const <Widget>[
-                      Text("Soft"),
-                      Text("Moderate"),
-                      Text("Intense"),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Soft",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Moderate",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Intense",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -210,23 +254,37 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                     child: Text(
                       basicActivityDescriptions[indexBaseAcitivity],
                       textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 15),
                     ),
                   ),
                   const Text(
                     "Workout during the week:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "A healthy adult engages in desirable physical activity if four or five times a week they spend at least 20 minutes exercising of sufficient intensity to cause noticeable sweating.",
                       textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15),
                     ),
                   ),
                   ToggleButtons(
                     children: const <Widget>[
-                      Text("YES"),
-                      Text("NO"),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "YES",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "NO",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -243,11 +301,20 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                     },
                     isSelected: isSelectedAuspicActivity,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      tryCalculateCaloriesGoal();
-                    },
-                    child: const Text("Calculate Calories"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        tryCalculateCaloriesGoal();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Calculate Calories",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -458,7 +458,13 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                         ],
                       ));
             },
-            child: const Text("Change total grams"),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Change total grams",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
           ),
         ),
         ElevatedButton(
@@ -471,7 +477,13 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                 isRecipe: "true");
             Navigator.of(context).pop(food);
           },
-          child: const Text("Add Recipe"),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Add Recipe",
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
         ),
         const Spacer(),
       ],

@@ -215,7 +215,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                                 widget.day);
                           }
                         },
-                        icon: const Icon(Icons.add_circle_rounded),
+                        icon: const Icon(Icons.add_circle_rounded, size: 35),
                         color: const Color.fromARGB(255, 52, 141, 214),
                       ),
                       onTap: () async {
@@ -406,7 +406,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                             addFood(widget.partOfDay, food);
                           }
                         },
-                        icon: const Icon(Icons.add_circle_rounded),
+                        icon: const Icon(Icons.add_circle_rounded, size: 35),
                         color: const Color.fromARGB(255, 52, 141, 214),
                       ),
                       onTap: () async {

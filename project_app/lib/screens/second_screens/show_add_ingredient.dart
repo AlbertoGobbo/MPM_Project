@@ -100,6 +100,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
           title: Text(widget.ingredient.name.toUpperCase() + " Information")),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -292,7 +293,13 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                             ],
                           ));
                 },
-                child: const Text("Change total grams"),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Change total grams",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
               ),
             ),
             ElevatedButton(
@@ -308,7 +315,13 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                     isRecipe: "false");
                 Navigator.of(context).pop(food);
               },
-              child: const Text("Add Ingredient"),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Add Ingredient",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
             ),
           ],
         ),
