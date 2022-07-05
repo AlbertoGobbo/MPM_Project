@@ -261,7 +261,7 @@ class _HomepageState extends State<Homepage> {
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
           child: Column(
             children: [
-              const Text("CALORIES GOAL (kcal):"),
+              const Text("CALORIES GOAL (Kcal):"),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(

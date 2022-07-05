@@ -297,6 +297,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
         const Divider(
           height: 10,
           thickness: 3,
+          color: Colors.black,
         ),
         const Spacer(),
         Padding(
@@ -312,7 +313,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                     const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
               Text(
-                  "Calories (kcal): ${(totalCaloriesFor1Gram * selectedGrams).toInt()}"),
+                  "Calories (Kcal): ${(totalCaloriesFor1Gram * selectedGrams).toInt()}"),
               Text(
                   "Carbohydrates (g): ${(totalCarboFor1Gram * selectedGrams).toInt()}"),
               Text(
@@ -459,7 +460,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                       ));
             },
             child: const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(11.0),
               child: Text(
                 "Change total grams",
                 style: TextStyle(fontSize: 18),
@@ -478,7 +479,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
             Navigator.of(context).pop(food);
           },
           child: const Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(11.0),
             child: Text(
               "Add Recipe",
               style: TextStyle(fontSize: 18),

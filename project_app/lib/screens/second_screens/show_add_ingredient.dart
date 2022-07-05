@@ -118,7 +118,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                              "Calories (kcal): ${(double.parse(widget.ingredient.caloriesKcal) * 100).toInt()}"),
+                              "Calories (Kcal): ${(double.parse(widget.ingredient.caloriesKcal) * 100).toInt()}"),
                           Text(
                               "Carbohydrates (g): ${(double.parse(widget.ingredient.carbohydratesG) * 100).toInt()}"),
                           Text(
@@ -145,8 +145,9 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
               ],
             ),
             const Divider(
-              height: 2,
-              color: Colors.black26,
+              height: 10,
+              thickness: 3,
+              color: Colors.black,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16),
@@ -167,7 +168,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                     initialAngleInDegree: 0,
                     chartType: ChartType.ring,
                     centerText:
-                        "${(double.parse(widget.ingredient.caloriesKcal) * gramsSelected).toInt()} \n kcal",
+                        "${(double.parse(widget.ingredient.caloriesKcal) * gramsSelected).toInt()} \n Kcal",
                     centerTextStyle: const TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.bold,
@@ -294,7 +295,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                           ));
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(11.0),
                   child: Text(
                     "Change total grams",
                     style: TextStyle(fontSize: 18),
@@ -316,7 +317,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
                 Navigator.of(context).pop(food);
               },
               child: const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(11.0),
                 child: Text(
                   "Add Ingredient",
                   style: TextStyle(fontSize: 18),

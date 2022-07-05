@@ -454,7 +454,7 @@ class _MealExpanderState extends State<MealExpander> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text("Items: $numberOfItem", style: const TextStyle(fontSize: 14)),
-            Text("Tot. kCal: $totcal", style: const TextStyle(fontSize: 14))
+            Text("Tot. Kcal: $totcal", style: const TextStyle(fontSize: 14))
           ],
         ),
         IconButton(
