@@ -229,7 +229,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
           padding: EdgeInsets.all(15.0),
           child: Text(
             "Ingredients list",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(
@@ -309,7 +309,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                 textAlign: TextAlign.center,
                 "Values for total grams selected ($selectedGrams g)",
                 style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
               Text(
                   "Calories (kcal): ${(totalCaloriesFor1Gram * selectedGrams).toInt()}"),
