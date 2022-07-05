@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>922537851131-6ubjdmf6r7kpvgr27cbc5hgfm6m0r7th.apps.googleusercontent.com</string>
+	<string>922537851131-u0bl6dui726tasgved3gue54okok5gjg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.922537851131-6ubjdmf6r7kpvgr27cbc5hgfm6m0r7th</string>
+	<string>com.googleusercontent.apps.922537851131-u0bl6dui726tasgved3gue54okok5gjg</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>922537851131-1hv0i7tlj8hajm1nprklaaennj9sphk8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.alberto.gobbo.5-studenti.unipd.it</string>
+	<string>com.example.smart-food</string>
 	<key>PROJECT_ID</key>
 	<string>mpm-project-6e7dd</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:922537851131:ios:4881ce3446d8ab25ddd85e</string>
+	<string>1:922537851131:ios:cbd0bdb240455041ddd85e</string>
 </dict>
 </plist>
