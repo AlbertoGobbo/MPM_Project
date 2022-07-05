@@ -51,7 +51,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
     final ingredientsFromSearch =
         globals.listIngredients.where(containsSearchTextIngred).toList();
 
-    final recipessFromSearch =
+    final recipesFromSearch =
         globals.savedRecipes.where(containsSearchTextRecipe).toList();
 
     return DefaultTabController(
@@ -265,7 +265,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
               Expanded(
                 child: ListView.separated(
                   itemBuilder: (context, index) {
-                    var item = recipessFromSearch[index];
+                    var item = recipesFromSearch[index];
                     var totCal = 0;
                     totCal = item.ingredients
                         .fold(
@@ -433,7 +433,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                   separatorBuilder: (context, index) {
                     return const Divider();
                   },
-                  itemCount: recipessFromSearch.length,
+                  itemCount: recipesFromSearch.length,
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_app/helpers/search_widget.dart';
 import 'package:project_app/models/recipe.dart';
 import 'package:project_app/screens/second_screens/view_saved_recipe.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
@@ -13,8 +14,16 @@ class SavedRecipes extends StatefulWidget {
 
 class _SavedRecipesState extends State<SavedRecipes> {
   bool selectingMode = false;
+  String searchTextRecipe = '';
   List<Recipe> selectedRecipes = [];
   List<bool> selectingStateRecipes = [];
+  var mapSavedRecipesToCheckboxIndex = {};
+
+  bool containsSearchTextRecipe(Recipe recipes) {
+    return recipes.recipeName
+        .toLowerCase()
+        .contains(searchTextRecipe.toLowerCase());
+  }
 
   void _manageSelectingMode(int index) {
     selectingStateRecipes[index] = !selectingStateRecipes[index];
@@ -63,6 +72,10 @@ class _SavedRecipesState extends State<SavedRecipes> {
                   selectingStateRecipes = List<bool>.filled(
                       globals.savedRecipes.length, false,
                       growable: true);
+                  for (int i = 0; i < globals.savedRecipes.length; i = i + 1) {
+                    mapSavedRecipesToCheckboxIndex[
+                        globals.savedRecipes[i].recipeName] = i;
+                  }
                   selectingMode = false;
                 });
 
@@ -77,13 +90,20 @@ class _SavedRecipesState extends State<SavedRecipes> {
 
   @override
   void initState() {
+    super.initState();
+
     selectingStateRecipes =
         List<bool>.filled(globals.savedRecipes.length, false, growable: true);
-    super.initState();
+    for (int i = 0; i < globals.savedRecipes.length; i = i + 1) {
+      mapSavedRecipesToCheckboxIndex[globals.savedRecipes[i].recipeName] = i;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final recipesFromSearch =
+        globals.savedRecipes.where(containsSearchTextRecipe).toList();
+
     return Scaffold(
       appBar: AppBar(
         leading: selectingMode
@@ -116,46 +136,79 @@ class _SavedRecipesState extends State<SavedRecipes> {
               ]
             : [],
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: globals.savedRecipes.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              globals.savedRecipes[index].recipeName,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: const Color.fromARGB(0, 255, 255, 255),
+            padding: const EdgeInsets.only(top: 17.0),
+            child: SearchWidget(
+              text: searchTextRecipe,
+              hintText: "Search recipes",
+              onChanged: (text) => setState(
+                () {
+                  searchTextRecipe = text;
+                },
+              ),
             ),
-            subtitle: const Text("Tap to see all the recipe ingredients"),
-            trailing: selectingStateRecipes[index]
-                ? Icon(
-                    Icons.check_circle,
-                    color: Colors.green[700],
-                  )
-                : null,
-            onTap: () {
-              setState(() {
-                if (selectingMode == true) {
-                  _manageSelectingMode(index);
-                } else {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ViewSavedRecipe(
-                            savedRecipe: globals.savedRecipes[index],
-                            isAddMode: false,
-                          )));
-                }
-              });
-            },
-            onLongPress: () {
-              setState(() {
-                selectingMode = true;
-                _manageSelectingMode(index);
-              });
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
+          ),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(10.0),
+              itemCount: recipesFromSearch.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    recipesFromSearch[index].recipeName,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: const Text("Tap to see all the recipe ingredients"),
+                  trailing:
+                      (recipesFromSearch.length == globals.savedRecipes.length
+                              ? selectingStateRecipes[index]
+                              : selectingStateRecipes[
+                                  mapSavedRecipesToCheckboxIndex[
+                                      recipesFromSearch[index].recipeName]])
+                          ? Icon(
+                              Icons.check_circle,
+                              color: Colors.green[700],
+                            )
+                          : null,
+                  onTap: () {
+                    setState(() {
+                      if (selectingMode == true) {
+                        recipesFromSearch.length == globals.savedRecipes.length
+                            ? _manageSelectingMode(index)
+                            : _manageSelectingMode(
+                                mapSavedRecipesToCheckboxIndex[
+                                    recipesFromSearch[index].recipeName]);
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ViewSavedRecipe(
+                                  savedRecipe: recipesFromSearch[index],
+                                  isAddMode: false,
+                                )));
+                      }
+                    });
+                  },
+                  onLongPress: () {
+                    setState(() {
+                      selectingMode = true;
+                      recipesFromSearch.length == globals.savedRecipes.length
+                          ? _manageSelectingMode(index)
+                          : _manageSelectingMode(mapSavedRecipesToCheckboxIndex[
+                              recipesFromSearch[index].recipeName]);
+                    });
+                  },
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
