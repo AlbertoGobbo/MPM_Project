@@ -116,50 +116,50 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                         Expanded(
                           child: Column(
                             children: [
-                              /*const Padding()
-                                padding: EdgeInsets.only(bottom: 2),
-                                child: Text(
-                                  "Gender:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ),*/
-                              ToggleButtons(
-                                constraints: BoxConstraints(
-                                    minWidth:
-                                        (MediaQuery.of(context).size.width -
-                                                36) /
-                                            5,
-                                    minHeight: 50),
-                                children: const <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Male",
-                                      style: TextStyle(fontSize: 18),
+                              Tooltip(
+                                message: "Gender",
+                                textStyle: const TextStyle(
+                                    fontSize: 15, color: Colors.white),
+                                height: 30,
+                                verticalOffset: 15,
+                                child: ToggleButtons(
+                                  constraints: BoxConstraints(
+                                      minWidth:
+                                          (MediaQuery.of(context).size.width -
+                                                  32) /
+                                              5,
+                                      minHeight: 50),
+                                  children: const <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Male",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Female",
-                                      style: TextStyle(fontSize: 18),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Female",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int buttonIndex = 0;
-                                        buttonIndex < isSelectedGender.length;
-                                        buttonIndex++) {
-                                      if (buttonIndex == index) {
-                                        isSelectedGender[buttonIndex] = true;
-                                      } else {
-                                        isSelectedGender[buttonIndex] = false;
+                                  ],
+                                  onPressed: (int index) {
+                                    setState(() {
+                                      for (int buttonIndex = 0;
+                                          buttonIndex < isSelectedGender.length;
+                                          buttonIndex++) {
+                                        if (buttonIndex == index) {
+                                          isSelectedGender[buttonIndex] = true;
+                                        } else {
+                                          isSelectedGender[buttonIndex] = false;
+                                        }
                                       }
-                                    }
-                                  });
-                                },
-                                isSelected: isSelectedGender,
+                                    });
+                                  },
+                                  isSelected: isSelectedGender,
+                                ),
                               ),
                             ],
                           ),
