@@ -376,6 +376,7 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () {
+              dialogController.clear();
               showDialog<String>(
                   context: context,
                   builder: (context) => AlertDialog(

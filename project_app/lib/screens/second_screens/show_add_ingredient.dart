@@ -214,6 +214,7 @@ class _ShowAddIngredientState extends State<ShowAddIngredient> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
+                  dialogController.clear();
                   showDialog<String>(
                       context: context,
                       builder: (context) => AlertDialog(

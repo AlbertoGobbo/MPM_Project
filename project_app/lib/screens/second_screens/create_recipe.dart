@@ -187,6 +187,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     SlidableAction(
                       flex: 1,
                       onPressed: (_) async {
+                        dialogController.clear();
                         final grams = await openDialogToModifyIngredientGrams(
                             globals.selectedIngredients[index].name);
                         if (grams == null || grams.isEmpty) return;

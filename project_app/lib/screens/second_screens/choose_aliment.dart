@@ -106,6 +106,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                           "Calories: ${double.parse(item.caloriesKcal) * 100} Kcal (100g)"),
                       trailing: IconButton(
                         onPressed: () async {
+                          dialogController.clear();
                           double gramsSelected = 0;
                           await showDialog<String>(
                               context: context,
@@ -315,6 +316,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                       subtitle: Text("Calories: $totCal Kcal (${totgram}g)"),
                       trailing: IconButton(
                         onPressed: () async {
+                          dialogController.clear();
                           double gramsSelected = 0;
                           await showDialog(
                               context: context,
