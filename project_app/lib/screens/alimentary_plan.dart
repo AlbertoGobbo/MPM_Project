@@ -13,24 +13,14 @@ import 'package:project_app/models/personal_alimentary_plan.dart';
 import 'package:project_app/screens/second_screens/choose_aliment.dart';
 import 'package:project_app/variables/global_variables.dart' as globals;
 
-class AlimentaryPlan extends StatelessWidget {
+class AlimentaryPlan extends StatefulWidget {
   const AlimentaryPlan({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const AlimentaryPlanPage();
-  }
+  State<AlimentaryPlan> createState() => _AlimentaryPlanState();
 }
 
-class AlimentaryPlanPage extends StatefulWidget {
-  const AlimentaryPlanPage({Key? key}) : super(key: key);
-
-  @override
-  State<AlimentaryPlanPage> createState() => _AlimentaryPlanPageState();
-}
-
-class _AlimentaryPlanPageState extends State<AlimentaryPlanPage>
-    with AutomaticKeepAliveClientMixin {
+class _AlimentaryPlanState extends State<AlimentaryPlan> {
   final firestoreInstance = FirebaseFirestore.instance;
   final GlobalKey<ExpansionTileCardState> cardBreakfast = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardLunch = GlobalKey();
@@ -38,10 +28,6 @@ class _AlimentaryPlanPageState extends State<AlimentaryPlanPage>
   final GlobalKey<ExpansionTileCardState> cardDinner = GlobalKey();
   late AlimentaryPlanDiary item;
   late String dropdownvalue;
-  //late List<AlimentaryPlanDiary> plans;
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -131,8 +117,6 @@ class _AlimentaryPlanPageState extends State<AlimentaryPlanPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -283,6 +267,7 @@ class MealExpander extends StatefulWidget {
 class _MealExpanderState extends State<MealExpander> {
   @override
   Widget build(BuildContext context) {
+    print("update");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ExpansionTileCard(

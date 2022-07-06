@@ -22,6 +22,7 @@ class ManagementMainScreens extends StatefulWidget {
 class _ManagementMainScreensState extends State<ManagementMainScreens> {
   final homepageKey = GlobalKey<State<Homepage>>();
   final ingredientListKey = GlobalKey<State<IngredientsList>>();
+  final alimentaryPlanKey = GlobalKey<State<AlimentaryPlan>>();
   int _currentScreenIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
   late List _screens;
@@ -38,7 +39,12 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
         ),
         "title": "Ingredients"
       },
-      {"screen": const AlimentaryPlan(), "title": "Alimentary Plan"},
+      {
+        "screen": AlimentaryPlan(
+          key: alimentaryPlanKey,
+        ),
+        "title": "Alimentary Plan"
+      },
     ];
   }
 
@@ -117,6 +123,11 @@ class _ManagementMainScreensState extends State<ManagementMainScreens> {
 
                 if (homepageKey.currentState != null) {
                   final state = homepageKey.currentState!;
+                  state.setState(() {});
+                }
+
+                if (alimentaryPlanKey.currentState != null) {
+                  final state = alimentaryPlanKey.currentState!;
                   state.setState(() {});
                 }
               }

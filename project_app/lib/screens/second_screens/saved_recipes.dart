@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_app/firebase/firestore_function.dart';
 import 'package:project_app/helpers/search_widget.dart';
 import 'package:project_app/models/recipe.dart';
 import 'package:project_app/screens/second_screens/view_saved_recipe.dart';
@@ -54,6 +55,7 @@ class _SavedRecipesState extends State<SavedRecipes> {
               onPressed: () {
                 for (int i = 0; i < selectedRecipes.length; i = i + 1) {
                   globals.savedRecipes.remove(selectedRecipes[i]);
+                  removeRecipeFromAlimentaryPlan(selectedRecipes[i]);
 
                   // Remove keyword "await" because the user would get stuck until a Future is returned if the offline mode is on
                   FirebaseFirestore.instance
@@ -211,5 +213,38 @@ class _SavedRecipesState extends State<SavedRecipes> {
         ],
       ),
     );
+  }
+}
+
+void removeRecipeFromAlimentaryPlan(Recipe selectedRecipe) {
+  for (var plan in globals.listPlans) {
+    bool isRemovedB = false;
+    bool isRemovedL = false;
+    bool isRemovedS = false;
+    bool isRemovedD = false;
+
+    if (plan.breakfast.isNotEmpty) {
+      plan.breakfast.removeWhere((element) =>
+          isRemovedB = element.aliment.getName() == selectedRecipe.recipeName);
+    }
+
+    if (plan.lunch.isNotEmpty) {
+      plan.lunch.removeWhere((element) =>
+          isRemovedL = element.aliment.getName() == selectedRecipe.recipeName);
+    }
+
+    if (plan.snack.isNotEmpty) {
+      plan.snack.removeWhere((element) =>
+          isRemovedS = element.aliment.getName() == selectedRecipe.recipeName);
+    }
+
+    if (plan.dinner.isNotEmpty) {
+      plan.dinner.removeWhere((element) =>
+          isRemovedD = element.aliment.getName() == selectedRecipe.recipeName);
+    }
+
+    if (isRemovedB || isRemovedL || isRemovedS || isRemovedD) {
+      updateAlimentaryPlan(plan, plan.day);
+    }
   }
 }
