@@ -267,7 +267,6 @@ class MealExpander extends StatefulWidget {
 class _MealExpanderState extends State<MealExpander> {
   @override
   Widget build(BuildContext context) {
-    print("update");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ExpansionTileCard(
