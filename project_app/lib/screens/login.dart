@@ -19,44 +19,48 @@ class _MyLoginPageState extends State<MyLoginPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: null,
-        body: Center(
-          child: CustomPaint(
-            painter: MyShapePainter(),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ClipRect(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                          width: 200,
-                          height: 150,
-                          child: Image.asset('assets/icon_app.png')),
-                      const MyLoginForm(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text('Does not have account?'),
-                          TextButton(
-                            child: const Text(
-                              'Sign in',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MySigninPage()),
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ]),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: null,
+          body: Center(
+            child: CustomPaint(
+              painter: MyShapePainter(),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ClipRect(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                            width: 200,
+                            height: 150,
+                            child: Image.asset('assets/icon_app.png')),
+                        const MyLoginForm(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text('Does not have account?'),
+                            TextButton(
+                              child: const Text(
+                                'Sign in',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MySigninPage()),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ]),
+                ),
               ),
             ),
           ),

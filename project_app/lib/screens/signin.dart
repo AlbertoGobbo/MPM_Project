@@ -17,26 +17,29 @@ class _MySigninPageState extends State<MySigninPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: null,
-        body: Center(
-          child: CustomPaint(
-            painter: MyShapePainter(),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ),
-                  const MySignInForm(),
-                ],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: null,
+          body: Center(
+            child: CustomPaint(
+              painter: MyShapePainter(),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    const MySignInForm(),
+                  ],
+                ),
               ),
             ),
           ),

@@ -62,6 +62,8 @@ class _IngredientsListState extends State<IngredientsList>
             ),
             Expanded(
               child: ListView.separated(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                 itemCount: ingredientsFromSearch.length,
                 itemBuilder: (context, index) {

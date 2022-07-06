@@ -90,6 +90,8 @@ class _ChooseAlimentState extends State<ChooseAliment> {
               ),
               Expanded(
                 child: ListView.separated(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   itemBuilder: (context, index) {
                     var item = ingredientsFromSearch[index];
                     return ListTile(
@@ -277,6 +279,8 @@ class _ChooseAlimentState extends State<ChooseAliment> {
               ),
               Expanded(
                 child: ListView.separated(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   itemBuilder: (context, index) {
                     var item = recipesFromSearch[index];
                     var totCal = 0;

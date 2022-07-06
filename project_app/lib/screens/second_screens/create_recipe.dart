@@ -178,6 +178,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
           ),
           Expanded(
             child: ListView.separated(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.only(top: 10.0, left: 1.0, right: 3.0),
               itemCount: globals.selectedIngredients.length,
               itemBuilder: (context, index) {

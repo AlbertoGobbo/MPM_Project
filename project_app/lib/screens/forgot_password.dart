@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:project_app/painters/login_painter.dart';
 import 'package:project_app/helpers/reusable_widgets.dart';
 import 'package:project_app/helpers/validator.dart';
@@ -10,26 +11,29 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: null,
-        body: Center(
-          child: CustomPaint(
-            painter: MyShapePainter(),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ),
-                  const ForgotPasswordForm(),
-                ],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: null,
+          body: Center(
+            child: CustomPaint(
+              painter: MyShapePainter(),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    const ForgotPasswordForm(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -120,9 +124,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 minimumSize: const Size(200, 50),
                 maximumSize: const Size(200, 50),
               ),
-              child: const Text(
+              child: Text(
                 'Reset Password',
-                style: TextStyle(fontSize: 22),
+                style: Platform.isIOS
+                    ? const TextStyle(fontSize: 20)
+                    : const TextStyle(fontSize: 22),
               ),
               onPressed: () {
                 tryReset();

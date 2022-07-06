@@ -156,6 +156,7 @@ class _SavedRecipesState extends State<SavedRecipes> {
           ),
           Expanded(
             child: ListView.separated(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.all(10.0),
               itemCount: recipesFromSearch.length,
               itemBuilder: (context, index) {

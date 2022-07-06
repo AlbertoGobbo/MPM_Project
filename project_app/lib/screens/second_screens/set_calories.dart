@@ -47,6 +47,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
         title: const Text("Calories Goal"),
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
             const Padding(
