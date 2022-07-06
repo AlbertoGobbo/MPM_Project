@@ -422,7 +422,8 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                                   ));
 
                           if (gramsSelected != 0) {
-                            int totCalories = (totCal * gramsSelected).toInt();
+                            int totCalories =
+                                (totCal / totgram * gramsSelected).toInt();
                             var food = Pair(
                                 aliment: item,
                                 grams: gramsSelected.toString(),
