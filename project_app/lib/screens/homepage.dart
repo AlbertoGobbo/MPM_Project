@@ -279,6 +279,7 @@ class _HomepageState extends State<Homepage> {
                         progressBarColors: colors),
                     infoProperties: InfoProperties(
                       modifier: (percentage) {
+                        percentage = totCaloriesConsumedToday;
                         return overflow
                             ? "${percentage.toInt()}+"
                             : "${percentage.toInt()}";

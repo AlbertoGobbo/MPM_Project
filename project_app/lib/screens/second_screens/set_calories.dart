@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -193,8 +194,11 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                               weightController,
                               weightValidator,
                               errorWeightMsg,
-                              TextInputType.number,
-                              RegExp('[0-9.]'),
+                              const TextInputType.numberWithOptions(
+                                  decimal: true),
+                              Platform.isAndroid
+                                  ? RegExp('[0-9.]')
+                                  : RegExp('[0-9.,]'),
                               "Kg"),
                         ),
                         const SizedBox(width: 20),
@@ -208,7 +212,7 @@ class _SetCaloriesGoalState extends State<SetCaloriesGoal> {
                               errorHeightMsg,
                               TextInputType.number,
                               RegExp('[0-9]'),
-                              "Cm"),
+                              "cm"),
                         ),
                       ],
                     ),

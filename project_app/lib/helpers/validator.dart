@@ -55,9 +55,13 @@ String? weightValidator(String? value) {
   if (value.split(".").toList().length - 1 > 1) {
     return 'Invalid format for weight';
   }
+  if (value.substring(0, 1) == ".") {
+    return 'Invalid format for weight';
+  }
   if (double.parse(value) <= 0) {
     return 'Weight must be greater than 0';
   }
+
   return null;
 }
 

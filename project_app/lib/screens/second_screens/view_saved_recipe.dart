@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -125,11 +126,6 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
               100)
           .round();
 
-      /*percentProteins = (((totalProteinsFor1Gram * selectedGrams).toInt() *
-                  4 /
-                  (totalCaloriesFor1Gram * 100)) *
-              100)
-          .round();*/
       percentFats = (((totalFatsFor1Gram * selectedGrams).toInt() *
                   9 /
                   (totalCaloriesFor1Gram * 100)) *
@@ -394,56 +390,28 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                            Platform.isAndroid
+                                ? FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9.]'))
+                                : FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9.,]')),
                           ],
                         ),
                         actions: <Widget>[
                           TextButton(
                             child: const Text("Cancel"),
                             onPressed: () {
+                              dialogController.clear();
                               Navigator.of(context).pop();
                             },
                           ),
                           TextButton(
                             child: const Text("Submit"),
                             onPressed: () {
+                              var dialogText = dialogController.value.text
+                                  .replaceAll(",", ".");
                               setState(() {
-                                if (dialogController.value.text.isNotEmpty) {
-                                  if (dialogController.value.text
-                                          .substring(0, 1) !=
-                                      ".") {
-                                    if ((double.parse(
-                                            dialogController.value.text) !=
-                                        0.0)) {
-                                      Navigator.of(context).pop();
-                                      setState(() {
-                                        selectedGrams =
-                                            double.parse(dialogController.text);
-                                      });
-                                      dialogController.clear();
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "N° of grams must be more than 0",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                    }
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                            "N° of grams must not start with .",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                  }
-                                } else {
+                                if (dialogText.isEmpty) {
                                   Fluttertoast.showToast(
                                       msg: "N° of grams must not be empty",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -452,7 +420,41 @@ class _ViewSavedRecipeState extends State<ViewSavedRecipe> {
                                       backgroundColor: Colors.red,
                                       textColor: Colors.white,
                                       fontSize: 16.0);
+                                } else if (dialogText.substring(0, 1) == ".") {
+                                  Fluttertoast.showToast(
+                                      msg: "N° of grams must not start with .",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else if (dialogText.split(".").length - 1 >
+                                    1) {
+                                  Fluttertoast.showToast(
+                                      msg: "There are too much dots",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else if (double.parse(dialogText) == 0.0) {
+                                  Fluttertoast.showToast(
+                                      msg: "N° of grams must be more than 0",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    selectedGrams = double.parse(dialogText);
+                                  });
                                 }
+                                dialogController.clear();
                               });
                             },
                           ),
