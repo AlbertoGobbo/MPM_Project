@@ -105,7 +105,7 @@ class _ChooseAlimentState extends State<ChooseAliment> {
                       leading: Text(item.emoji,
                           style: const TextStyle(fontSize: 40)),
                       subtitle: Text(
-                          "Calories: ${double.parse(item.caloriesKcal) * 100} Kcal (100g)"),
+                          "Calories: ${(double.parse(item.caloriesKcal) * 100).round()} Kcal (100g)"),
                       trailing: IconButton(
                         onPressed: () async {
                           dialogController.clear();
