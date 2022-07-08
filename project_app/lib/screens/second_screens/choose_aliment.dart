@@ -490,6 +490,6 @@ class _ChooseAlimentState extends State<ChooseAliment> {
         dailyPlan.dinner.add(foodToAdd);
         break;
     }
-    Fluttertoast.showToast(msg: "Ingredient added");
+    Fluttertoast.showToast(msg: "Meal added");
   }
 }
